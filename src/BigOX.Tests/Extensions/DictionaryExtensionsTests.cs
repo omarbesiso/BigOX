@@ -140,7 +140,7 @@ public sealed class DictionaryExtensionsTests
             ["Three"] = 3
         };
 
-        d1.Merge(d2, true);
+        d1.Merge(d2);
 
         Assert.HasCount(3, d1);
         Assert.AreEqual(1, d1["One"]);
