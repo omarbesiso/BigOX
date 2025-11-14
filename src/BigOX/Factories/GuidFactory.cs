@@ -49,7 +49,7 @@ public static class GuidFactory
         Guard.Minimum(count, 1);
         for (var i = 0; i < count; i++)
         {
-            yield return NewSequentialGuid(); // Or Guid.CreateVersion7() directly
+            yield return NewSequentialGuid();
         }
     }
 }
