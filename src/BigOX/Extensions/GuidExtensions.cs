@@ -1,15 +1,12 @@
-﻿using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
-
-namespace BigOX.Extensions;
+﻿namespace BigOX.Extensions;
 
 /// <summary>
-///     Provides a set of useful extension methods for working with <see cref="Guid" /> objects.
+///     Provides a set of useful extension members for working with <see cref="Guid" /> objects.
 /// </summary>
 public static class GuidExtensions
 {
     /// <summary>
-    ///     Provides extension methods for the <see cref="Guid" /> struct.
+    ///     Provides extension members for the <see cref="Guid" /> struct.
     /// </summary>
     /// <param name="value">The <see cref="Guid" /> value to check for emptiness.</param>
     extension(Guid value)
@@ -21,23 +18,16 @@ public static class GuidExtensions
         /// <example>
         ///     <code><![CDATA[
         /// Guid emptyGuid = Guid.Empty;
-        /// bool isEmpty = emptyGuid.IsEmpty();
+        /// bool isEmpty = emptyGuid.IsEmpty;
         /// 
         /// // isEmpty is true.
         /// ]]></code>
         /// </example>
         /// <remarks>
-        ///     This extension method is useful for quickly checking if a given <see cref="Guid" /> value is equal to
-        ///     <see cref="Guid.Empty" />. The method is marked with the <see cref="MethodImplAttribute" /> and the
-        ///     <see cref="MethodImplOptions.AggressiveInlining" /> option, allowing the JIT compiler to inline the method's body
-        ///     at the call site for improved performance.
+        ///     This extension property is useful for quickly checking if a given <see cref="Guid" /> value is equal to
+        ///     <see cref="Guid.Empty" />.
         /// </remarks>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsEmpty()
-        {
-            return value == Guid.Empty;
-        }
+        public bool IsEmpty => value == Guid.Empty;
 
         /// <summary>
         ///     Determines if the specified <see cref="Guid" /> value is not empty.
@@ -46,22 +36,15 @@ public static class GuidExtensions
         /// <example>
         ///     <code><![CDATA[
         /// Guid nonEmptyGuid = Guid.NewGuid();
-        /// bool isNotEmpty = nonEmptyGuid.IsNotEmpty();
+        /// bool isNotEmpty = nonEmptyGuid.IsNotEmpty;
         /// 
         /// // isNotEmpty is true.
         /// ]]></code>
         /// </example>
         /// <remarks>
-        ///     This extension method is useful for quickly checking if a given <see cref="Guid" /> value is not equal to
-        ///     <see cref="Guid.Empty" />. The method is marked with the <see cref="MethodImplAttribute" /> and the
-        ///     <see cref="MethodImplOptions.AggressiveInlining" /> option, allowing the JIT compiler to inline the method's body
-        ///     at the call site for improved performance.
+        ///     This extension property is useful for quickly checking if a given <see cref="Guid" /> value is not equal to
+        ///     <see cref="Guid.Empty" />.
         /// </remarks>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsNotEmpty()
-        {
-            return value != Guid.Empty;
-        }
+        public bool IsNotEmpty => value != Guid.Empty;
     }
 }
