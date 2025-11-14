@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BigOX.Tests/BigOX.Tests.csproj" Id="199b2df0-a102-48da-b4eb-d8fd60161da1" />
+  <Project Path="BigOX/BigOX.csproj" />
+</Solution>
