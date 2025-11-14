@@ -1,2 +1,2 @@
-# BigOX
-The BigO utilities and helpers.
+# BigO X
+The BigO utilities and helpers for .NET 10.
