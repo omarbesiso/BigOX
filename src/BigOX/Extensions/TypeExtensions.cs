@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using BigOX.Validation;
+
 // Added for First LINQ usage
 
 namespace BigOX.Extensions;

@@ -33,7 +33,7 @@ public readonly struct DateRange : IEquatable<DateRange>, ISpanFormattable, ISpa
     ///     Used as the <em>effective</em> end for calculations on open-ended ranges;
     ///     note that <see cref="EndDate" /> remains <c>null</c> for open-ended ranges.
     /// </summary>
-    private static readonly DateOnly MaxSupportedDate = DateOnly.MaxValue;
+    internal static readonly DateOnly MaxSupportedDate = DateOnly.MaxValue;
 
     internal const string InvalidFormatMessage =
         "Invalid DateRange. Expected 'yyyy-MM-dd|yyyy-MM-dd' or 'yyyy-MM-dd|∞' (whitespace around tokens allowed).";
