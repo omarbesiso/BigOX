@@ -23,7 +23,7 @@ public static class StreamExtensions
         ///     (or from the beginning for seekable streams).
         /// </returns>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown when <paramref name="stream" /> is <c>null</c>.
+        ///     Thrown when the stream is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         ///     Thrown when the stream length exceeds <see cref="Array.MaxLength" /> (approximately 2GB).
@@ -141,7 +141,7 @@ public static class StreamExtensions
         ///     a byte array with the stream contents.
         /// </returns>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown when <paramref name="stream" /> is <c>null</c>.
+        ///     Thrown when the stream is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
         ///     Thrown when the stream length exceeds <see cref="Array.MaxLength" />.
