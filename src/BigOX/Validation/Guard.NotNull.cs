@@ -10,7 +10,7 @@ namespace BigOX.Validation;
 /// </summary>
 /// <remarks>
 ///     All members are static and inline-friendly, delegating exceptional paths to
-///     <see cref="ThrowHelper" /> to keep hot code fast.
+///     <see cref="System.ThrowHelper" /> to keep hot code fast.
 /// </remarks>
 [DebuggerStepThrough]
 [StackTraceHidden]
