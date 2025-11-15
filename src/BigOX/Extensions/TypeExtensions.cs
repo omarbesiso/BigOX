@@ -2,8 +2,8 @@
 using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Linq; // Added for First LINQ usage
 using BigOX.Validation;
+// Added for First LINQ usage
 
 namespace BigOX.Extensions;
 
@@ -18,6 +18,7 @@ public static class TypeExtensions
                     && m.IsGenericMethodDefinition
                     && m.GetGenericArguments().Length == 1
                     && m.GetParameters().Length == 0);
+
     // Replaced ambiguous GetMethod call with filtered selection of generic method definition.
     private static readonly ConcurrentDictionary<Type, object?> DefaultValues = new();
 
