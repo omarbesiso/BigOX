@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Linq; // Added for First LINQ usage
 using BigOX.Validation;
 
 namespace BigOX.Extensions;
@@ -11,7 +12,13 @@ namespace BigOX.Extensions;
 /// </summary>
 public static class TypeExtensions
 {
-    private static readonly MethodInfo DefaultValueMethod = typeof(TypeExtensions).GetMethod(nameof(DefaultValue))!;
+    private static readonly MethodInfo DefaultValueGenericMethod = typeof(TypeExtensions)
+        .GetMethods(BindingFlags.Public | BindingFlags.Static)
+        .First(m => m.Name == nameof(DefaultValue)
+                    && m.IsGenericMethodDefinition
+                    && m.GetGenericArguments().Length == 1
+                    && m.GetParameters().Length == 0);
+    // Replaced ambiguous GetMethod call with filtered selection of generic method definition.
     private static readonly ConcurrentDictionary<Type, object?> DefaultValues = new();
 
     private static readonly Dictionary<Type, string> TypeAlias = new()
@@ -216,13 +223,12 @@ public static class TypeExtensions
             {
                 try
                 {
-                    // Special-case void which cannot have an instance.
                     if (t == typeof(void))
                     {
                         return null;
                     }
 
-                    return DefaultValueMethod.MakeGenericMethod(t).Invoke(null, null);
+                    return DefaultValueGenericMethod.MakeGenericMethod(t).Invoke(null, null);
                 }
                 catch (Exception ex)
                 {
