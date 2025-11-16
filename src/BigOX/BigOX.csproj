@@ -19,7 +19,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Resource Include="..\..\README.md" Link="Resources\README.md" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Resource Include="Resources\bigo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</Resource>
+		<Resource Include="Docs\Readme.md">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</Resource>
