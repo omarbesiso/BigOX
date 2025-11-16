@@ -5,7 +5,10 @@
 [![GitHub License](https://img.shields.io/badge/license-Check_Repo-blue)](https://github.com/omarbesiso/BigOX)
 [![.NET Version](https://img.shields.io/badge/.NET-10.0-purple)](https://dotnet.microsoft.com/download/dotnet/10.0)
 
-High-performance, allocation-aware result & error primitives for **.NET 10 / C# 14**.
+High-performance, allocation-aware result & error primitives for **.NET 10 / C# 14**. 
+Built by me (Omar Besiso, aka BigO) to assist with my applications' back-end and infrastructure code.
+
+I wanted to start this with a clean slate with .NET 10 without updating my previous libraries, that never got the GitHub love they deserve due to time constraints, so here we are. 
 
 BigO X focuses on **explicit failures**, **typed errors**, and **small, composable building blocks** for back-end and infrastructure code.
 
@@ -28,6 +31,7 @@ BigO X gives you:
 - A small error model (`IError`, `Error`, `ErrorKind`) with immutable metadata.
 - Utility helpers like `GuidFactory` for sequential GUIDs.
 - DDD and CQRS building blocks for your services.
+- A tiny auth framework-agnostic to help with authorizing CQRS operations.
 
 Use BigO X when you need **predictable, testable, framework-agnostic** primitives around results, errors, and identifiers.
 

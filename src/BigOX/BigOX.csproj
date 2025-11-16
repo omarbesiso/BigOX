@@ -14,7 +14,7 @@
 		<Description>BigO utilities, helpers and mini opinionated framework for building .NET 10 applications.</Description>
 		<Copyright>Copyright © Omar Besiso 2025</Copyright>
 		<Authors>Omar Besiso</Authors>
-		<Version>10.0.0.0</Version>
+		<Version>10.0.1.0</Version>
 
 		<!-- Repo -->
 		<RepositoryType>git</RepositoryType>
