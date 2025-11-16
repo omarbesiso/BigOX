@@ -1,29 +1,12 @@
-using System;
 using System.Linq.Expressions;
 using BigOX.Domain;
 using BigOX.Tests.Validation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BigOX.Tests.Domain;
 
 [TestClass]
 public sealed class SpecificationTests
 {
-    private sealed class GreaterThanZeroSpec : Specification<int>
-    {
-        public override Expression<Func<int, bool>> ToExpression() => x => x > 0;
-    }
-
-    private sealed class NonEmptyStringSpec : Specification<string>
-    {
-        public override Expression<Func<string, bool>> ToExpression() => s => s.Length > 0;
-    }
-
-    private sealed class StringLengthGreaterThanSpec(int threshold) : Specification<string>
-    {
-        public override Expression<Func<string, bool>> ToExpression() => s => s.Length > threshold;
-    }
-
     [TestMethod]
     public void IsSatisfiedBy_ReturnsTrue_WhenPredicateMatches_IntGreaterThanZero()
     {
@@ -55,5 +38,29 @@ public sealed class SpecificationTests
         var predicate = spec.ToExpression().Compile();
         Assert.IsTrue(predicate("abcd"));
         Assert.IsFalse(predicate("abc"));
+    }
+
+    private sealed class GreaterThanZeroSpec : Specification<int>
+    {
+        public override Expression<Func<int, bool>> ToExpression()
+        {
+            return x => x > 0;
+        }
+    }
+
+    private sealed class NonEmptyStringSpec : Specification<string>
+    {
+        public override Expression<Func<string, bool>> ToExpression()
+        {
+            return s => s.Length > 0;
+        }
+    }
+
+    private sealed class StringLengthGreaterThanSpec(int threshold) : Specification<string>
+    {
+        public override Expression<Func<string, bool>> ToExpression()
+        {
+            return s => s.Length > threshold;
+        }
     }
 }

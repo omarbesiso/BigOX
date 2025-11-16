@@ -175,8 +175,8 @@ public class CqrsServiceCollectionExtensionsTests
 
         services.AddCqrs(
             ServiceLifetime.Scoped,
-            commandHandlerDecoratorType: typeof(CommandLoggingDecorator<>),
-            queryHandlerDecoratorType: typeof(QueryLoggingDecorator<,>));
+            typeof(CommandLoggingDecorator<>),
+            typeof(QueryLoggingDecorator<,>));
 
         await using var provider = Build(services);
 
@@ -211,8 +211,8 @@ public class CqrsServiceCollectionExtensionsTests
 
         services.AddCqrs(
             ServiceLifetime.Scoped,
-            commandHandlerDecoratorType: typeof(CommandLoggingDecorator<>),
-            queryHandlerDecoratorType: typeof(QueryLoggingDecorator<,>));
+            typeof(CommandLoggingDecorator<>),
+            typeof(QueryLoggingDecorator<,>));
 
         using var provider = Build(services);
         var bus = provider.GetRequiredService<ICommandBus>();
@@ -341,7 +341,9 @@ public class CqrsServiceCollectionExtensionsTests
         }
     }
 
-    private sealed class InnerQueryDecorator<TQuery, TResult>(IQueryHandler<TQuery, TResult> inner, DecoratorProbe probe)
+    private sealed class InnerQueryDecorator<TQuery, TResult>(
+        IQueryHandler<TQuery, TResult> inner,
+        DecoratorProbe probe)
         : IQueryDecorator<TQuery, TResult> where TQuery : IQuery
     {
         public async Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)
@@ -351,7 +353,9 @@ public class CqrsServiceCollectionExtensionsTests
         }
     }
 
-    private sealed class OuterQueryDecorator<TQuery, TResult>(IQueryHandler<TQuery, TResult> inner, DecoratorProbe probe)
+    private sealed class OuterQueryDecorator<TQuery, TResult>(
+        IQueryHandler<TQuery, TResult> inner,
+        DecoratorProbe probe)
         : IQueryDecorator<TQuery, TResult> where TQuery : IQuery
     {
         public async Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)

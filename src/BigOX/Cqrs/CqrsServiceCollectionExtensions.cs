@@ -89,7 +89,8 @@ public static class CqrsServiceCollectionExtensions
         }
 
         // If the type itself is an interface, check its generic definition
-        if (type is { IsInterface: true, IsGenericType: true } && type.GetGenericTypeDefinition() == openGenericInterface)
+        if (type is { IsInterface: true, IsGenericType: true } &&
+            type.GetGenericTypeDefinition() == openGenericInterface)
         {
             return true;
         }
@@ -348,14 +349,14 @@ public static class CqrsServiceCollectionExtensions
                 serviceCollection.Any(sd => sd.ServiceType.IsGenericType &&
                                             sd.ServiceType.GetGenericTypeDefinition() == typeof(ICommandHandler<>)))
             {
-                CqrsServiceCollectionExtensions.DecorateAllCommandHandlers(serviceCollection, commandHandlerDecoratorType);
+                DecorateAllCommandHandlers(serviceCollection, commandHandlerDecoratorType);
             }
 
             if (queryHandlerDecoratorType != null &&
                 serviceCollection.Any(sd => sd.ServiceType.IsGenericType &&
                                             sd.ServiceType.GetGenericTypeDefinition() == typeof(IQueryHandler<,>)))
             {
-                CqrsServiceCollectionExtensions.DecorateAllQueryHandlers(serviceCollection, queryHandlerDecoratorType);
+                DecorateAllQueryHandlers(serviceCollection, queryHandlerDecoratorType);
             }
 
             return serviceCollection;
@@ -412,7 +413,7 @@ public static class CqrsServiceCollectionExtensions
             {
                 foreach (var decoratorType in commandHandlerDecoratorTypes)
                 {
-                    CqrsServiceCollectionExtensions.DecorateAllCommandHandlers(serviceCollection, decoratorType);
+                    DecorateAllCommandHandlers(serviceCollection, decoratorType);
                 }
             }
 
@@ -422,7 +423,7 @@ public static class CqrsServiceCollectionExtensions
             {
                 foreach (var decoratorType in queryHandlerDecoratorTypes)
                 {
-                    CqrsServiceCollectionExtensions.DecorateAllQueryHandlers(serviceCollection, decoratorType);
+                    DecorateAllQueryHandlers(serviceCollection, decoratorType);
                 }
             }
 
