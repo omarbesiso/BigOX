@@ -1,13 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>14.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<AnalysisLevel>latest</AnalysisLevel>
-		<LangVersion>14.0</LangVersion>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+		<!-- Product Info -->
+		<Title>BigO X</Title>
+		<Product>BigO Library for .NET 10.</Product>
+		<Description>BigO utilities, helpers and mini opinionated framework for building .NET 10 applications.</Description>
+		<Copyright>Copyright © Omar Besiso 2025</Copyright>
+		<Authors>Omar Besiso</Authors>
+		<Version>10.0.0.0</Version>
+
+		<!-- Repo -->
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/omarbesiso/BigOX</RepositoryUrl>
+
+		<!-- Package Info -->
+		<PackageProjectUrl>https://github.com/omarbesiso/BigOX</PackageProjectUrl>
 		<PackageIcon>bigo.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,27 +37,23 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Resource Include="..\..\README.md" Link="Resources\README.md" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Resource Include="Resources\bigo.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</Resource>
-		<Resource Include="Docs\Readme.md">
+		<None Include="..\..\README.md" Link="Resources\README.md">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
-		</Resource>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
-	  <PackageReference Include="Scrutor" Version="6.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
+		<PackageReference Include="Scrutor" Version="6.1.0" />
 	</ItemGroup>
 
 </Project>
