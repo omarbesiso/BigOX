@@ -89,7 +89,7 @@ public static class CqrsServiceCollectionExtensions
         }
 
         // If the type itself is an interface, check its generic definition
-        if (type.IsInterface && type.IsGenericType && type.GetGenericTypeDefinition() == openGenericInterface)
+        if (type is { IsInterface: true, IsGenericType: true } && type.GetGenericTypeDefinition() == openGenericInterface)
         {
             return true;
         }
