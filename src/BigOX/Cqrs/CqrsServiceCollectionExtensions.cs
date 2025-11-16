@@ -318,5 +318,115 @@ public static class CqrsServiceCollectionExtensions
                 new List<Type> { typeof(IQueryDecorator<,>) });
             return serviceCollection;
         }
+
+        /// <summary>
+        ///     Registers the default CQRS infrastructure (command bus and query processor) and
+        ///     optionally decorates command and query handlers with the provided decorator types.
+        /// </summary>
+        /// <param name="infrastructureLifetime">
+        ///     The <see cref="ServiceLifetime" /> used for CQRS infrastructure services.
+        ///     The default value is <see cref="ServiceLifetime.Scoped" />.
+        /// </param>
+        /// <param name="commandHandlerDecoratorType">
+        ///     Optional decorator type to be applied to all <see cref="ICommandHandler{TCommand}" />
+        ///     implementations. Must implement <see cref="ICommandDecorator{TCommand}" />.
+        /// </param>
+        /// <param name="queryHandlerDecoratorType">
+        ///     Optional decorator type to be applied to all <see cref="IQueryHandler{TQuery, TResult}" />
+        ///     implementations. Must implement <see cref="IQueryDecorator{TQuery, TResult}" />.
+        /// </param>
+        /// <returns>The service collection with CQRS infrastructure and optional decorators registered.</returns>
+        public IServiceCollection AddCqrs(
+            ServiceLifetime infrastructureLifetime = ServiceLifetime.Scoped,
+            Type? commandHandlerDecoratorType = null,
+            Type? queryHandlerDecoratorType = null)
+        {
+            serviceCollection.RegisterDefaultCommandBus(infrastructureLifetime);
+            serviceCollection.RegisterDefaultQueryProcessor(infrastructureLifetime);
+
+            if (commandHandlerDecoratorType != null &&
+                serviceCollection.Any(sd => sd.ServiceType.IsGenericType &&
+                                            sd.ServiceType.GetGenericTypeDefinition() == typeof(ICommandHandler<>)))
+            {
+                CqrsServiceCollectionExtensions.DecorateAllCommandHandlers(serviceCollection, commandHandlerDecoratorType);
+            }
+
+            if (queryHandlerDecoratorType != null &&
+                serviceCollection.Any(sd => sd.ServiceType.IsGenericType &&
+                                            sd.ServiceType.GetGenericTypeDefinition() == typeof(IQueryHandler<,>)))
+            {
+                CqrsServiceCollectionExtensions.DecorateAllQueryHandlers(serviceCollection, queryHandlerDecoratorType);
+            }
+
+            return serviceCollection;
+        }
+
+        /// <summary>
+        ///     Registers the default CQRS infrastructure (command bus and query processor) and
+        ///     decorates command and query handlers with the provided decorator types.
+        /// </summary>
+        /// <param name="infrastructureLifetime">
+        ///     The <see cref="ServiceLifetime" /> used for CQRS infrastructure services.
+        ///     The default value is <see cref="ServiceLifetime.Scoped" />.
+        /// </param>
+        /// <param name="commandHandlerDecoratorTypes">
+        ///     An ordered sequence of decorator types to be applied to all <see cref="ICommandHandler{TCommand}" />
+        ///     implementations. Each type must implement <see cref="ICommandDecorator{TCommand}" />.
+        ///     <para>
+        ///         Decorators are applied in the order provided in this parameter. The first type in the sequence
+        ///         is registered first and therefore becomes the innermost decorator in the resulting pipeline.
+        ///         Subsequent types wrap the previously registered decorator/handler.
+        ///     </para>
+        /// </param>
+        /// <param name="queryHandlerDecoratorTypes">
+        ///     An ordered sequence of decorator types to be applied to all <see cref="IQueryHandler{TQuery, TResult}" />
+        ///     implementations. Each type must implement <see cref="IQueryDecorator{TQuery, TResult}" />.
+        ///     <para>
+        ///         Decorators are applied in the order provided in this parameter. The first type in the sequence
+        ///         is registered first and therefore becomes the innermost decorator in the resulting pipeline.
+        ///         Subsequent types wrap the previously registered decorator/handler.
+        ///     </para>
+        /// </param>
+        /// <returns>
+        ///     The service collection with CQRS infrastructure registered and command/query handlers decorated according
+        ///     to the order of the types in <paramref name="commandHandlerDecoratorTypes" /> and
+        ///     <paramref name="queryHandlerDecoratorTypes" />.
+        /// </returns>
+        /// <remarks>
+        ///     The order of the decorator types in <paramref name="commandHandlerDecoratorTypes" /> and
+        ///     <paramref name="queryHandlerDecoratorTypes" /> is significant. They are applied sequentially in the
+        ///     order provided, so the first decorator type will be closest to the underlying handler, and the last
+        ///     decorator type will be the outermost.
+        /// </remarks>
+        public IServiceCollection AddCqrs(
+            ServiceLifetime infrastructureLifetime,
+            IEnumerable<Type> commandHandlerDecoratorTypes,
+            IEnumerable<Type> queryHandlerDecoratorTypes)
+        {
+            serviceCollection.RegisterDefaultCommandBus(infrastructureLifetime);
+            serviceCollection.RegisterDefaultQueryProcessor(infrastructureLifetime);
+
+            if (commandHandlerDecoratorTypes is not null &&
+                serviceCollection.Any(sd => sd.ServiceType.IsGenericType &&
+                                            sd.ServiceType.GetGenericTypeDefinition() == typeof(ICommandHandler<>)))
+            {
+                foreach (var decoratorType in commandHandlerDecoratorTypes)
+                {
+                    CqrsServiceCollectionExtensions.DecorateAllCommandHandlers(serviceCollection, decoratorType);
+                }
+            }
+
+            if (queryHandlerDecoratorTypes is not null &&
+                serviceCollection.Any(sd => sd.ServiceType.IsGenericType &&
+                                            sd.ServiceType.GetGenericTypeDefinition() == typeof(IQueryHandler<,>)))
+            {
+                foreach (var decoratorType in queryHandlerDecoratorTypes)
+                {
+                    CqrsServiceCollectionExtensions.DecorateAllQueryHandlers(serviceCollection, decoratorType);
+                }
+            }
+
+            return serviceCollection;
+        }
     }
 }

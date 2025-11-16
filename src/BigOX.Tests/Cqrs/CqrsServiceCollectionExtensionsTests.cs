@@ -165,6 +165,104 @@ public class CqrsServiceCollectionExtensionsTests
         Assert.IsNotNull(qryHandler);
     }
 
+    [TestMethod]
+    public async Task AddCqrs_With_Single_Decorators_Registers_Infrastructure_And_Decorates_Handlers()
+    {
+        var services = new ServiceCollection();
+        services.AddSingleton<Probe>();
+        services.RegisterCommandHandler<TestCommand, TestCommandHandler>();
+        services.RegisterQueryHandler<TestQuery, int, TestQueryHandler>();
+
+        services.AddCqrs(
+            ServiceLifetime.Scoped,
+            commandHandlerDecoratorType: typeof(CommandLoggingDecorator<>),
+            queryHandlerDecoratorType: typeof(QueryLoggingDecorator<,>));
+
+        await using var provider = Build(services);
+
+        // Infrastructure
+        var bus = provider.GetRequiredService<ICommandBus>();
+        var qp = provider.GetRequiredService<IQueryProcessor>();
+        Assert.IsInstanceOfType(bus, typeof(IocCommandBus));
+        Assert.IsInstanceOfType(qp, typeof(IocQueryProcessor));
+
+        // Decorated handlers
+        var cmdHandler = provider.GetRequiredService<ICommandHandler<TestCommand>>();
+        var qryHandler = provider.GetRequiredService<IQueryHandler<TestQuery, int>>();
+        Assert.IsInstanceOfType(cmdHandler, typeof(CommandLoggingDecorator<TestCommand>));
+        Assert.IsInstanceOfType(qryHandler, typeof(QueryLoggingDecorator<TestQuery, int>));
+
+        var probe = provider.GetRequiredService<Probe>();
+
+        await bus.Send(new TestCommand());
+        var result = await qp.ProcessQuery<TestQuery, int>(new TestQuery());
+
+        Assert.AreEqual(1, result);
+        Assert.AreEqual(1, probe.CommandCalls);
+        Assert.AreEqual(1, probe.InnerCommandCalls);
+        Assert.AreEqual(1, probe.QueryCalls);
+        Assert.AreEqual(1, probe.InnerQueryCalls);
+    }
+
+    [TestMethod]
+    public void AddCqrs_With_Single_Decorators_Does_Not_Fail_When_No_Handlers_Registered()
+    {
+        var services = new ServiceCollection();
+
+        services.AddCqrs(
+            ServiceLifetime.Scoped,
+            commandHandlerDecoratorType: typeof(CommandLoggingDecorator<>),
+            queryHandlerDecoratorType: typeof(QueryLoggingDecorator<,>));
+
+        using var provider = Build(services);
+        var bus = provider.GetRequiredService<ICommandBus>();
+        var qp = provider.GetRequiredService<IQueryProcessor>();
+
+        Assert.IsInstanceOfType(bus, typeof(IocCommandBus));
+        Assert.IsInstanceOfType(qp, typeof(IocQueryProcessor));
+    }
+
+    [TestMethod]
+    public async Task AddCqrs_With_Multiple_Decorators_Applies_Them_In_Parameter_Order()
+    {
+        var services = new ServiceCollection();
+        services.AddSingleton<Probe>();
+        services.AddSingleton<DecoratorProbe>();
+        services.RegisterCommandHandler<TestCommand, TestCommandHandler>();
+        services.RegisterQueryHandler<TestQuery, int, TestQueryHandler>();
+
+        services.AddCqrs(
+            ServiceLifetime.Scoped,
+            new[] { typeof(InnerCommandDecorator<>), typeof(OuterCommandDecorator<>) },
+            new[] { typeof(InnerQueryDecorator<,>), typeof(OuterQueryDecorator<,>) });
+
+        await using var provider = Build(services);
+
+        var cmdHandler = provider.GetRequiredService<ICommandHandler<TestCommand>>();
+        var qryHandler = provider.GetRequiredService<IQueryHandler<TestQuery, int>>();
+
+        // The outermost decorator should be the last one in the parameter order
+        Assert.IsInstanceOfType(cmdHandler, typeof(OuterCommandDecorator<TestCommand>));
+        Assert.IsInstanceOfType(qryHandler, typeof(OuterQueryDecorator<TestQuery, int>));
+
+        var decoratorProbe = provider.GetRequiredService<DecoratorProbe>();
+
+        await cmdHandler.Handle(new TestCommand());
+        var result = await qryHandler.Read(new TestQuery());
+
+        Assert.AreEqual(1, result);
+
+        // For commands, the call ordering should be Outer -> Inner
+        CollectionAssert.AreEqual(
+            new[] { "OuterCommand", "InnerCommand" },
+            decoratorProbe.CommandDecoratorCallOrder);
+
+        // For queries, the call ordering should be Outer -> Inner
+        CollectionAssert.AreEqual(
+            new[] { "OuterQuery", "InnerQuery" },
+            decoratorProbe.QueryDecoratorCallOrder);
+    }
+
     // Test types
     private sealed record TestCommand : ICommand;
 
@@ -176,6 +274,12 @@ public class CqrsServiceCollectionExtensionsTests
         public int InnerCommandCalls;
         public int InnerQueryCalls;
         public int QueryCalls;
+    }
+
+    private sealed class DecoratorProbe
+    {
+        public List<string> CommandDecoratorCallOrder { get; } = new();
+        public List<string> QueryDecoratorCallOrder { get; } = new();
     }
 
     private sealed class TestCommandHandler(Probe probe) : ICommandHandler<TestCommand>
@@ -213,6 +317,46 @@ public class CqrsServiceCollectionExtensionsTests
         public async Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)
         {
             Interlocked.Increment(ref probe.QueryCalls);
+            return await inner.Read(query, cancellationToken);
+        }
+    }
+
+    private sealed class InnerCommandDecorator<TCommand>(ICommandHandler<TCommand> inner, DecoratorProbe probe)
+        : ICommandDecorator<TCommand> where TCommand : ICommand
+    {
+        public async Task Handle(TCommand command, CancellationToken cancellationToken = default)
+        {
+            probe.CommandDecoratorCallOrder.Add("InnerCommand");
+            await inner.Handle(command, cancellationToken);
+        }
+    }
+
+    private sealed class OuterCommandDecorator<TCommand>(ICommandHandler<TCommand> inner, DecoratorProbe probe)
+        : ICommandDecorator<TCommand> where TCommand : ICommand
+    {
+        public async Task Handle(TCommand command, CancellationToken cancellationToken = default)
+        {
+            probe.CommandDecoratorCallOrder.Add("OuterCommand");
+            await inner.Handle(command, cancellationToken);
+        }
+    }
+
+    private sealed class InnerQueryDecorator<TQuery, TResult>(IQueryHandler<TQuery, TResult> inner, DecoratorProbe probe)
+        : IQueryDecorator<TQuery, TResult> where TQuery : IQuery
+    {
+        public async Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)
+        {
+            probe.QueryDecoratorCallOrder.Add("InnerQuery");
+            return await inner.Read(query, cancellationToken);
+        }
+    }
+
+    private sealed class OuterQueryDecorator<TQuery, TResult>(IQueryHandler<TQuery, TResult> inner, DecoratorProbe probe)
+        : IQueryDecorator<TQuery, TResult> where TQuery : IQuery
+    {
+        public async Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)
+        {
+            probe.QueryDecoratorCallOrder.Add("OuterQuery");
             return await inner.Read(query, cancellationToken);
         }
     }
