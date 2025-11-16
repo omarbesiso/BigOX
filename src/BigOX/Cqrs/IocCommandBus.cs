@@ -1,4 +1,5 @@
-﻿using BigOX.Validation;
+﻿using BigOX.Results;
+using BigOX.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BigOX.Cqrs;
@@ -15,5 +16,15 @@ internal class IocCommandBus(IServiceProvider serviceProvider) : ICommandBus
         Guard.NotNull(command);
         var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<TCommand>>();
         await commandHandler.Handle(command, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task<IResult<TValue>> Send<TCommand, TValue>(TCommand command,
+        CancellationToken cancellationToken = default)
+        where TCommand : ICommand
+    {
+        Guard.NotNull(command);
+        var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<TCommand, TValue>>();
+        return await commandHandler.Handle(command, cancellationToken);
     }
 }

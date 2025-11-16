@@ -1,4 +1,5 @@
 using BigOX.Cqrs;
+using BigOX.Results;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BigOX.Tests.Cqrs;
@@ -41,6 +42,26 @@ public sealed class IocCommandBusTests
         Assert.AreSame(cmd, handler.Received.Single());
     }
 
+    [TestMethod]
+    public async Task Send_WithValueHandler_ReturnsResultAndInvokesHandler()
+    {
+        var handler = new ValueCountingHandler();
+        var services = new ServiceCollection();
+        services.AddSingleton<ICommandHandler<TestCommand, int>>(handler);
+
+        await using var provider = services.BuildServiceProvider();
+        var bus = new IocCommandBus(provider);
+
+        var cmd = new TestCommand();
+        var result = await bus.Send<TestCommand, int>(cmd);
+
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.IsSuccess);
+        Assert.AreEqual(1, result.Value);
+        Assert.AreEqual(1, handler.Calls);
+        Assert.AreSame(cmd, handler.Received.Single());
+    }
+
     private sealed record TestCommand : ICommand;
 
     private sealed class CountingHandler : ICommandHandler<TestCommand>
@@ -53,6 +74,21 @@ public sealed class IocCommandBusTests
             Calls++;
             Received.Add(command);
             return Task.CompletedTask;
+        }
+    }
+
+    private sealed class ValueCountingHandler : ICommandHandler<TestCommand, int>
+    {
+        public int Calls { get; private set; }
+        public List<TestCommand> Received { get; } = new();
+
+        public Task<IResult<int>> Handle(TestCommand command, CancellationToken cancellationToken = default)
+        {
+            Calls++;
+            Received.Add(command);
+
+            var result = Result<int>.Success(Calls);
+            return Task.FromResult<IResult<int>>(result);
         }
     }
 }
