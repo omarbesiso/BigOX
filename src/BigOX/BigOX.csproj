@@ -14,7 +14,7 @@
 		<Description>BigO utilities, helpers and mini opinionated framework for building .NET 10 applications.</Description>
 		<Copyright>Copyright © Omar Besiso 2025</Copyright>
 		<Authors>Omar Besiso</Authors>
-		<Version>10.0.2.0</Version>
+		<Version>10.0.2.4</Version>
 
 		<!-- Repo -->
 		<RepositoryType>git</RepositoryType>
@@ -49,10 +49,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.2" />
 		<PackageReference Include="Scrutor" Version="7.0.0" />
 	</ItemGroup>
 
