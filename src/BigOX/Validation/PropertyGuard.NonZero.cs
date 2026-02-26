@@ -44,8 +44,6 @@ public static partial class PropertyGuard
         T value,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null)
-        where T : INumber<T>
-    {
-        return Guard.NonZero(value, propertyName, exceptionMessage);
-    }
+        where T : INumber<T> =>
+        Guard.NonZero(value, propertyName, exceptionMessage);
 }

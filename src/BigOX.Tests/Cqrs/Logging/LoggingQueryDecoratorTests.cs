@@ -113,10 +113,7 @@ public class LoggingQueryDecoratorTests
             return NullScope.Instance;
         }
 
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
+        public bool IsEnabled(LogLevel logLevel) => true;
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
             Func<TState, Exception?, string> formatter)
@@ -166,9 +163,7 @@ public class LoggingQueryDecoratorTests
 
     private sealed class ThrowingHandler : IQueryHandler<TestQuery, int>
     {
-        public Task<int> Read(TestQuery query, CancellationToken cancellationToken = default)
-        {
+        public Task<int> Read(TestQuery query, CancellationToken cancellationToken = default) =>
             throw new InvalidOperationException("Boom");
-        }
     }
 }

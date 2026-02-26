@@ -266,10 +266,8 @@ public static class CollectionExtensions
         ///     </para>
         /// </remarks>
         public bool ContainsAny(
-            params T[]? values)
-        {
-            return values is not null && ContainsAny(collection, values.AsSpan());
-        }
+            params T[]? values) =>
+            values is not null && collection.ContainsAny(values.AsSpan());
 
         /// <summary>
         ///     Checks if the collection contains any of the specified elements.

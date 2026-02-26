@@ -59,9 +59,6 @@ public static class TimeSpanExtensions
         /// </returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TimeOnly? ToTimeOnly()
-        {
-            return timeSpan?.ToTimeOnly();
-        }
+        public TimeOnly? ToTimeOnly() => timeSpan?.ToTimeOnly();
     }
 }

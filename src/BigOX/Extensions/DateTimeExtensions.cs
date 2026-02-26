@@ -69,10 +69,7 @@ public static class DateTimeExtensions
         /// ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateOnly ToDateOnly()
-        {
-            return new DateOnly(dateTime.Year, dateTime.Month, dateTime.Day);
-        }
+        public DateOnly ToDateOnly() => new(dateTime.Year, dateTime.Month, dateTime.Day);
 
         /// <summary>
         ///     Converts a <see cref="DateTime" /> to a <see cref="TimeOnly" /> containing only the time component.
@@ -89,11 +86,9 @@ public static class DateTimeExtensions
         /// ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TimeOnly ToTimeOnly()
-        {
-            return new TimeOnly(dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond,
+        public TimeOnly ToTimeOnly() =>
+            new(dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond,
                 dateTime.Microsecond);
-        }
 
         /// <summary>
         ///     Calculates the age in full years using the date part of the birth date and the provided or current date.
@@ -158,10 +153,7 @@ public static class DateTimeExtensions
         /// </summary>
         /// <returns>The number of days in the month of source.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int DaysInMonth()
-        {
-            return DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
-        }
+        public int DaysInMonth() => DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
 
         /// <summary>
         ///     Gets the first date of the month, or the first occurrence of a specific <see cref="DayOfWeek" /> in that month.
@@ -242,10 +234,8 @@ public static class DateTimeExtensions
         ///     Computed as <c>GetFirstDateOfWeek(cultureInfo).AddDays(6)</c>.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime GetLastDateOfWeek(CultureInfo? cultureInfo = null)
-        {
-            return dateTime.GetFirstDateOfWeek(cultureInfo).AddDays(6);
-        }
+        public DateTime GetLastDateOfWeek(CultureInfo? cultureInfo = null) =>
+            dateTime.GetFirstDateOfWeek(cultureInfo).AddDays(6);
 
         /// <summary>
         ///     Calculates the number of whole days between this date and another date.
@@ -257,10 +247,7 @@ public static class DateTimeExtensions
         ///     negative.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int GetNumberOfDays(DateTime toDate)
-        {
-            return (toDate.Date - dateTime.Date).Days;
-        }
+        public int GetNumberOfDays(DateTime toDate) => (toDate.Date - dateTime.Date).Days;
 
         /// <summary>
         ///     Determines whether this date is after another date.
@@ -269,10 +256,7 @@ public static class DateTimeExtensions
         /// <returns><c>true</c> if source is later than <paramref name="other" />; otherwise, <c>false</c>.</returns>
         /// <remarks>Comparison uses the default <see cref="DateTime" /> ordering.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsAfter(DateTime other)
-        {
-            return dateTime > other;
-        }
+        public bool IsAfter(DateTime other) => dateTime > other;
 
         /// <summary>
         ///     Determines whether this date is before another date.
@@ -284,10 +268,7 @@ public static class DateTimeExtensions
         /// </returns>
         /// <remarks>Comparison uses the default <see cref="DateTime" /> ordering.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsBefore(DateTime other)
-        {
-            return dateTime < other;
-        }
+        public bool IsBefore(DateTime other) => dateTime < other;
 
         /// <summary>
         ///     Determines whether this date is within the specified range.
@@ -327,10 +308,7 @@ public static class DateTimeExtensions
         /// <param name="dateToCompare">The date to compare to.</param>
         /// <returns><c>true</c> if the date components are equal; otherwise, <c>false</c>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsDateEqual(DateTime dateToCompare)
-        {
-            return dateTime.Date == dateToCompare.Date;
-        }
+        public bool IsDateEqual(DateTime dateToCompare) => dateTime.Date == dateToCompare.Date;
 
         /// <summary>
         ///     Compares only the time-of-day components of two <see cref="DateTime" /> values for equality.
@@ -338,20 +316,14 @@ public static class DateTimeExtensions
         /// <param name="timeToCompare">The date whose time component is compared.</param>
         /// <returns><c>true</c> if the time components are equal; otherwise, <c>false</c>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsTimeEqual(DateTime timeToCompare)
-        {
-            return dateTime.TimeOfDay == timeToCompare.TimeOfDay;
-        }
+        public bool IsTimeEqual(DateTime timeToCompare) => dateTime.TimeOfDay == timeToCompare.TimeOfDay;
 
         /// <summary>
         ///     Determines whether the date component is equal to today's date in the local time zone.
         /// </summary>
         /// <returns><c>true</c> if source is today; otherwise, <c>false</c>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsToday()
-        {
-            return dateTime.Date == DateTime.Today;
-        }
+        public bool IsToday() => dateTime.Date == DateTime.Today;
     }
 
     /// <param name="dateTime">The dateTime to check.</param>
@@ -366,20 +338,14 @@ public static class DateTimeExtensions
         ///     if you also need to verify the year is a leap year.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsLeapDay()
-        {
-            return dateTime.Month == 2 && dateTime.Day == 29;
-        }
+        public bool IsLeapDay() => dateTime.Month == 2 && dateTime.Day == 29;
 
         /// <summary>
         ///     Returns the elapsed time between this date/time and <see cref="DateTime.Now" />.
         /// </summary>
         /// <returns>A <see cref="TimeSpan" /> representing the elapsed interval.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TimeSpan Elapsed()
-        {
-            return DateTime.Now - dateTime;
-        }
+        public TimeSpan Elapsed() => DateTime.Now - dateTime;
 
         /// <summary>
         ///     Creates a new <see cref="DateTime" /> with the same date and the provided <see cref="TimeSpan" /> as its
@@ -389,10 +355,7 @@ public static class DateTimeExtensions
         /// <returns>A new <see cref="DateTime" /> with the same date and the specified time.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="time" /> is negative or ≥ 24 hours.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime SetTime(TimeSpan time)
-        {
-            return dateTime.Date + time;
-        }
+        public DateTime SetTime(TimeSpan time) => dateTime.Date + time;
 
         /// <summary>
         ///     Creates a new <see cref="DateTime" /> with the same date and the provided components as its time-of-day.
@@ -404,10 +367,8 @@ public static class DateTimeExtensions
         /// <returns>A new <see cref="DateTime" /> with the specified time-of-day.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when any component is outside its valid range.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime SetTime(int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0)
-        {
-            return dateTime.Date.Add(new TimeSpan(0, hours, minutes, seconds, milliseconds));
-        }
+        public DateTime SetTime(int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0) =>
+            dateTime.Date.Add(new TimeSpan(0, hours, minutes, seconds, milliseconds));
 
         /// <summary>
         ///     Creates a new <see cref="DateTime" /> with the same date and the provided <see cref="TimeOnly" /> as its
@@ -416,30 +377,21 @@ public static class DateTimeExtensions
         /// <param name="timeOnly">The <see cref="TimeOnly" /> value to apply.</param>
         /// <returns>A new <see cref="DateTime" /> with the specified time-of-day.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime SetTime(TimeOnly timeOnly)
-        {
-            return dateTime.Date + timeOnly.ToTimeSpan();
-        }
+        public DateTime SetTime(TimeOnly timeOnly) => dateTime.Date + timeOnly.ToTimeSpan();
 
         /// <summary>
         ///     Returns a new instance representing the calendar day after this one.
         /// </summary>
         /// <returns>The next calendar day.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime NextDay()
-        {
-            return dateTime.AddDays(1);
-        }
+        public DateTime NextDay() => dateTime.AddDays(1);
 
         /// <summary>
         ///     Returns a new instance representing the calendar day before this one.
         /// </summary>
         /// <returns>The previous calendar day.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime PreviousDay()
-        {
-            return dateTime.AddDays(-1);
-        }
+        public DateTime PreviousDay() => dateTime.AddDays(-1);
 
         /// <summary>
         ///     Formats the value using the ISO 8601 round-trip format specifier.
@@ -449,10 +401,7 @@ public static class DateTimeExtensions
         ///     Uses the standard format string "O" with <see cref="CultureInfo.InvariantCulture" /> to ensure consistent output.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string GetTimestamp()
-        {
-            return dateTime.ToString("O", CultureInfo.InvariantCulture);
-        }
+        public string GetTimestamp() => dateTime.ToString("O", CultureInfo.InvariantCulture);
 
         /// <summary>
         ///     Enumerates the inclusive range of dates between this date and the specified end date.

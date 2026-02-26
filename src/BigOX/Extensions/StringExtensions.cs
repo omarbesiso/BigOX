@@ -285,10 +285,7 @@ public static class StringExtensions
         ///     <see cref="StringBuilder" /> will be empty.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public StringBuilder ToStringBuilder()
-        {
-            return new StringBuilder(value);
-        }
+        public StringBuilder ToStringBuilder() => new(value);
 
         /// <summary>
         ///     Appends a specified character to the given <see cref="string" /> until it reaches the specified target length.
@@ -350,10 +347,7 @@ public static class StringExtensions
         ///     Note that this method returns <c>false</c> if the value is <c>null</c> or an empty string.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsDateTime()
-        {
-            return !string.IsNullOrEmpty(value) && DateTime.TryParse(value, out _);
-        }
+        public bool IsDateTime() => !string.IsNullOrEmpty(value) && DateTime.TryParse(value, out _);
 
         /// <summary>
         ///     Limits the length of the text to the specified maximum length.

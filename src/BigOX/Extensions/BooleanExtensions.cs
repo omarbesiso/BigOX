@@ -65,10 +65,7 @@ public static class BooleanExtensions
         ///     </example>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public byte ToByte()
-        {
-            return source ? (byte)1 : (byte)0;
-        }
+        public byte ToByte() => source ? (byte)1 : (byte)0;
 
         /// <summary>
         ///     Converts a boolean value to an integer value.
@@ -86,9 +83,6 @@ public static class BooleanExtensions
         ///     </example>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int ToInt32()
-        {
-            return source ? 1 : 0;
-        }
+        public int ToInt32() => source ? 1 : 0;
     }
 }

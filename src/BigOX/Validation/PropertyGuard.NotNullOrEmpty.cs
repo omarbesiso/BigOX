@@ -43,10 +43,8 @@ public static partial class PropertyGuard
     public static string NotNullOrEmpty(
         [NotNull] string? value,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.NotNullOrEmpty(value, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.NotNullOrEmpty(value, propertyName, exceptionMessage);
 
     /// <summary>
     ///     Ensures that a property collection is not <see langword="null" /> and contains at least one element.
@@ -71,10 +69,8 @@ public static partial class PropertyGuard
     public static IEnumerable<T> NotNullOrEmpty<T>(
         [NotNull] [DoesNotReturnIf(true)] IEnumerable<T>? collection,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.NotNullOrEmpty(collection, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.NotNullOrEmpty(collection, propertyName, exceptionMessage);
 
     /// <summary>
     ///     Ensures that a property value of type <see cref="Nullable{Guid}" /> is neither
@@ -110,8 +106,6 @@ public static partial class PropertyGuard
     public static Guid NotNullOrEmpty(
         Guid? value,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.NotNullOrEmpty(value, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.NotNullOrEmpty(value, propertyName, exceptionMessage);
 }

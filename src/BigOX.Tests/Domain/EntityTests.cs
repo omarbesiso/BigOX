@@ -139,9 +139,6 @@ public sealed class EntityTests
         public Guid Id { get; } = id;
 
         // Not actually used by the tests beyond existence; return false to keep trivial.
-        public bool Equals(IEntity<Guid>? other)
-        {
-            return false;
-        }
+        public bool Equals(IEntity<Guid>? other) => false;
     }
 }

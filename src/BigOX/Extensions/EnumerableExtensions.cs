@@ -249,10 +249,7 @@ public static class EnumerableExtensions
         /// </example>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsNullOrEmpty()
-        {
-            return collection == null || collection.IsEmpty();
-        }
+        public bool IsNullOrEmpty() => collection == null || collection.IsEmpty();
     }
 
     /// <param name="collection">The collection to check for null or emptiness.</param>
@@ -284,10 +281,7 @@ public static class EnumerableExtensions
         /// </example>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsNullOrEmpty()
-        {
-            return collection == null || collection.IsEmpty();
-        }
+        public bool IsNullOrEmpty() => collection == null || collection.IsEmpty();
     }
 
     /// <param name="collection">The collection to check for non-null-ness and non-emptiness.</param>
@@ -318,10 +312,7 @@ public static class EnumerableExtensions
         /// </example>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsNotNullOrEmpty()
-        {
-            return collection != null && collection.IsNotEmpty();
-        }
+        public bool IsNotNullOrEmpty() => collection != null && collection.IsNotEmpty();
     }
 
     /// <param name="collection">The collection to check for non-nullness and non-emptiness.</param>
@@ -353,9 +344,6 @@ public static class EnumerableExtensions
         /// </example>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsNotNullOrEmpty()
-        {
-            return collection != null && collection.IsNotEmpty();
-        }
+        public bool IsNotNullOrEmpty() => collection != null && collection.IsNotEmpty();
     }
 }

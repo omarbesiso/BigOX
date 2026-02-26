@@ -41,8 +41,6 @@ public static partial class PropertyGuard
     public static string? EmailAddress(
         string? value,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.EmailAddress(value, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.EmailAddress(value, propertyName, exceptionMessage);
 }

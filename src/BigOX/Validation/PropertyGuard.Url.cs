@@ -41,8 +41,6 @@ public static partial class PropertyGuard
     public static string? Url(
         string? value,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.Url(value, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.Url(value, propertyName, exceptionMessage);
 }

@@ -11,16 +11,11 @@ namespace BigOX.Tests.DependencyInjection;
 [TestClass]
 public class ServiceCollectionExtensionsTests
 {
-    private static IConfiguration BuildConfig(string key = "x", string value = "42")
-    {
-        return new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { { key, value } })
+    private static IConfiguration BuildConfig(string key = "x", string value = "42") =>
+        new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { { key, value } })
             .Build();
-    }
 
-    private static ServiceProvider BuildProvider(ServiceCollection services)
-    {
-        return services.BuildServiceProvider();
-    }
+    private static ServiceProvider BuildProvider(ServiceCollection services) => services.BuildServiceProvider();
 
     [TestMethod]
     public void AddModule_Initializes_Module_And_Sets_Configuration()

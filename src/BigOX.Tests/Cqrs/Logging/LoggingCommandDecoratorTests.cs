@@ -114,10 +114,7 @@ public class LoggingCommandDecoratorTests
             return NullScope.Instance;
         }
 
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
+        public bool IsEnabled(LogLevel logLevel) => true;
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
             Func<TState, Exception?, string> formatter)
@@ -167,9 +164,7 @@ public class LoggingCommandDecoratorTests
 
     private sealed class ThrowingHandler : ICommandHandler<TestCommand>
     {
-        public Task Handle(TestCommand command, CancellationToken cancellationToken = default)
-        {
+        public Task Handle(TestCommand command, CancellationToken cancellationToken = default) =>
             throw new InvalidOperationException("Boom");
-        }
     }
 }

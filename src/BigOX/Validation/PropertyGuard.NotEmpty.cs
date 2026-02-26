@@ -39,8 +39,6 @@ public static partial class PropertyGuard
     public static Guid NotEmpty(
         Guid value,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.NotEmpty(value, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.NotEmpty(value, propertyName, exceptionMessage);
 }

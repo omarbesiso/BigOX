@@ -74,40 +74,22 @@ public readonly struct DateRange : IEquatable<DateRange>, ISpanFormattable, ISpa
     public DateOnly EffectiveEnd => EndDate ?? MaxSupportedDate;
 
     /// <inheritdoc />
-    public bool Equals(DateRange other)
-    {
-        return StartDate.Equals(other.StartDate) && Nullable.Equals(EndDate, other.EndDate);
-    }
+    public bool Equals(DateRange other) => StartDate.Equals(other.StartDate) && Nullable.Equals(EndDate, other.EndDate);
 
     /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        return obj is DateRange other && Equals(other);
-    }
+    public override bool Equals(object? obj) => obj is DateRange other && Equals(other);
 
     /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(StartDate, EndDate);
-    }
+    public override int GetHashCode() => HashCode.Combine(StartDate, EndDate);
 
     /// <summary>Compares two <see cref="DateRange" /> instances for equality.</summary>
-    public static bool operator ==(DateRange left, DateRange right)
-    {
-        return left.Equals(right);
-    }
+    public static bool operator ==(DateRange left, DateRange right) => left.Equals(right);
 
     /// <summary>Compares two <see cref="DateRange" /> instances for inequality.</summary>
-    public static bool operator !=(DateRange left, DateRange right)
-    {
-        return !left.Equals(right);
-    }
+    public static bool operator !=(DateRange left, DateRange right) => !left.Equals(right);
 
     /// <summary>Factory method equivalent to the constructor.</summary>
-    public static DateRange Create(DateOnly startDate, DateOnly? endDate = null)
-    {
-        return new DateRange(startDate, endDate);
-    }
+    public static DateRange Create(DateOnly startDate, DateOnly? endDate = null) => new(startDate, endDate);
 
     /// <summary>
     ///     Returns the canonical string: <c>yyyy-MM-dd|yyyy-MM-dd</c> or <c>yyyy-MM-dd|∞</c>.
@@ -135,10 +117,7 @@ public readonly struct DateRange : IEquatable<DateRange>, ISpanFormattable, ISpa
     /// <summary>
     ///     Formats using the canonical invariant representation. The <paramref name="format" /> is ignored.
     /// </summary>
-    public string ToString(string? format, IFormatProvider? formatProvider)
-    {
-        return ToString();
-    }
+    public string ToString(string? format, IFormatProvider? formatProvider) => ToString();
 
     /// <summary>
     ///     Attempts to format the canonical invariant representation into <paramref name="destination" />.
@@ -285,16 +264,10 @@ public readonly struct DateRange : IEquatable<DateRange>, ISpanFormattable, ISpa
     }
 
     /// <inheritdoc />
-    public static DateRange Parse(string s, IFormatProvider? provider)
-    {
-        return Parse(s);
-    }
+    public static DateRange Parse(string s, IFormatProvider? provider) => Parse(s);
 
     /// <inheritdoc />
-    public static bool TryParse(string? s, IFormatProvider? provider, out DateRange result)
-    {
-        return TryParse(s, out result);
-    }
+    public static bool TryParse(string? s, IFormatProvider? provider, out DateRange result) => TryParse(s, out result);
 
     /// <inheritdoc />
     public static DateRange Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
@@ -308,8 +281,6 @@ public readonly struct DateRange : IEquatable<DateRange>, ISpanFormattable, ISpa
     }
 
     /// <inheritdoc />
-    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateRange result)
-    {
-        return TryParse(s, out result);
-    }
+    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateRange result) =>
+        TryParse(s, out result);
 }

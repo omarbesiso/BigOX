@@ -80,10 +80,7 @@ public static class EmailAddressExtensions
         ///     Determines if a non-empty display name is present.
         /// </summary>
         /// <returns><c>true</c> when <see cref="EmailAddress.DisplayName" /> has length &gt; 0; otherwise <c>false</c>.</returns>
-        public bool HasDisplayName()
-        {
-            return emailAddress.DisplayName is { Length: > 0 };
-        }
+        public bool HasDisplayName() => emailAddress.DisplayName is { Length: > 0 };
 
         /// <summary>
         ///     Gets the local-part (username) portion preceding '@'. If '@' is missing (e.g. invalid/default value) the
@@ -123,10 +120,7 @@ public static class EmailAddressExtensions
         ///     Alias for <see cref="Domain" /> for discoverability.
         /// </summary>
         /// <returns>The domain component or <see cref="string.Empty" />.</returns>
-        public string Host()
-        {
-            return Domain(emailAddress);
-        }
+        public string Host() => emailAddress.Domain();
 
         /// <summary>
         ///     Creates a <see cref="MailAddress" /> preserving the stored display name (if any).
@@ -148,10 +142,8 @@ public static class EmailAddressExtensions
         /// <param name="displayName">Replacement display name; <c>null</c>/<c>whitespace</c> for none.</param>
         /// <returns>A new <see cref="MailAddress" /> instance.</returns>
         /// <exception cref="FormatException">Underlying address or combined parts are invalid.</exception>
-        public MailAddress ToMailAddress(string? displayName)
-        {
-            return CreateMailAddress(emailAddress.Address, displayName, null);
-        }
+        public MailAddress ToMailAddress(string? displayName) =>
+            CreateMailAddress(emailAddress.Address, displayName, null);
 
         /// <summary>
         ///     Creates a <see cref="MailAddress" /> overriding the display name and optionally its encoding.
@@ -161,9 +153,7 @@ public static class EmailAddressExtensions
         /// <returns>A new <see cref="MailAddress" /> instance.</returns>
         /// <exception cref="FormatException">Underlying address or combined parts are invalid.</exception>
         public MailAddress ToMailAddress(string? displayName,
-            Encoding? displayNameEncoding)
-        {
-            return CreateMailAddress(emailAddress.Address, displayName, displayNameEncoding);
-        }
+            Encoding? displayNameEncoding) =>
+            CreateMailAddress(emailAddress.Address, displayName, displayNameEncoding);
     }
 }

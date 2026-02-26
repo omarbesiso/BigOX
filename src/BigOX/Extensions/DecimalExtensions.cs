@@ -50,10 +50,7 @@ public static class DecimalExtensions
     /// </code>
     /// </example>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double? ToDouble(this decimal? value)
-    {
-        return value.HasValue ? (double?)value.Value : null;
-    }
+    public static double? ToDouble(this decimal? value) => value.HasValue ? (double?)value.Value : null;
 
     private static string NumberToWords(long number)
     {
@@ -170,10 +167,7 @@ public static class DecimalExtensions
         /// <param name="decimalPlaces">The number of decimal places to round to.</param>
         /// <returns>The rounded decimal value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public decimal RoundTo(int decimalPlaces)
-        {
-            return Math.Round(value, decimalPlaces);
-        }
+        public decimal RoundTo(int decimalPlaces) => Math.Round(value, decimalPlaces);
 
         /// <summary>
         ///     Converts a decimal value to its word representation.
@@ -216,19 +210,13 @@ public static class DecimalExtensions
         /// </summary>
         /// <returns><c>true</c> if the decimal value is a whole number; otherwise, <c>false</c>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsWholeNumber()
-        {
-            return value == Math.Truncate(value);
-        }
+        public bool IsWholeNumber() => value == Math.Truncate(value);
 
         /// <summary>
         ///     Gets the absolute value of a decimal.
         /// </summary>
         /// <returns>The absolute value of the decimal.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public decimal Abs()
-        {
-            return Math.Abs(value);
-        }
+        public decimal Abs() => Math.Abs(value);
     }
 }

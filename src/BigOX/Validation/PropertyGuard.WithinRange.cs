@@ -40,8 +40,6 @@ public static partial class PropertyGuard
         T maxValue,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null)
-        where T : IComparable<T>
-    {
-        return Guard.WithinRange(value, minValue, maxValue, propertyName, exceptionMessage);
-    }
+        where T : IComparable<T> =>
+        Guard.WithinRange(value, minValue, maxValue, propertyName, exceptionMessage);
 }

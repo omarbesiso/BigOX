@@ -32,10 +32,8 @@ public static partial class PropertyGuard
     public static T NotNull<T>(
         [NotNull] [DoesNotReturnIf(true)] T? value,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.NotNull(value, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.NotNull(value, propertyName, exceptionMessage);
 
     /// <summary>
     ///     Ensures that a property collection is not <see langword="null" />.
@@ -57,8 +55,6 @@ public static partial class PropertyGuard
     public static IEnumerable<T> NotNull<T>(
         [NotNull] [DoesNotReturnIf(true)] IEnumerable<T>? collection,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.NotNull(collection, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.NotNull(collection, propertyName, exceptionMessage);
 }

@@ -27,10 +27,8 @@ public static partial class PropertyGuard
         T value,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null)
-        where T : INumber<T>
-    {
-        return Guard.Positive(value, propertyName, exceptionMessage);
-    }
+        where T : INumber<T> =>
+        Guard.Positive(value, propertyName, exceptionMessage);
 
     /// <summary>
     ///     Ensures that a numeric value is non-negative (zero or greater).
@@ -49,8 +47,6 @@ public static partial class PropertyGuard
         T value,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null)
-        where T : INumber<T>
-    {
-        return Guard.NonNegative(value, propertyName, exceptionMessage);
-    }
+        where T : INumber<T> =>
+        Guard.NonNegative(value, propertyName, exceptionMessage);
 }

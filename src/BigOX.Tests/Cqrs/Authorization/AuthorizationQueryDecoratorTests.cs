@@ -12,7 +12,7 @@ public sealed class AuthorizationQueryDecoratorTests
     public async Task Read_AuthorizesAndInvokesInner_OnSuccess()
     {
         var handler = new CapturingHandler();
-        var auth = new StubAuthorizationManager(success: true);
+        var auth = new StubAuthorizationManager(true);
         var sut = new AuthorizationQueryDecorator<TestQuery, int>(handler, auth);
 
         var result = await sut.Read(new TestQuery("q"));
@@ -27,7 +27,7 @@ public sealed class AuthorizationQueryDecoratorTests
     public async Task Read_AuthorizationFails_ThrowsSecurityException_DoesNotInvokeInner()
     {
         var handler = new CapturingHandler();
-        var auth = new StubAuthorizationManager(success: false);
+        var auth = new StubAuthorizationManager(false);
         var sut = new AuthorizationQueryDecorator<TestQuery, int>(handler, auth);
 
         try
@@ -48,7 +48,7 @@ public sealed class AuthorizationQueryDecoratorTests
     public async Task Read_NullQuery_ThrowsArgumentNullException_DoesNotInvokeInner()
     {
         var handler = new CapturingHandler();
-        var auth = new StubAuthorizationManager(success: true);
+        var auth = new StubAuthorizationManager(true);
         var sut = new AuthorizationQueryDecorator<TestQuery, int>(handler, auth);
 
         try
@@ -69,7 +69,7 @@ public sealed class AuthorizationQueryDecoratorTests
     public async Task Read_PassesCancellationToken_ToAuthorizationManagerAndInner()
     {
         var handler = new CapturingHandler();
-        var auth = new StubAuthorizationManager(success: true);
+        var auth = new StubAuthorizationManager(true);
         var sut = new AuthorizationQueryDecorator<TestQuery, int>(handler, auth);
 
         using var cts = new CancellationTokenSource();
@@ -103,12 +103,12 @@ public sealed class AuthorizationQueryDecoratorTests
         public object? LastArgs { get; private set; }
         public CancellationToken ObservedToken { get; private set; }
 
-        public ValueTask<AuthorizationEvaluationResult> EvaluateAsync<TAuthorizationArgs>(TAuthorizationArgs authorizationArgs, CancellationToken cancellationToken = default)
-        {
+        public ValueTask<AuthorizationEvaluationResult> EvaluateAsync<TAuthorizationArgs>(
+            TAuthorizationArgs authorizationArgs, CancellationToken cancellationToken = default) =>
             throw new NotSupportedException("Decorator calls AuthorizeAsync directly in tests.");
-        }
 
-        public ValueTask AuthorizeAsync<TAuthorizationArgs>(TAuthorizationArgs authorizationArgs, CancellationToken cancellationToken = default)
+        public ValueTask AuthorizeAsync<TAuthorizationArgs>(TAuthorizationArgs authorizationArgs,
+            CancellationToken cancellationToken = default)
         {
             AuthorizeCallCount++;
             LastArgs = authorizationArgs;
@@ -117,6 +117,7 @@ public sealed class AuthorizationQueryDecoratorTests
             {
                 return ValueTask.CompletedTask;
             }
+
             throw new SecurityException("Authorization failed");
         }
     }

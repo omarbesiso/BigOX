@@ -358,10 +358,7 @@ public sealed class CollectionExtensionsTests
     // Helper Random to make Shuffle deterministic
     private sealed class AlwaysZeroRandom : Random
     {
-        public override int Next(int minValue, int maxValue)
-        {
-            return minValue;
-            // always choose the first index
-        }
+        public override int Next(int minValue, int maxValue) => minValue;
+        // always choose the first index
     }
 }

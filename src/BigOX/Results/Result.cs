@@ -48,84 +48,62 @@ public readonly struct Result<T> : IResult<T>
     ///     True when success; outputs the value safely.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool IsSuccess([MaybeNullWhen(false)] out T value)
-    {
-        return _inner.IsSuccess(out value);
-    }
+    public bool IsSuccess([MaybeNullWhen(false)] out T value) => _inner.IsSuccess(out value);
 
     /// <summary>
     ///     True when failure; outputs the error list safely.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool IsFailure([NotNullWhen(true)] out IReadOnlyList<Error>? errors)
-    {
-        return _inner.IsFailure(out errors);
-    }
+    public bool IsFailure([NotNullWhen(true)] out IReadOnlyList<Error>? errors) => _inner.IsFailure(out errors);
 
     /// <summary>
     ///     Pattern matches on success/failure invoking handlers.
     /// </summary>
     /// <typeparam name="TResult">Return type of handlers.</typeparam>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public TResult Match<TResult>(Func<T, TResult> onSuccess, Func<IReadOnlyList<Error>, TResult> onFailure)
-    {
-        return _inner.Match(onSuccess, onFailure);
-    }
+    public TResult Match<TResult>(Func<T, TResult> onSuccess, Func<IReadOnlyList<Error>, TResult> onFailure) =>
+        _inner.Match(onSuccess, onFailure);
 
     /// <summary>
     ///     Maps the success value preserving errors and metadata.
     /// </summary>
     /// <typeparam name="TNext">Mapped value type.</typeparam>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Result<TNext> Map<TNext>(Func<T, TNext> map)
-    {
-        return new Result<TNext>(_inner.Map(map));
-    }
+    public Result<TNext> Map<TNext>(Func<T, TNext> map) => new(_inner.Map(map));
 
     /// <summary>
     ///     Monadic bind chaining another result-producing function.
     /// </summary>
     /// <typeparam name="TNext">Next value type.</typeparam>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Result<TNext> Bind<TNext>(Func<T, Result<TNext>> bind)
-    {
-        return _inner.IsSuccess(out var v) ? bind(v) : new Result<TNext>(_inner.AsFailure<TNext>());
-    }
+    public Result<TNext> Bind<TNext>(Func<T, Result<TNext>> bind) =>
+        _inner.IsSuccess(out var v) ? bind(v) : new Result<TNext>(_inner.AsFailure<TNext>());
 
     /// <summary>
     ///     Creates a success result.
     /// </summary>
     public static Result<T> Success(T value, string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result<T>(Result<T, Error>.Success(value, message, metadata));
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(Result<T, Error>.Success(value, message, metadata));
 
     /// <summary>
     ///     Creates a failure result from a sequence of errors.
     /// </summary>
     public static Result<T> Failure(IEnumerable<Error> errors, string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result<T>(Result<T, Error>.Failure(errors, message, metadata));
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(Result<T, Error>.Failure(errors, message, metadata));
 
     /// <summary>
     ///     Creates a failure result from a single error.
     /// </summary>
     public static Result<T> Failure(Error error, string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result<T>(Result<T, Error>.Failure(error, message, metadata));
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(Result<T, Error>.Failure(error, message, metadata));
 
     /// <summary>
     ///     Implicit conversion from <see cref="Error" /> to a failure result.
     /// </summary>
-    public static implicit operator Result<T>(Error error)
-    {
-        return Failure(error);
-    }
+    public static implicit operator Result<T>(Error error) => Failure(error);
 
     /// <summary>
     ///     Debugger display string.
@@ -172,36 +150,27 @@ public readonly record struct Result : IResult
     /// <summary>
     ///     Creates a success (no-value) result.
     /// </summary>
-    public static Result Success(string? message = null, IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result(Result<Unit, Error>.Success(Unit.Value, message, metadata));
-    }
+    public static Result Success(string? message = null, IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(Result<Unit, Error>.Success(Unit.Value, message, metadata));
 
     /// <summary>
     ///     Creates a failure result from a sequence of errors.
     /// </summary>
     public static Result Failure(IEnumerable<Error> errors, string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result(Result<Unit, Error>.Failure(errors, message, metadata));
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(Result<Unit, Error>.Failure(errors, message, metadata));
 
     /// <summary>
     ///     Creates a failure result from a single error.
     /// </summary>
     public static Result Failure(Error error, string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result(Result<Unit, Error>.Failure(error, message, metadata));
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(Result<Unit, Error>.Failure(error, message, metadata));
 
     /// <summary>
     ///     Implicit conversion from <see cref="Error" /> to a failure result.
     /// </summary>
-    public static implicit operator Result(Error error)
-    {
-        return Failure(error);
-    }
+    public static implicit operator Result(Error error) => Failure(error);
 
     private readonly struct Unit
     {
@@ -398,21 +367,17 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     ///     Projects a failure into another value type preserving errors.
     /// </summary>
     /// <typeparam name="TNext">New value type.</typeparam>
-    public Result<TNext, TError> AsFailure<TNext>()
-    {
-        return _state == 2
+    public Result<TNext, TError> AsFailure<TNext>() =>
+        _state == 2
             ? Result<TNext, TError>.Failure(_errors!, Message, Metadata)
             : throw new InvalidOperationException("AsFailure can only be called on a failure result.");
-    }
 
     /// <summary>
     ///     Creates a success result.
     /// </summary>
     public static Result<TValue, TError> Success(TValue value, string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result<TValue, TError>(value, message, metadata);
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(value, message, metadata);
 
     /// <summary>
     ///     Creates a failure result from a sequence of errors (optimized cloning path).
@@ -466,28 +431,21 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     ///     Creates a failure result from a single error.
     /// </summary>
     public static Result<TValue, TError> Failure(TError error, string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Result<TValue, TError>([error], true, message, metadata);
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new([error], true, message, metadata);
 
     /// <summary>
     ///     Creates a failure result from a params array.
     /// </summary>
     public static Result<TValue, TError> Failure(string? message = null,
-        IReadOnlyDictionary<string, object?>? metadata = null, params TError[] errors)
-    {
-        return new Result<TValue, TError>(errors ?? throw new ArgumentNullException(nameof(errors)), false, message,
+        IReadOnlyDictionary<string, object?>? metadata = null, params TError[] errors) =>
+        new(errors ?? throw new ArgumentNullException(nameof(errors)), false, message,
             metadata);
-    }
 
     /// <summary>
     ///     Implicit conversion from error to failure result.
     /// </summary>
-    public static implicit operator Result<TValue, TError>(TError error)
-    {
-        return Failure(error);
-    }
+    public static implicit operator Result<TValue, TError>(TError error) => Failure(error);
 
     /// <summary>
     ///     Deconstructs into (isSuccess, value, errors) for pattern matching.

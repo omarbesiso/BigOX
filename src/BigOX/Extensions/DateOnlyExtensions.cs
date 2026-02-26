@@ -41,12 +41,10 @@ public static class DateOnlyExtensions
         ///     ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateOnly PreviousDay()
-        {
-            return date == DateOnly.MinValue
+        public DateOnly PreviousDay() =>
+            date == DateOnly.MinValue
                 ? throw new InvalidOperationException("Cannot get the previous day of DateOnly.MinValue.")
                 : date.AddDays(-1);
-        }
 
         /// <summary>
         ///     Returns a new <see cref="DateOnly" /> instance representing the day after the source date.
@@ -73,12 +71,10 @@ public static class DateOnlyExtensions
         ///     ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateOnly NextDay()
-        {
-            return date == DateOnly.MaxValue
+        public DateOnly NextDay() =>
+            date == DateOnly.MaxValue
                 ? throw new InvalidOperationException("Cannot get the next day of DateOnly.MaxValue.")
                 : date.AddDays(1);
-        }
 
         /// <summary>
         ///     Returns an enumerable of <see cref="DateOnly" /> instances representing the dates in the range between the
@@ -213,10 +209,7 @@ public static class DateOnlyExtensions
         ///     but you only have date information.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime ToDateTime()
-        {
-            return date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Unspecified);
-        }
+        public DateTime ToDateTime() => date.ToDateTime(TimeOnly.MinValue, DateTimeKind.Unspecified);
 
         /// <summary>
         ///     Converts the source <see cref="DateOnly" /> instance to a <see cref="DateTime" /> instance
@@ -446,10 +439,7 @@ public static class DateOnlyExtensions
         ///     ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int DaysInMonth()
-        {
-            return DateTime.DaysInMonth(date.Year, date.Month);
-        }
+        public int DaysInMonth() => DateTime.DaysInMonth(date.Year, date.Month);
 
         /// <summary>
         ///     Gets the first date of the month for the source <see cref="DateOnly" />. Optionally, finds the first occurrence
@@ -611,10 +601,8 @@ public static class DateOnlyExtensions
         ///     determine the first day of the week.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateOnly GetLastDateOfWeek(CultureInfo? cultureInfo = null)
-        {
-            return date.GetFirstDateOfWeek(cultureInfo).AddDays(6);
-        }
+        public DateOnly GetLastDateOfWeek(CultureInfo? cultureInfo = null) =>
+            date.GetFirstDateOfWeek(cultureInfo).AddDays(6);
 
         /// <summary>
         ///     Calculates the number of days between two <see cref="DateOnly" /> instances.
@@ -650,10 +638,7 @@ public static class DateOnlyExtensions
         /// ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int GetNumberOfDays(DateOnly toDate)
-        {
-            return toDate.DayNumber - date.DayNumber;
-        }
+        public int GetNumberOfDays(DateOnly toDate) => toDate.DayNumber - date.DayNumber;
 
         /// <summary>
         ///     Determines whether a <see cref="DateOnly" /> instance is after another <see cref="DateOnly" /> instance.
@@ -674,10 +659,7 @@ public static class DateOnlyExtensions
         /// ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsAfter(DateOnly other)
-        {
-            return date.CompareTo(other) > 0;
-        }
+        public bool IsAfter(DateOnly other) => date.CompareTo(other) > 0;
 
         /// <summary>
         ///     Determines whether a <see cref="DateOnly" /> instance is before another <see cref="DateOnly" /> instance.
@@ -698,10 +680,7 @@ public static class DateOnlyExtensions
         /// ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsBefore(DateOnly other)
-        {
-            return date.CompareTo(other) < 0;
-        }
+        public bool IsBefore(DateOnly other) => date.CompareTo(other) < 0;
 
         /// <summary>
         ///     Determines whether a <see cref="DateOnly" /> instance represents today's date.
@@ -749,10 +728,7 @@ public static class DateOnlyExtensions
         ///     ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsLeapDay()
-        {
-            return date is { Month: 2, Day: 29 };
-        }
+        public bool IsLeapDay() => date is { Month: 2, Day: 29 };
 
         /// <summary>
         ///     Determines whether the year of the source <see cref="DateOnly" /> instance is a leap year.
@@ -773,9 +749,6 @@ public static class DateOnlyExtensions
         ///     ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsLeapYear()
-        {
-            return DateTime.IsLeapYear(date.Year);
-        }
+        public bool IsLeapYear() => DateTime.IsLeapYear(date.Year);
     }
 }

@@ -65,10 +65,8 @@ public sealed record Error : IError
         string? code = null,
         ErrorKind? kind = null,
         Exception? exception = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Error(message ?? throw new ArgumentNullException(nameof(message)), code, kind, exception, metadata);
-    }
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(message ?? throw new ArgumentNullException(nameof(message)), code, kind, exception, metadata);
 
     /// <summary>
     ///     Creates a new <see cref="Error" /> with <see cref="ErrorKind.Unexpected" />.
@@ -83,10 +81,8 @@ public sealed record Error : IError
         string message,
         string? code = null,
         Exception? exception = null,
-        IReadOnlyDictionary<string, object?>? metadata = null)
-    {
-        return new Error(message ?? throw new ArgumentNullException(nameof(message)), code, ErrorKind.Unexpected,
+        IReadOnlyDictionary<string, object?>? metadata = null) =>
+        new(message ?? throw new ArgumentNullException(nameof(message)), code, ErrorKind.Unexpected,
             exception,
             metadata);
-    }
 }

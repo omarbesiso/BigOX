@@ -45,8 +45,6 @@ public static partial class PropertyGuard
     public static string NotNullOrWhiteSpace(
         [NotNull] string? value,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.NotNullOrWhiteSpace(value, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.NotNullOrWhiteSpace(value, propertyName, exceptionMessage);
 }

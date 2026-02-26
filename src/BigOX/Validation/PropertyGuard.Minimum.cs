@@ -34,8 +34,6 @@ public static partial class PropertyGuard
         T minValue,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null)
-        where T : IComparable<T>
-    {
-        return Guard.Minimum(value, minValue, propertyName, exceptionMessage);
-    }
+        where T : IComparable<T> =>
+        Guard.Minimum(value, minValue, propertyName, exceptionMessage);
 }

@@ -12,10 +12,7 @@ namespace BigOX.Tests.Cqrs;
 [TestClass]
 public class CqrsServiceCollectionExtensionsTests
 {
-    private static ServiceProvider Build(ServiceCollection services)
-    {
-        return services.BuildServiceProvider();
-    }
+    private static ServiceProvider Build(ServiceCollection services) => services.BuildServiceProvider();
 
     [TestMethod]
     public void DecorateAllCommandHandlers_Throws_When_Type_Does_Not_Implement_ICommandDecorator()
@@ -368,18 +365,13 @@ public class CqrsServiceCollectionExtensionsTests
     // Invalid decorators (do not implement ICommandDecorator/IQueryDecorator)
     private sealed class InvalidCommandDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : ICommand
     {
-        public Task Handle(TCommand command, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
+        public Task Handle(TCommand command, CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
     private sealed class InvalidQueryDecorator<TQuery, TResult> : IQueryHandler<TQuery, TResult> where TQuery : IQuery
     {
-        public Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(default(TResult)!);
-        }
+        public Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default) =>
+            Task.FromResult(default(TResult)!);
     }
 
     // Module for assembly scanning tests
@@ -396,17 +388,11 @@ public class CqrsServiceCollectionExtensionsTests
     // Additional handlers in the same assembly for RegisterModule* to discover
     private sealed class ModuleCommandHandler : ICommandHandler<TestCommand>
     {
-        public Task Handle(TestCommand command, CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
+        public Task Handle(TestCommand command, CancellationToken cancellationToken = default) => Task.CompletedTask;
     }
 
     private sealed class ModuleQueryHandler : IQueryHandler<TestQuery, int>
     {
-        public Task<int> Read(TestQuery query, CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(123);
-        }
+        public Task<int> Read(TestQuery query, CancellationToken cancellationToken = default) => Task.FromResult(123);
     }
 }

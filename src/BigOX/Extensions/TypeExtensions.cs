@@ -69,10 +69,7 @@ public static class TypeExtensions
     /// <returns>The default value for the specified type.</returns>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? DefaultValue<T>()
-    {
-        return default;
-    }
+    public static T? DefaultValue<T>() => default;
 
     /// <summary>
     ///     Determines whether the type of the specified source object is a nullable type.
@@ -102,10 +99,7 @@ public static class TypeExtensions
     /// <returns><c>true</c> if the specified type <typeparamref name="T" /> is a nullable type; otherwise, <c>false</c>.</returns>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsOfNullableType<T>()
-    {
-        return typeof(T).IsNullable();
-    }
+    public static bool IsOfNullableType<T>() => typeof(T).IsNullable();
 
     /// <summary>
     ///     Gets the <see cref="TypeCode" /> of the specified type.
@@ -246,7 +240,7 @@ public static class TypeExtensions
         public ValueTask<object?> DefaultValueAsync()
         {
             Guard.NotNull(type);
-            return ValueTask.FromResult(DefaultValue(type));
+            return ValueTask.FromResult(type.DefaultValue());
         }
 
         /// <summary>

@@ -10,11 +10,9 @@ namespace BigOX.Cqrs;
 /// </summary>
 public static class DecorationServiceCollectionExtensions
 {
-    private static bool IsMatchingDecoratorInterface(Type i)
-    {
-        return i.IsGenericType
-               && i.GetGenericTypeDefinition() == typeof(IQueryDecorator<,>);
-    }
+    private static bool IsMatchingDecoratorInterface(Type i) =>
+        i.IsGenericType
+        && i.GetGenericTypeDefinition() == typeof(IQueryDecorator<,>);
 
     /// <summary>
     ///     Provides extension methods for decorating command and query handlers in an IServiceCollection.
@@ -30,10 +28,8 @@ public static class DecorationServiceCollectionExtensions
         /// <returns>The service collection with the command handler decorator added.</returns>
         public IServiceCollection DecorateCommandHandler<TCommand, TDecorator>()
             where TCommand : ICommand
-            where TDecorator : class, ICommandDecorator<TCommand>
-        {
-            return serviceCollection.Decorate<ICommandHandler<TCommand>, TDecorator>();
-        }
+            where TDecorator : class, ICommandDecorator<TCommand> =>
+            serviceCollection.Decorate<ICommandHandler<TCommand>, TDecorator>();
 
         /// <summary>
         ///     Decorates a query handler for a given query type and result type, with a specified decorator type.
@@ -44,10 +40,8 @@ public static class DecorationServiceCollectionExtensions
         /// <returns>The service collection with the query handler decorator added.</returns>
         public IServiceCollection DecorateQueryHandler<TQuery, TResult, TDecorator>()
             where TQuery : IQuery
-            where TDecorator : class, IQueryDecorator<TQuery, TResult>
-        {
-            return serviceCollection.Decorate<IQueryHandler<TQuery, TResult>, TDecorator>();
-        }
+            where TDecorator : class, IQueryDecorator<TQuery, TResult> =>
+            serviceCollection.Decorate<IQueryHandler<TQuery, TResult>, TDecorator>();
 
         /// <summary>
         ///     Registers all query decorators in the specified module.

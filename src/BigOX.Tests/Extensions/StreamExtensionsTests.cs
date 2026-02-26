@@ -163,15 +163,9 @@ public sealed class StreamExtensionsTests
             inner.Flush();
         }
 
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            return inner.Read(buffer, offset, count);
-        }
+        public override int Read(byte[] buffer, int offset, int count) => inner.Read(buffer, offset, count);
 
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            throw new NotSupportedException();
-        }
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
 
         public override void SetLength(long value)
         {
@@ -193,20 +187,14 @@ public sealed class StreamExtensionsTests
             base.Dispose(disposing);
         }
 
-        public override ValueTask DisposeAsync()
-        {
-            return inner.DisposeAsync();
-        }
+        public override ValueTask DisposeAsync() => inner.DisposeAsync();
 
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            return inner.ReadAsync(buffer, offset, count, cancellationToken);
-        }
+        public override Task<int>
+            ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) =>
+            inner.ReadAsync(buffer, offset, count, cancellationToken);
 
-        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
-        {
-            return inner.CopyToAsync(destination, bufferSize, cancellationToken);
-        }
+        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken) =>
+            inner.CopyToAsync(destination, bufferSize, cancellationToken);
     }
 
     private sealed class FakeSeekableHugeLengthStream(long length) : Stream
@@ -222,10 +210,7 @@ public sealed class StreamExtensionsTests
         {
         }
 
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            return 0;
-        }
+        public override int Read(byte[] buffer, int offset, int count) => 0;
 
         public override long Seek(long offset, SeekOrigin origin)
         {

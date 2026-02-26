@@ -16,12 +16,10 @@ internal static class ReflectionExtensions
         /// </summary>
         /// <param name="otherType">The type to compare against.</param>
         /// <returns><c>true</c> if the specified type is based on the other type; otherwise, <c>false</c>.</returns>
-        public bool IsBasedOn(Type otherType)
-        {
-            return otherType.IsGenericTypeDefinition
+        public bool IsBasedOn(Type otherType) =>
+            otherType.IsGenericTypeDefinition
                 ? type.IsAssignableToGenericTypeDefinition(otherType)
                 : otherType.IsAssignableFrom(type);
-        }
 
         /// <summary>
         ///     Determines whether the specified type is assignable to a generic type definition.

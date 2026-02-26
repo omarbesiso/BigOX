@@ -37,18 +37,12 @@ public readonly record struct ErrorKind
     /// <summary>
     ///     Returns the raw <see cref="Value" />.
     /// </summary>
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 
     /// <summary>
     ///     Returns a hash code based on <see cref="Value" />.
     /// </summary>
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
+    public override int GetHashCode() => Value.GetHashCode();
 
     /// <summary>
     ///     Creates a new <see cref="ErrorKind" /> from a string.

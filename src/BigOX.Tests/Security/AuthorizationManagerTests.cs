@@ -17,25 +17,6 @@ public sealed class AuthorizationManagerTests
         return services.BuildServiceProvider();
     }
 
-    // ReSharper disable once NotAccessedPositionalProperty.Local
-    private sealed record TestArgs(string Name);
-
-    private sealed class PassingRule : IAuthorizationRule<TestArgs>
-    {
-        public ValueTask<AuthorizationResult> IsAuthorizedAsync(TestArgs authorizationArgs, CancellationToken cancellationToken = default)
-        {
-            return new ValueTask<AuthorizationResult>(AuthorizationResult.Success());
-        }
-    }
-
-    private sealed class FailingRule : IAuthorizationRule<TestArgs>
-    {
-        public ValueTask<AuthorizationResult> IsAuthorizedAsync(TestArgs authorizationArgs, CancellationToken cancellationToken = default)
-        {
-            return new ValueTask<AuthorizationResult>(AuthorizationResult.Failure("Denied by FailingRule"));
-        }
-    }
-
     [TestMethod]
     public async Task Evaluate_NoRules_Allow_Succeeds_WithHasRulesFalse()
     {
@@ -167,5 +148,20 @@ public sealed class AuthorizationManagerTests
         {
             // expected
         }
+    }
+
+    // ReSharper disable once NotAccessedPositionalProperty.Local
+    private sealed record TestArgs(string Name);
+
+    private sealed class PassingRule : IAuthorizationRule<TestArgs>
+    {
+        public ValueTask<AuthorizationResult> IsAuthorizedAsync(TestArgs authorizationArgs,
+            CancellationToken cancellationToken = default) => new(AuthorizationResult.Success());
+    }
+
+    private sealed class FailingRule : IAuthorizationRule<TestArgs>
+    {
+        public ValueTask<AuthorizationResult> IsAuthorizedAsync(TestArgs authorizationArgs,
+            CancellationToken cancellationToken = default) => new(AuthorizationResult.Failure("Denied by FailingRule"));
     }
 }

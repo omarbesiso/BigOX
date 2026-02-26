@@ -49,8 +49,6 @@ public static partial class PropertyGuard
         T value,
         Predicate<T>? predicate,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.Requires(value, predicate, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.Requires(value, predicate, propertyName, exceptionMessage);
 }

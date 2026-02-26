@@ -34,8 +34,6 @@ public static partial class PropertyGuard
         T maxValue,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null)
-        where T : IComparable<T>
-    {
-        return Guard.Maximum(value, maxValue, propertyName, exceptionMessage);
-    }
+        where T : IComparable<T> =>
+        Guard.Maximum(value, maxValue, propertyName, exceptionMessage);
 }

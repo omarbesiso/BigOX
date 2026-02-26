@@ -41,10 +41,7 @@ public static class ByteExtensions
         /// </remarks>
         /// <seealso cref="MemoryStream" />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public MemoryStream ToMemoryStream()
-        {
-            return new MemoryStream(readOnlyMemory.ToArray());
-        }
+        public MemoryStream ToMemoryStream() => new(readOnlyMemory.ToArray());
     }
 
     /// <param name="buffer">
@@ -75,10 +72,7 @@ public static class ByteExtensions
         /// </remarks>
         /// <seealso cref="MemoryStream" />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public MemoryStream ToMemoryStream(bool writable = false)
-        {
-            return new MemoryStream(buffer, writable);
-        }
+        public MemoryStream ToMemoryStream(bool writable = false) => new(buffer, writable);
 
         /// <summary>
         ///     Creates a non-resizable <see cref="MemoryStream" /> over a subrange of <paramref name="buffer" />.
@@ -123,9 +117,7 @@ public static class ByteExtensions
         /// </example>
         /// <seealso cref="MemoryStream" />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public MemoryStream ToMemoryStream(int index, int count, bool writable = false)
-        {
-            return new MemoryStream(buffer, index, count, writable);
-        }
+        public MemoryStream ToMemoryStream(int index, int count, bool writable = false) =>
+            new(buffer, index, count, writable);
     }
 }

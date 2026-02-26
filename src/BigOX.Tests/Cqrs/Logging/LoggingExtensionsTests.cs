@@ -107,15 +107,9 @@ public class LoggingExtensionsTests
         public IReadOnlyList<LogEntry> Entries => _entries;
 
 #pragma warning disable CS8633 // Nullability in constraints mismatch with implicit interface method
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            return NullScope.Instance;
-        }
+        public IDisposable BeginScope<TState>(TState state) => NullScope.Instance;
 #pragma warning restore CS8633
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
+        public bool IsEnabled(LogLevel logLevel) => true;
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
             Func<TState, Exception?, string> formatter)

@@ -117,10 +117,7 @@ public readonly record struct EmailAddress :
     /// <remarks>
     ///     Only the <see cref="Address" /> is considered for equality. The <see cref="DisplayName" /> is ignored.
     /// </remarks>
-    public bool Equals(EmailAddress other)
-    {
-        return AddressComparer.Equals(Address, other.Address);
-    }
+    public bool Equals(EmailAddress other) => AddressComparer.Equals(Address, other.Address);
 
     /// <summary>
     ///     Formats the email address using a specified format string and format provider.
@@ -229,10 +226,7 @@ public readonly record struct EmailAddress :
     ///     Returns the full formatted representation using the invariant culture.
     /// </summary>
     /// <returns>A string representation of the email address.</returns>
-    public override string ToString()
-    {
-        return ToString(null, CultureInfo.InvariantCulture);
-    }
+    public override string ToString() => ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     ///     Constructs an <see cref="EmailAddress" /> from a successfully parsed <see cref="MailAddress" />.
@@ -252,10 +246,7 @@ public readonly record struct EmailAddress :
     /// </summary>
     /// <param name="address">The address to normalize.</param>
     /// <returns>The normalized address.</returns>
-    private static string NormalizeAddress(string address)
-    {
-        return address.Trim().ToLowerInvariant();
-    }
+    private static string NormalizeAddress(string address) => address.Trim().ToLowerInvariant();
 
     /// <summary>
     ///     Normalizes a display name to title case using the supplied provider (or invariant culture).
@@ -279,8 +270,5 @@ public readonly record struct EmailAddress :
     ///     Gets the hash code for this instance based on the normalized <see cref="Address" /> (case-insensitive).
     /// </summary>
     /// <returns>A hash code for the current object.</returns>
-    public override int GetHashCode()
-    {
-        return AddressComparer.GetHashCode(Address);
-    }
+    public override int GetHashCode() => AddressComparer.GetHashCode(Address);
 }

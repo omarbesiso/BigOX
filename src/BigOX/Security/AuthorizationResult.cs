@@ -30,10 +30,7 @@ public readonly record struct AuthorizationResult
     ///     An optional, non-sensitive informational message describing the successful result.
     /// </param>
     /// <returns>A successful <see cref="AuthorizationResult" />.</returns>
-    public static AuthorizationResult Success(string? message = null)
-    {
-        return new AuthorizationResult(true, message);
-    }
+    public static AuthorizationResult Success(string? message = null) => new(true, message);
 
     /// <summary>
     ///     Creates a failed <see cref="AuthorizationResult" /> instance.

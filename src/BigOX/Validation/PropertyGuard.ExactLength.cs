@@ -47,8 +47,6 @@ public static partial class PropertyGuard
         string? value,
         int exactLength,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.ExactLength(value, exactLength, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.ExactLength(value, exactLength, propertyName, exceptionMessage);
 }

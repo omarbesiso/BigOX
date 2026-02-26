@@ -42,8 +42,6 @@ public static partial class PropertyGuard
         DateTime value,
         TimeZoneInfo? timeZone = null,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.InPast(value, timeZone, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.InPast(value, timeZone, propertyName, exceptionMessage);
 }

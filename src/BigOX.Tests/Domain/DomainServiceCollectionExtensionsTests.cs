@@ -21,10 +21,7 @@ public class TestDomainEventHandlerA : IDomainEventHandler<TestDomainEvent>
 
 public class TestDomainEventHandlerB : IDomainEventHandler<TestDomainEvent>
 {
-    public Task Handle(TestDomainEvent @event, CancellationToken cancellationToken = default)
-    {
-        return Task.CompletedTask;
-    }
+    public Task Handle(TestDomainEvent @event, CancellationToken cancellationToken = default) => Task.CompletedTask;
 }
 
 [TestClass]

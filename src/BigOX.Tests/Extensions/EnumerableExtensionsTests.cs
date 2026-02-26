@@ -130,19 +130,13 @@ public sealed class EnumerableExtensionsTests
 
     private sealed class NonGenericEmptyEnumerable : IEnumerable
     {
-        public IEnumerator GetEnumerator()
-        {
-            return new EmptyEnumerator();
-        }
+        public IEnumerator GetEnumerator() => new EmptyEnumerator();
 
         private sealed class EmptyEnumerator : IEnumerator
         {
             public object? Current => null;
 
-            public bool MoveNext()
-            {
-                return false;
-            }
+            public bool MoveNext() => false;
 
             public void Reset()
             {
@@ -152,10 +146,7 @@ public sealed class EnumerableExtensionsTests
 
     private sealed class NonGenericSingleEnumerable : IEnumerable
     {
-        public IEnumerator GetEnumerator()
-        {
-            return new SingleEnumerator();
-        }
+        public IEnumerator GetEnumerator() => new SingleEnumerator();
 
         private sealed class SingleEnumerator : IEnumerator
         {

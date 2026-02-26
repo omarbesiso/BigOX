@@ -1,5 +1,5 @@
-using BigOX.Validation;
 using BigOX.Security;
+using BigOX.Validation;
 
 namespace BigOX.Cqrs.Authorization;
 
@@ -9,14 +9,15 @@ namespace BigOX.Cqrs.Authorization;
 /// </summary>
 /// <typeparam name="TCommand">The command type.</typeparam>
 /// <remarks>
-///     Authorization is performed against the command instance itself. Register <see cref="IAuthorizationRule{TAuthorizationArgs}" />
+///     Authorization is performed against the command instance itself. Register
+///     <see cref="IAuthorizationRule{TAuthorizationArgs}" />
 ///     implementations for the specific command type to participate in evaluation.
 /// </remarks>
 internal sealed class AuthorizationCommandDecorator<TCommand> : ICommandDecorator<TCommand>
     where TCommand : ICommand
 {
-    private readonly ICommandHandler<TCommand> _decorated;
     private readonly IAuthorizationManager _authorizationManager;
+    private readonly ICommandHandler<TCommand> _decorated;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AuthorizationCommandDecorator{TCommand}" /> class.

@@ -90,21 +90,16 @@ public abstract class Entity<TId> : IEntity<TId>, IEquatable<Entity<TId>>
     /// </summary>
     /// <param name="obj">The object to compare with the current entity.</param>
     /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this entity; otherwise, <c>false</c>.</returns>
-    public override bool Equals(object? obj)
-    {
-        return obj is Entity<TId> other && Equals(other);
-    }
+    public override bool Equals(object? obj) => obj is Entity<TId> other && Equals(other);
 
     /// <summary>
     ///     Returns a hash code for this entity.
     /// </summary>
     /// <returns>A hash code for this entity, suitable for use in hashing algorithms and data structures like a hash table.</returns>
     // ReSharper disable once NonReadonlyMemberInGetHashCode
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() =>
         // ReSharper disable once NonReadonlyMemberInGetHashCode
-        return HashCode.Combine(Id);
-    }
+        HashCode.Combine(Id);
 
     /// <summary>
     ///     Determines whether two entities are equal.
@@ -122,13 +117,7 @@ public abstract class Entity<TId> : IEntity<TId>, IEquatable<Entity<TId>>
     /// <summary>
     ///     Determines whether two entities are not equal.
     /// </summary>
-    public static bool operator !=(Entity<TId>? left, Entity<TId>? right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(Entity<TId>? left, Entity<TId>? right) => !(left == right);
 
-    private static bool IsDefault(TId id)
-    {
-        return EqualityComparer<TId>.Default.Equals(id, default);
-    }
+    private static bool IsDefault(TId id) => EqualityComparer<TId>.Default.Equals(id, default);
 }

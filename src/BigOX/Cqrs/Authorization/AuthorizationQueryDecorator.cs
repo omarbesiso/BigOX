@@ -1,5 +1,5 @@
-using BigOX.Validation;
 using BigOX.Security;
+using BigOX.Validation;
 
 namespace BigOX.Cqrs.Authorization;
 
@@ -10,14 +10,15 @@ namespace BigOX.Cqrs.Authorization;
 /// <typeparam name="TQuery">The query type.</typeparam>
 /// <typeparam name="TResult">The result type.</typeparam>
 /// <remarks>
-///     Authorization is performed against the query instance itself. Register <see cref="IAuthorizationRule{TAuthorizationArgs}" />
+///     Authorization is performed against the query instance itself. Register
+///     <see cref="IAuthorizationRule{TAuthorizationArgs}" />
 ///     implementations for the specific query type to participate in evaluation.
 /// </remarks>
 internal sealed class AuthorizationQueryDecorator<TQuery, TResult> : IQueryHandler<TQuery, TResult>
     where TQuery : IQuery
 {
-    private readonly IQueryHandler<TQuery, TResult> _decorated;
     private readonly IAuthorizationManager _authorizationManager;
+    private readonly IQueryHandler<TQuery, TResult> _decorated;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AuthorizationQueryDecorator{TQuery,TResult}" /> class.

@@ -46,8 +46,6 @@ public static partial class PropertyGuard
         T value,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null)
-        where T : struct
-    {
-        return Guard.NotDefault(value, propertyName, exceptionMessage);
-    }
+        where T : struct =>
+        Guard.NotDefault(value, propertyName, exceptionMessage);
 }

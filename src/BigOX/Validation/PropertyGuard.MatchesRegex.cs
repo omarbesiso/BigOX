@@ -50,8 +50,6 @@ public static partial class PropertyGuard
         [StringSyntax(StringSyntaxAttribute.Regex)]
         string pattern,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.MatchesRegex(value, pattern, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.MatchesRegex(value, pattern, propertyName, exceptionMessage);
 }

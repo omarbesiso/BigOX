@@ -5,13 +5,15 @@ namespace BigOX.Tests.Extensions;
 
 public enum SampleEnum
 {
-    [System.ComponentModel.Description("First Value Description")] [Display(Name = "First Value Display")]
+    [System.ComponentModel.Description("First Value Description")]
+    [Display(Name = "First Value Display")]
     First = 1,
 
     // No attributes to test fallback behavior
     Second = 2,
 
-    [System.ComponentModel.Description("Third Value Description")] [Display(Name = "Third Value Display")]
+    [System.ComponentModel.Description("Third Value Description")]
+    [Display(Name = "Third Value Display")]
     Third = 3
 }
 

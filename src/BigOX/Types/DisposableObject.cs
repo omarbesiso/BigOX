@@ -308,10 +308,7 @@ public abstract class DisposableObject : IDisposable, IAsyncDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private bool BeginDispose()
-    {
-        return Interlocked.CompareExchange(ref _state, Disposing, Alive) == Alive;
-    }
+    private bool BeginDispose() => Interlocked.CompareExchange(ref _state, Disposing, Alive) == Alive;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void EndDispose()

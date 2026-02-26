@@ -22,10 +22,7 @@ public static class GuidFactory
     /// </example>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     // ReSharper disable once MemberCanBePrivate.Global
-    public static Guid NewSequentialGuid()
-    {
-        return Guid.CreateVersion7();
-    }
+    public static Guid NewSequentialGuid() => Guid.CreateVersion7();
 
     /// <summary>
     ///     Generates a list of new sequential <see cref="Guid" />.

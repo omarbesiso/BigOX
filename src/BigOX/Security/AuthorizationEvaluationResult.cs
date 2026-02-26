@@ -47,10 +47,8 @@ public readonly record struct AuthorizationEvaluationResult
     /// <returns>
     ///     A successful <see cref="AuthorizationEvaluationResult" />.
     /// </returns>
-    public static AuthorizationEvaluationResult Success(bool hasRules = true)
-    {
-        return new AuthorizationEvaluationResult(true, hasRules, Array.Empty<AuthorizationFailure>());
-    }
+    public static AuthorizationEvaluationResult Success(bool hasRules = true) =>
+        new(true, hasRules, Array.Empty<AuthorizationFailure>());
 
     /// <summary>
     ///     Creates a failed evaluation result.

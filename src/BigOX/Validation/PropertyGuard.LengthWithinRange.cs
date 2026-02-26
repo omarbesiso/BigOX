@@ -47,8 +47,6 @@ public static partial class PropertyGuard
         int minLength,
         int maxLength,
         [CallerMemberName] string propertyName = "",
-        string? exceptionMessage = null)
-    {
-        return Guard.LengthWithinRange(value, minLength, maxLength, propertyName, exceptionMessage);
-    }
+        string? exceptionMessage = null) =>
+        Guard.LengthWithinRange(value, minLength, maxLength, propertyName, exceptionMessage);
 }
