@@ -40,7 +40,8 @@ public static class DomainServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     Provides extensions to the <see cref="IServiceCollection" /> to allow for the registration of different
+    ///     Provides extensions to the <see cref="IServiceCollection" /> to allow for the registration of domain event
+    ///     handlers and the domain event bus.
     /// </summary>
     /// <param name="serviceCollection">The <see cref="IServiceCollection" /> to which the service will be added.</param>
     extension(IServiceCollection serviceCollection)
@@ -115,6 +116,9 @@ public static class DomainServiceCollectionExtensions
         /// </param>
         /// <returns>The <see cref="IServiceCollection" /> to which the service was added.</returns>
         /// <exception cref="ArgumentNullException">Thrown when the current service collection is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown when an unsupported <see cref="ServiceLifetime" /> value is passed.
+        /// </exception>
         public IServiceCollection RegisterModuleDomainEventHandlers<TModule>(
             ServiceLifetime serviceLifetime = ServiceLifetime.Scoped) where TModule : IModule
         {

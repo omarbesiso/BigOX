@@ -25,7 +25,8 @@ public static class ResultExtensions
         /// </summary>
         /// <param name="code">Exact code to match (ordinal comparison).</param>
         /// <returns>An immutable snapshot of matching errors.</returns>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="code" /> is null, empty, or whitespace.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="code" /> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="code" /> is empty or whitespace.</exception>
         public IReadOnlyCollection<IError> ErrorsByCode(string code)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(code);

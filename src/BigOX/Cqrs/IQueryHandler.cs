@@ -3,7 +3,7 @@
 /// <summary>
 ///     Defines a contract for handling queries as specified in the CQRS pattern.
 /// </summary>
-/// <typeparam name="TQuery">The type of query to handle. Must be a reference type.</typeparam>
+/// <typeparam name="TQuery">The type of query to handle, which must implement <see cref="IQuery" />.</typeparam>
 /// <typeparam name="TResult">The type of result to return.</typeparam>
 /// <remarks>
 ///     The <see cref="IQueryHandler{TQuery,TResult}" /> interface defines a contract for handling a query of type

@@ -35,6 +35,9 @@ public static partial class Guard
     ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and its
     ///     length is less than <paramref name="minLength" />.
     /// </exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     Thrown when <paramref name="minLength" /> is negative.
+    /// </exception>
     /// <example>
     ///     <code language="csharp"><![CDATA[
     /// string? password = GetPassword();

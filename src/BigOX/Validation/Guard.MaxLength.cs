@@ -35,6 +35,9 @@ public static partial class Guard
     ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and its
     ///     length is greater than <paramref name="maxLength" />.
     /// </exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     Thrown when <paramref name="maxLength" /> is negative.
+    /// </exception>
     /// <example>
     ///     <code language="csharp"><![CDATA[
     /// string? description = GetDescription();

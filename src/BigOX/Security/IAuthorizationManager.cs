@@ -23,6 +23,13 @@ public interface IAuthorizationManager
     /// <returns>
     ///     A <see cref="ValueTask{TResult}" /> whose result describes the outcome of rule evaluation.
     /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="authorizationArgs" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when no rules are registered for <typeparamref name="TAuthorizationArgs" /> and
+    ///     <see cref="AuthorizationOptions.NoRulesBehavior" /> is <see cref="AuthorizationNoRulesBehavior.Error" />.
+    /// </exception>
     ValueTask<AuthorizationEvaluationResult> EvaluateAsync<TAuthorizationArgs>(
         TAuthorizationArgs authorizationArgs,
         CancellationToken cancellationToken = default);
@@ -44,6 +51,13 @@ public interface IAuthorizationManager
     ///     A <see cref="ValueTask" /> that completes when authorization succeeds
     ///     or throws if it fails.
     /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="authorizationArgs" /> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when no rules are registered for <typeparamref name="TAuthorizationArgs" /> and
+    ///     <see cref="AuthorizationOptions.NoRulesBehavior" /> is <see cref="AuthorizationNoRulesBehavior.Error" />.
+    /// </exception>
     /// <exception cref="SecurityException">
     ///     Thrown when one or more authorization rules fail.
     /// </exception>

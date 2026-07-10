@@ -86,8 +86,9 @@ public static partial class Guard
     ///     If omitted, a default message is generated.
     /// </param>
     /// <returns>
-    ///     The original <paramref name="collection" /> reference, guaranteed to be non-<see langword="null" />
-    ///     and non-empty.
+    ///     The original <paramref name="collection" /> reference when its count is available without
+    ///     enumeration; otherwise a lazy wrapper over the sequence. In both cases the result is
+    ///     non-<see langword="null" /> and non-empty.
     /// </returns>
     /// <exception cref="ArgumentNullException">
     ///     Thrown if <paramref name="collection" /> is <see langword="null" />.
@@ -97,14 +98,14 @@ public static partial class Guard
     /// </exception>
     /// <remarks>
     ///     <para>
-    ///         For <see cref="ICollection{T}" /> / <see cref="IReadOnlyCollection{T}" /> instances (arrays,
+    ///         For <see cref="ICollection{T}" /> instances (arrays,
     ///         <see cref="List{T}" />, <see cref="HashSet{T}" />, etc.) the check is <c>O(1)</c>
     ///         and performs **no** enumeration.
     ///     </para>
     ///     <para>
-    ///         For pipeline / generator sequences the method enumerates **at most one** element to verify
-    ///         non-emptiness, then yields the remaining items through a lazy wrapper so callers still
-    ///         enumerate exactly once.
+    ///         For pipeline / generator sequences a lazy wrapper is returned; the emptiness check is
+    ///         deferred until the wrapper is first enumerated, at which point it reads **at most one**
+    ///         element ahead and then yields the items so callers still enumerate exactly once.
     ///     </para>
     /// </remarks>
     /// <example>

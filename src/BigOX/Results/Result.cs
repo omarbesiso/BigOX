@@ -40,7 +40,7 @@ public readonly struct Result<T> : IResult<T>
     public IReadOnlyDictionary<string, object?> Metadata => _inner.Metadata;
 
     /// <summary>
-    ///     Success value (null/default when failure).
+    ///     Success value (null/default when not in a success state).
     /// </summary>
     public T? Value => _inner.Value;
 
@@ -60,6 +60,10 @@ public readonly struct Result<T> : IResult<T>
     ///     Pattern matches on success/failure invoking handlers.
     /// </summary>
     /// <typeparam name="TResult">Return type of handlers.</typeparam>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="onSuccess" /> or <paramref name="onFailure" /> is null.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">Thrown when the result is uninitialized.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TResult Match<TResult>(Func<T, TResult> onSuccess, Func<IReadOnlyList<Error>, TResult> onFailure) =>
         _inner.Match(onSuccess, onFailure);
@@ -68,6 +72,7 @@ public readonly struct Result<T> : IResult<T>
     ///     Maps the success value preserving errors and metadata.
     /// </summary>
     /// <typeparam name="TNext">Mapped value type.</typeparam>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="map" /> is null.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Result<TNext> Map<TNext>(Func<T, TNext> map) => new(_inner.Map(map));
 
@@ -75,6 +80,7 @@ public readonly struct Result<T> : IResult<T>
     ///     Monadic bind chaining another result-producing function.
     /// </summary>
     /// <typeparam name="TNext">Next value type.</typeparam>
+    /// <exception cref="InvalidOperationException">Thrown when the result is uninitialized.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Result<TNext> Bind<TNext>(Func<T, Result<TNext>> bind) =>
         _inner.IsSuccess(out var v) ? bind(v) : new Result<TNext>(_inner.AsFailure<TNext>());
@@ -89,6 +95,8 @@ public readonly struct Result<T> : IResult<T>
     /// <summary>
     ///     Creates a failure result from a sequence of errors.
     /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="errors" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="errors" /> is empty.</exception>
     public static Result<T> Failure(IEnumerable<Error> errors, string? message = null,
         IReadOnlyDictionary<string, object?>? metadata = null) =>
         new(Result<T, Error>.Failure(errors, message, metadata));
@@ -156,6 +164,8 @@ public readonly record struct Result : IResult
     /// <summary>
     ///     Creates a failure result from a sequence of errors.
     /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="errors" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="errors" /> is empty.</exception>
     public static Result Failure(IEnumerable<Error> errors, string? message = null,
         IReadOnlyDictionary<string, object?>? metadata = null) =>
         new(Result<Unit, Error>.Failure(errors, message, metadata));
@@ -310,6 +320,10 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     ///     Pattern matches invoking success or failure handler.
     /// </summary>
     /// <typeparam name="TResult">Return type.</typeparam>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="onSuccess" /> or <paramref name="onFailure" /> is null.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">Thrown when the result is uninitialized.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TResult Match<TResult>(Func<TValue, TResult> onSuccess, Func<IReadOnlyList<TError>, TResult> onFailure)
     {
@@ -335,6 +349,7 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     ///     Maps the success value preserving errors/metadata/message.
     /// </summary>
     /// <typeparam name="TNext">Target mapped value type.</typeparam>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="map" /> is null.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Result<TNext, TError> Map<TNext>(Func<TValue, TNext> map)
     {
@@ -352,6 +367,7 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     ///     Monadic bind chaining another result-producing function.
     /// </summary>
     /// <typeparam name="TNext">Next value type.</typeparam>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bind" /> is null.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Result<TNext, TError> Bind<TNext>(Func<TValue, Result<TNext, TError>> bind)
     {
@@ -367,6 +383,7 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     ///     Projects a failure into another value type preserving errors.
     /// </summary>
     /// <typeparam name="TNext">New value type.</typeparam>
+    /// <exception cref="InvalidOperationException">Thrown when the result is not in a failure state.</exception>
     public Result<TNext, TError> AsFailure<TNext>() =>
         _state == 2
             ? Result<TNext, TError>.Failure(_errors!, Message, Metadata)
@@ -382,6 +399,8 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     /// <summary>
     ///     Creates a failure result from a sequence of errors (optimized cloning path).
     /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="errors" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="errors" /> is empty.</exception>
     public static Result<TValue, TError> Failure(IEnumerable<TError> errors, string? message = null,
         IReadOnlyDictionary<string, object?>? metadata = null)
     {
@@ -437,6 +456,8 @@ public readonly struct Result<TValue, TError> : IResult<TValue, TError> where TE
     /// <summary>
     ///     Creates a failure result from a params array.
     /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="errors" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="errors" /> is empty.</exception>
     public static Result<TValue, TError> Failure(string? message = null,
         IReadOnlyDictionary<string, object?>? metadata = null, params TError[] errors) =>
         new(errors ?? throw new ArgumentNullException(nameof(errors)), false, message,

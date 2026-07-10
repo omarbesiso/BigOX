@@ -24,6 +24,10 @@ internal sealed class AuthorizationCommandDecorator<TCommand> : ICommandDecorato
     /// </summary>
     /// <param name="decorated">The inner command handler.</param>
     /// <param name="authorizationManager">The authorization manager orchestrating rule evaluation.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="decorated" /> or <paramref name="authorizationManager" /> is
+    ///     <see langword="null" />.
+    /// </exception>
     public AuthorizationCommandDecorator(
         ICommandHandler<TCommand> decorated,
         IAuthorizationManager authorizationManager)
@@ -37,6 +41,12 @@ internal sealed class AuthorizationCommandDecorator<TCommand> : ICommandDecorato
     /// </summary>
     /// <param name="command">The command to execute.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="command" /> is <see langword="null" />.
+    /// </exception>
+    /// <exception cref="System.Security.SecurityException">
+    ///     Thrown when one or more authorization rules fail.
+    /// </exception>
     public async Task Handle(TCommand command, CancellationToken cancellationToken = default)
     {
         Guard.NotNull(command);

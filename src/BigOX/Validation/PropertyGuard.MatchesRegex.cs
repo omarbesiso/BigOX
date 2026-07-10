@@ -26,11 +26,11 @@ public static partial class PropertyGuard
     ///     <paramref name="value" /> when it is <see langword="null" /> or matches <paramref name="pattern" />.
     /// </returns>
     /// <exception cref="ArgumentNullException">
-    ///     Thrown when <paramref name="pattern" /> is <see langword="null" /> or empty.
+    ///     Thrown when <paramref name="pattern" /> is <see langword="null" />.
     /// </exception>
     /// <exception cref="ArgumentException">
-    ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and does **not** match
-    ///     <paramref name="pattern" />.
+    ///     Thrown when <paramref name="pattern" /> is empty, or when <paramref name="value" /> is
+    ///     non-<see langword="null" /> and does **not** match <paramref name="pattern" />.
     /// </exception>
     /// <example>
     ///     <code language="csharp"><![CDATA[

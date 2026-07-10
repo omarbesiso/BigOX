@@ -9,7 +9,7 @@ namespace BigOX.Results;
 /// </summary>
 /// <remarks>
 ///     Instances are immutable. <see cref="Code" /> defaults to <see cref="Kind" />.<see cref="ErrorKind.Value" /> when
-///     not supplied.
+///     null, empty, or whitespace.
 /// </remarks>
 [JsonDerivedType(typeof(Error), "error")]
 public sealed record Error : IError
@@ -53,7 +53,9 @@ public sealed record Error : IError
     ///     Creates a new <see cref="Error" />.
     /// </summary>
     /// <param name="message">Required message.</param>
-    /// <param name="code">Optional code; defaults to <see cref="Kind" /> if omitted.</param>
+    /// <param name="code">
+    ///     Optional code; defaults to <see cref="Kind" />.<see cref="ErrorKind.Value" /> when null, empty, or whitespace.
+    /// </param>
     /// <param name="kind">Optional kind; defaults to <see cref="ErrorKind.Default" />.</param>
     /// <param name="exception">Optional exception.</param>
     /// <param name="metadata">Optional metadata; frozen for immutability.</param>
@@ -76,6 +78,7 @@ public sealed record Error : IError
     /// <param name="exception">Optional exception.</param>
     /// <param name="metadata">Optional metadata; frozen for immutability.</param>
     /// <returns>A new unexpected <see cref="Error" />.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="message" /> is null.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Error Unexpected(
         string message,

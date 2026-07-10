@@ -65,6 +65,11 @@ public static partial class PropertyGuard
     /// <exception cref="ArgumentException">
     ///     Thrown when <paramref name="collection" /> is empty.
     /// </exception>
+    /// <remarks>
+    ///     For collections with a known count the emptiness check happens immediately; for lazily
+    ///     evaluated sequences a wrapper is returned and the emptiness check (and any resulting
+    ///     <see cref="ArgumentException" />) occurs on first enumeration.
+    /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<T> NotNullOrEmpty<T>(
         [NotNull] [DoesNotReturnIf(true)] IEnumerable<T>? collection,

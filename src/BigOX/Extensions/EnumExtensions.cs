@@ -28,8 +28,11 @@ public static class EnumExtensions
     /// <typeparam name="T">The enumeration type to convert.</typeparam>
     /// <returns>
     ///     A dictionary with keys representing the enumeration descriptions (or names if no description is available)
-    ///     and values representing the enumeration values as strings.
+    ///     and values representing the enumeration member names.
     /// </returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when two enumeration members share the same description, which would produce duplicate keys.
+    /// </exception>
     public static Dictionary<string, string> ToDictionary<T>() where T : Enum
     {
         var enumType = typeof(T);

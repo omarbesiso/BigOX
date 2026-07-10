@@ -15,7 +15,7 @@ public static partial class PropertyGuard
     ///     A <see langword="null" /> value is considered valid and returned unchanged.
     /// </summary>
     /// <param name="value">The property value to validate.</param>
-    /// <param name="exactLength">The required number of UTF-16 code units.</param>
+    /// <param name="exactLength">The required number of UTF-16 code units. Must be zero or a positive number.</param>
     /// <param name="propertyName">
     ///     The name of the property being validated, automatically captured via
     ///     <see cref="CallerMemberNameAttribute" /> when omitted.
@@ -30,6 +30,9 @@ public static partial class PropertyGuard
     /// <exception cref="ArgumentException">
     ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and its length
     ///     differs from <paramref name="exactLength" />.
+    /// </exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     Thrown when <paramref name="exactLength" /> is negative.
     /// </exception>
     /// <example>
     ///     <code language="csharp"><![CDATA[

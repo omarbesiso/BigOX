@@ -14,6 +14,9 @@ public abstract class Specification<T> : ISpecification<T>
     public abstract Expression<Func<T, bool>> ToExpression();
 
     /// <inheritdoc />
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="candidate" /> is <see langword="null" />.
+    /// </exception>
     public virtual bool IsSatisfiedBy(T candidate)
     {
         if (candidate is null)

@@ -125,8 +125,11 @@ public static class DecimalExtensions
         /// <param name="cultureName">The name of the culture to use for the currency string formatting. Default is "en-US".</param>
         /// <returns>A string representing the given decimal value as a currency in the specified culture.</returns>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown when the <paramref name="cultureName" /> parameter is <c>null</c> or
-        ///     empty.
+        ///     Thrown when the <paramref name="cultureName" /> parameter is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when the <paramref name="cultureName" /> parameter is empty or consists only of white-space
+        ///     characters.
         /// </exception>
         /// <exception cref="CultureNotFoundException">
         ///     Thrown when the culture specified by the <paramref name="cultureName" />
@@ -154,6 +157,17 @@ public static class DecimalExtensions
         /// <param name="decimalPlaces">The number of decimal places to include in the percentage string. Default is 2.</param>
         /// <param name="cultureName">The name of the culture to use for the percentage string formatting. Default is "en-US".</param>
         /// <returns>A string representing the given decimal value as a percentage in the specified culture.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when the <paramref name="cultureName" /> parameter is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when the <paramref name="cultureName" /> parameter is empty or consists only of white-space
+        ///     characters.
+        /// </exception>
+        /// <exception cref="CultureNotFoundException">
+        ///     Thrown when the culture specified by the <paramref name="cultureName" />
+        ///     parameter is not found.
+        /// </exception>
         public string ToPercentageString(int decimalPlaces = 2, string cultureName = "en-US")
         {
             var culture = CultureInfoFactory.Create(cultureName);
@@ -166,6 +180,9 @@ public static class DecimalExtensions
         /// </summary>
         /// <param name="decimalPlaces">The number of decimal places to round to.</param>
         /// <returns>The rounded decimal value.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown when <paramref name="decimalPlaces" /> is less than 0 or greater than 28.
+        /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public decimal RoundTo(int decimalPlaces) => Math.Round(value, decimalPlaces);
 
@@ -177,7 +194,7 @@ public static class DecimalExtensions
         ///     <code>
         /// decimal value = 1234.56m;
         /// string words = value.ToWords();
-        /// // Output: "one thousand two hundred thirty-four and fifty-six cents"
+        /// // Output: "one thousand two hundred and thirty-four and fifty-six cents"
         /// </code>
         /// </example>
         public string ToWords()

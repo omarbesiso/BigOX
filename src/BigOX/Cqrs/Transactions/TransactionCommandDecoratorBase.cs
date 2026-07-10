@@ -21,7 +21,7 @@ public abstract class TransactionCommandDecoratorBase<TCommand>(ICommandHandler<
     protected readonly ICommandHandler<TCommand> Decorated = decorated;
 
     /// <summary>
-    ///     Gets or sets the transaction options.
+    ///     Gets the transaction options. Derived classes can assign this property during initialization.
     /// </summary>
     public TransactionOptions TransactionOptions { get; protected init; } = new()
     {
@@ -30,12 +30,12 @@ public abstract class TransactionCommandDecoratorBase<TCommand>(ICommandHandler<
     };
 
     /// <summary>
-    ///     Gets or sets the transaction scope option.
+    ///     Gets the transaction scope option. Derived classes can assign this property during initialization.
     /// </summary>
     public TransactionScopeOption TransactionScopeOption { get; protected init; } = TransactionScopeOption.Required;
 
     /// <summary>
-    ///     Gets or sets the transaction scope async flow option.
+    ///     Gets the transaction scope async flow option. Derived classes can assign this property during initialization.
     /// </summary>
     public TransactionScopeAsyncFlowOption TransactionScopeAsyncFlowOption { get; protected init; } =
         TransactionScopeAsyncFlowOption.Enabled;
@@ -45,6 +45,9 @@ public abstract class TransactionCommandDecoratorBase<TCommand>(ICommandHandler<
     /// </summary>
     /// <param name="command">The command to be handled.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="command" /> is <see langword="null" />.
+    /// </exception>
     public async Task Handle(TCommand command, CancellationToken cancellationToken = default)
     {
         Guard.NotNull(command);

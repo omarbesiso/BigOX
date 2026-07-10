@@ -1,12 +1,13 @@
 ﻿namespace BigOX.Domain;
 
 /// <summary>
-///     A base entity implementation that provides an equality mechanism by comparing unique identifiers and
-///     includes infrastructure for setting properties with interception.
+///     A base entity implementation that provides an equality mechanism by comparing unique identifiers.
 /// </summary>
 /// <typeparam name="TId">The type of the unique identifier.</typeparam>
 /// <remarks>
-///     Initializes a new instance of the <see cref="Entity{TId}" /> class.
+///     Two entities are considered equal when they are the same reference, or when they share the same runtime type
+///     and the same non-default <see cref="Id" />. Transient entities (whose <see cref="Id" /> is the default value of
+///     <typeparamref name="TId" />) are never equal to another instance.
 /// </remarks>
 public abstract class Entity<TId> : IEntity<TId>, IEquatable<Entity<TId>>
     where TId : struct, IEquatable<TId>
@@ -104,6 +105,12 @@ public abstract class Entity<TId> : IEntity<TId>, IEquatable<Entity<TId>>
     /// <summary>
     ///     Determines whether two entities are equal.
     /// </summary>
+    /// <param name="left">The first entity to compare, or <see langword="null" />.</param>
+    /// <param name="right">The second entity to compare, or <see langword="null" />.</param>
+    /// <returns>
+    ///     <see langword="true" /> if both operands are <see langword="null" />, or if <paramref name="left" /> is
+    ///     equal to <paramref name="right" />; otherwise, <see langword="false" />.
+    /// </returns>
     public static bool operator ==(Entity<TId>? left, Entity<TId>? right)
     {
         if (left is null)
@@ -117,6 +124,12 @@ public abstract class Entity<TId> : IEntity<TId>, IEquatable<Entity<TId>>
     /// <summary>
     ///     Determines whether two entities are not equal.
     /// </summary>
+    /// <param name="left">The first entity to compare, or <see langword="null" />.</param>
+    /// <param name="right">The second entity to compare, or <see langword="null" />.</param>
+    /// <returns>
+    ///     <see langword="true" /> if <paramref name="left" /> is not equal to <paramref name="right" />; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
     public static bool operator !=(Entity<TId>? left, Entity<TId>? right) => !(left == right);
 
     private static bool IsDefault(TId id) => EqualityComparer<TId>.Default.Equals(id, default);

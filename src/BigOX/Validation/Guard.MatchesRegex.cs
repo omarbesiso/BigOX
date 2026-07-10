@@ -32,11 +32,11 @@ public static partial class Guard
     ///     <paramref name="value" /> when it is <see langword="null" /> or matches <paramref name="pattern" />.
     /// </returns>
     /// <exception cref="ArgumentNullException">
-    ///     Thrown when <paramref name="pattern" /> is <see langword="null" /> or empty.
+    ///     Thrown when <paramref name="pattern" /> is <see langword="null" />.
     /// </exception>
     /// <exception cref="ArgumentException">
-    ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and does **not** match
-    ///     <paramref name="pattern" />.
+    ///     Thrown when <paramref name="pattern" /> is empty, or when <paramref name="value" /> is
+    ///     non-<see langword="null" /> and does **not** match <paramref name="pattern" />.
     /// </exception>
     /// <remarks>
     ///     Use this helper for format validation such as phone numbers, email addresses, reference codes, etc.

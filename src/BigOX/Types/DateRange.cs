@@ -43,7 +43,7 @@ public readonly struct DateRange : IEquatable<DateRange>, ISpanFormattable, ISpa
     /// </summary>
     /// <param name="startDate">The inclusive start of the range.</param>
     /// <param name="endDate">The inclusive end of the range; <c>null</c> denotes an open-ended range.</param>
-    /// <exception cref="ArgumentException">
+    /// <exception cref="ArgumentOutOfRangeException">
     ///     Thrown if <paramref name="endDate" /> is earlier than <paramref name="startDate" />.
     /// </exception>
     public DateRange(DateOnly startDate, DateOnly? endDate = null)
@@ -89,6 +89,9 @@ public readonly struct DateRange : IEquatable<DateRange>, ISpanFormattable, ISpa
     public static bool operator !=(DateRange left, DateRange right) => !left.Equals(right);
 
     /// <summary>Factory method equivalent to the constructor.</summary>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     Thrown if <paramref name="endDate" /> is earlier than <paramref name="startDate" />.
+    /// </exception>
     public static DateRange Create(DateOnly startDate, DateOnly? endDate = null) => new(startDate, endDate);
 
     /// <summary>

@@ -19,6 +19,9 @@ public static class CqrsServiceCollectionExtensions
     ///     The type of the decorator that implements <see cref="ICommandDecorator{TCommand}" />.
     /// </param>
     /// <returns>The service collection with all command handlers decorated.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="commandDecoratorType" /> is <see langword="null" />.
+    /// </exception>
     /// <exception cref="ArgumentException">
     ///     Thrown when <paramref name="commandDecoratorType" /> does not implement
     ///     <see cref="ICommandDecorator{TCommand}" />.
@@ -52,6 +55,9 @@ public static class CqrsServiceCollectionExtensions
     ///     The type of the decorator that implements <see cref="IQueryDecorator{TQuery, TResult}" />.
     /// </param>
     /// <returns>The service collection with all query handlers decorated.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="queryDecoratorType" /> is <see langword="null" />.
+    /// </exception>
     /// <exception cref="ArgumentException">
     ///     Thrown when <paramref name="queryDecoratorType" /> does not implement
     ///     <see cref="IQueryDecorator{TQuery, TResult}" />.
@@ -279,10 +285,15 @@ public static class CqrsServiceCollectionExtensions
         ///     The default value is <see cref="ServiceLifetime.Transient" />.
         /// </param>
         /// <returns>The service collection with the command handler services registered.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown when <paramref name="serviceLifetime" /> is not a defined <see cref="ServiceLifetime" /> value.
+        /// </exception>
         /// <remarks>
-        ///     This method is an extension method for <see cref="IServiceCollection" /> that registers all
-        ///     command handler services within a given module. The command handlers must implement
+        ///     This method is an extension method for <see cref="IServiceCollection" /> that scans the assembly
+        ///     containing <typeparamref name="TModule" /> and registers all command handler services found there,
+        ///     each under its implemented interfaces. The command handlers must implement
         ///     <see cref="ICommandHandler{TCommand}" />, where TCommand is the command type being handled.
+        ///     Types implementing <see cref="ICommandDecorator{TCommand}" /> are excluded from the scan.
         ///     The service lifetime of the command handler services is specified by the <paramref name="serviceLifetime" />
         ///     parameter.
         /// </remarks>
@@ -304,11 +315,17 @@ public static class CqrsServiceCollectionExtensions
         ///     The default value is <see cref="ServiceLifetime.Transient" />.
         /// </param>
         /// <returns>The service collection with the query handler services registered.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown when <paramref name="serviceLifetime" /> is not a defined <see cref="ServiceLifetime" /> value.
+        /// </exception>
         /// <remarks>
-        ///     This method is an extension method for <see cref="IServiceCollection" /> that registers all query handler services
-        ///     within a given module. The query handlers must implement <see cref="IQueryHandler{TQuery, TResult}" />, where
-        ///     TQuery
-        ///     is the query type being handled and TResult is the result type of the query. The service lifetime of the query
+        ///     This method is an extension method for <see cref="IServiceCollection" /> that scans the assembly
+        ///     containing <typeparamref name="TModule" /> and registers all query handler services found there,
+        ///     each under its implemented interfaces. The query handlers must implement
+        ///     <see cref="IQueryHandler{TQuery, TResult}" />, where TQuery
+        ///     is the query type being handled and TResult is the result type of the query.
+        ///     Types implementing <see cref="IQueryDecorator{TQuery, TResult}" /> are excluded from the scan.
+        ///     The service lifetime of the query
         ///     handler services is specified by the <paramref name="serviceLifetime" /> parameter.
         /// </remarks>
         public IServiceCollection RegisterModuleQueryHandlers<TModule>(
@@ -337,6 +354,13 @@ public static class CqrsServiceCollectionExtensions
         ///     implementations. Must implement <see cref="IQueryDecorator{TQuery, TResult}" />.
         /// </param>
         /// <returns>The service collection with CQRS infrastructure and optional decorators registered.</returns>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when a provided decorator type does not implement the required decorator interface.
+        /// </exception>
+        /// <remarks>
+        ///     Decoration is applied only when at least one matching handler registration already exists in the
+        ///     collection; otherwise the decorator type is ignored. Register handlers before calling this method.
+        /// </remarks>
         public IServiceCollection AddCqrs(
             ServiceLifetime infrastructureLifetime = ServiceLifetime.Scoped,
             Type? commandHandlerDecoratorType = null,
@@ -393,11 +417,18 @@ public static class CqrsServiceCollectionExtensions
         ///     to the order of the types in <paramref name="commandHandlerDecoratorTypes" /> and
         ///     <paramref name="queryHandlerDecoratorTypes" />.
         /// </returns>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when a provided decorator type does not implement the required decorator interface.
+        /// </exception>
         /// <remarks>
         ///     The order of the decorator types in <paramref name="commandHandlerDecoratorTypes" /> and
         ///     <paramref name="queryHandlerDecoratorTypes" /> is significant. They are applied sequentially in the
         ///     order provided, so the first decorator type will be closest to the underlying handler, and the last
         ///     decorator type will be the outermost.
+        ///     <para>
+        ///         Decoration is applied only when at least one matching handler registration already exists in the
+        ///         collection; otherwise the decorator types are ignored. Register handlers before calling this method.
+        ///     </para>
         /// </remarks>
         public IServiceCollection AddCqrs(
             ServiceLifetime infrastructureLifetime,

@@ -18,7 +18,7 @@ public static partial class PropertyGuard
     /// <param name="propertyName">The name of the property. Automatically supplied by the compiler.</param>
     /// <param name="exceptionMessage">An optional custom exception message.</param>
     /// <returns>The original value if the check passes.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
+    /// <exception cref="ArgumentException">Thrown when the value is zero or negative.</exception>
     /// <remarks>
     ///     This method is intended for use in property setters and initializers.
     /// </remarks>
@@ -38,7 +38,7 @@ public static partial class PropertyGuard
     /// <param name="propertyName">The name of the property. Automatically supplied by the compiler.</param>
     /// <param name="exceptionMessage">An optional custom exception message.</param>
     /// <returns>The original value if the check passes.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
+    /// <exception cref="ArgumentException">Thrown when the value is negative.</exception>
     /// <remarks>
     ///     This method is intended for use in property setters and initializers.
     /// </remarks>

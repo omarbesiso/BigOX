@@ -130,7 +130,7 @@ public static class StringBuilderExtensions
         /// <param name="charToAppend">The character to append.</param>
         /// <returns>The same <see cref="StringBuilder" /> instance.</returns>
         /// <exception cref="ArgumentNullException">Thrown when stringBuilder is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="targetLength" /> is negative.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="targetLength" /> is negative.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StringBuilder AppendCharToLength(int targetLength,
             char charToAppend)
@@ -153,7 +153,7 @@ public static class StringBuilderExtensions
         /// <param name="maxLength">The maximum length (&gt;= 0).</param>
         /// <returns>The same <see cref="StringBuilder" /> instance.</returns>
         /// <exception cref="ArgumentNullException">Thrown when stringBuilder is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="maxLength" /> is negative.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxLength" /> is negative.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StringBuilder ReduceToLength(int maxLength)
         {
@@ -376,8 +376,14 @@ public static class StringBuilderExtensions
         ///     verbatim.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown when stringBuilder is <c>null</c> or
-        ///     <paramref name="format" /> is null/whitespace.
+        ///     Thrown when stringBuilder or <paramref name="format" /> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when <paramref name="format" /> is empty or consists only of white-space characters.
+        /// </exception>
+        /// <exception cref="FormatException">
+        ///     Thrown when <paramref name="items" /> is non-empty and <paramref name="format" /> is invalid or references
+        ///     an argument index outside the bounds of <paramref name="items" />.
         /// </exception>
         /// <remarks>
         ///     Uses the current culture; to control culture explicitly, call
@@ -406,7 +412,7 @@ public static class StringBuilderExtensions
         /// </summary>
         /// <param name="numberOfLines">Number of lines (&gt;= 1).</param>
         /// <exception cref="ArgumentNullException">Thrown when stringBuilder is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="numberOfLines" /> is less than 1.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="numberOfLines" /> is less than 1.</exception>
         public void AppendMultipleLines(int numberOfLines)
         {
             Guard.NotNull(stringBuilder);

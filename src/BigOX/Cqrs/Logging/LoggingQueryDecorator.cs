@@ -37,6 +37,9 @@ public sealed class LoggingQueryDecorator<TQuery, TResult> : IQueryDecorator<TQu
     /// <param name="query">The query.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The result of the query.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="query" /> is <see langword="null" />.
+    /// </exception>
     public async Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)
     {
         Guard.NotNull(query);

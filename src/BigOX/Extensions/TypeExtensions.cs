@@ -211,6 +211,10 @@ public static class TypeExtensions
         ///     Returns the default value for the type using cached reflection to avoid repeated generic method construction.
         /// </summary>
         /// <returns>The default value for the specified type.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the type is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     Thrown when the default value cannot be obtained for the type (for example, an open generic type).
+        /// </exception>
         public object? DefaultValue()
         {
             Guard.NotNull(type);
@@ -237,6 +241,10 @@ public static class TypeExtensions
         ///     Asynchronously returns the default value for the type. The task completes synchronously to avoid Task.Run overhead.
         /// </summary>
         /// <returns>A task that produces the default value for the specified type.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the type is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     Thrown when the default value cannot be obtained for the type (for example, an open generic type).
+        /// </exception>
         public ValueTask<object?> DefaultValueAsync()
         {
             Guard.NotNull(type);

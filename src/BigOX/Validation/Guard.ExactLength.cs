@@ -33,6 +33,9 @@ public static partial class Guard
     ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and its length
     ///     differs from <paramref name="exactLength" />.
     /// </exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     Thrown when <paramref name="exactLength" /> is negative.
+    /// </exception>
     /// <remarks>
     ///     Use <see cref="MinLength" /> or <see cref="MaxLength" /> for range constraints, and
     ///     <see cref="NotNullOrWhiteSpace" /> when you must also forbid empty / whitespace strings.

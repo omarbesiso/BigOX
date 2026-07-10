@@ -43,8 +43,6 @@ namespace BigOX.Types;
 ///         <see cref="Parse(string, IFormatProvider?)" />
 ///         and <see cref="TryParse(string?, IFormatProvider?, out EmailAddress)" /> for parsing arbitrary input strings.
 ///     </para>
-///     <example>
-///     </example>
 /// </remarks>
 [DebuggerDisplay("{DebuggerDisplay,nq")]
 public readonly record struct EmailAddress :
@@ -202,7 +200,8 @@ public readonly record struct EmailAddress :
     ///     Thrown if the email or combined display name and email are not in a recognized
     ///     format.
     /// </exception>
-    /// <exception cref="ArgumentException">Thrown if <paramref name="email" /> is null or whitespace.</exception>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="email" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException">Thrown if <paramref name="email" /> is empty or whitespace.</exception>
     public static EmailAddress From(string? email, string? displayName = null)
     {
         Guard.NotNullOrWhiteSpace(email);

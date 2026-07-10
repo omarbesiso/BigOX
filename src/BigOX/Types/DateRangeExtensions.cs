@@ -36,6 +36,10 @@ public static class DateRangeExtensions
         /// <summary>
         ///     Returns the inclusive number of days in a finite range.
         /// </summary>
+        /// <returns>The inclusive number of days between the start and end dates.</returns>
+        /// <exception cref="InvalidOperationException">
+        ///     Thrown when the range is open-ended (<see cref="DateRange.IsOpenEnded" /> is <c>true</c>).
+        /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Duration()
         {
@@ -47,6 +51,11 @@ public static class DateRangeExtensions
         /// <summary>
         ///     Attempts to get the inclusive duration in days for a finite range.
         /// </summary>
+        /// <param name="days">
+        ///     When this method returns, contains the inclusive number of days if the range is finite;
+        ///     otherwise <c>0</c>.
+        /// </param>
+        /// <returns><c>true</c> if the range is finite; otherwise <c>false</c>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetDuration(out int days)
         {
@@ -122,6 +131,19 @@ public static class DateRangeExtensions
         ///     Each yielded <see cref="DateRange" /> is inclusive; the final chunk may be shorter than 7 days.
         ///     Does not align to calendar/ISO weeks (strictly start..start+6 stepping by 7).
         /// </summary>
+        /// <param name="maxWeeks">
+        ///     An optional cap on the number of chunks yielded. Required (and must be positive) for
+        ///     open-ended ranges to avoid unbounded enumeration; for closed ranges it may be omitted
+        ///     but must not be negative.
+        /// </param>
+        /// <returns>A lazily evaluated sequence of inclusive 7-day (or shorter final) chunks.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown (upon enumeration) when the range is open-ended and <paramref name="maxWeeks" /> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     Thrown (upon enumeration) when the range is open-ended and <paramref name="maxWeeks" /> is not positive,
+        ///     or when the range is closed and <paramref name="maxWeeks" /> is negative.
+        /// </exception>
         public IEnumerable<DateRange> GetWeeksInRange(int? maxWeeks = null)
         {
             var isOpenEnded = dateRange.IsOpenEnded;
@@ -170,6 +192,14 @@ public static class DateRangeExtensions
         /// <summary>
         ///     Lazily enumerates each day in the range (inclusive).
         /// </summary>
+        /// <param name="maxCount">
+        ///     An optional cap on the number of days yielded; <c>null</c> enumerates the whole range
+        ///     (up to the effective end for open-ended ranges).
+        /// </param>
+        /// <returns>A lazily evaluated sequence of each <see cref="DateOnly" /> in the range.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown (upon enumeration) when <paramref name="maxCount" /> is negative.
+        /// </exception>
         public IEnumerable<DateOnly> EnumerateDays(int? maxCount = null)
         {
             if (maxCount.HasValue)

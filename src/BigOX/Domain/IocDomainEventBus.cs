@@ -16,14 +16,16 @@ internal sealed class IocDomainEventBus(IServiceProvider serviceProvider) : IDom
 {
     /// <summary>
     ///     Publishes the specified domain event to all registered event handlers.
-    ///     By default, if no handlers are registered, this is treated as a no-op and a debug log is emitted.
+    ///     Handlers are resolved from the service provider and invoked sequentially; an exception thrown by a handler
+    ///     propagates to the caller and prevents the remaining handlers from running.
+    ///     If no handlers are registered, this is treated as a no-op and a warning is logged (when a logger is
+    ///     available).
     /// </summary>
     /// <typeparam name="TDomainEvent">The type of the domain event.</typeparam>
     /// <param name="domainEvent">The domain event to publish.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <exception cref="ArgumentOutOfRangeException">
-    ///     Thrown when configured to throw and no handlers are found for the event
-    ///     type.
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="domainEvent" /> is <see langword="null" />.
     /// </exception>
     public async Task Publish<TDomainEvent>(TDomainEvent domainEvent, CancellationToken cancellationToken = default)
         where TDomainEvent : IDomainEvent

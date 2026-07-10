@@ -71,6 +71,7 @@ public static class ServiceCollectionExtensions
         /// <typeparam name="TModule">The type of the module.</typeparam>
         /// <param name="configuration">The optional configuration instance to be used for registrations.</param>
         /// <returns>A reference to this service collection instance after the operation has completed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the current service collection is <c>null</c>.</exception>
         public IServiceCollection AddModule<TModule>(IConfiguration? configuration = null)
             where TModule : IModule, new()
         {
@@ -89,8 +90,13 @@ public static class ServiceCollectionExtensions
         /// <summary>
         ///     Loads all <see cref="IModule" /> implementations found in loaded assemblies and initializes them.
         /// </summary>
+        /// <remarks>
+        ///     Assemblies are loaded from the application base directory in addition to those already loaded. Module
+        ///     types must expose a parameterless constructor; types that cannot be instantiated are skipped.
+        /// </remarks>
         /// <param name="configuration">The optional configuration instance to be used for registrations.</param>
         /// <returns>A reference to this service collection instance after the operation has completed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the current service collection is <c>null</c>.</exception>
         public IServiceCollection AddAllModules(IConfiguration? configuration = null)
         {
             Guard.NotNull(serviceCollection, "services");
@@ -137,6 +143,7 @@ public static class ServiceCollectionExtensions
         ///     <see cref="ServiceLifetime.Transient" />.
         /// </param>
         /// <returns>The updated <see cref="IServiceCollection" /> with the added services.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the current service collection is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown when an unsupported <see cref="ServiceLifetime" /> value is passed.
         /// </exception>

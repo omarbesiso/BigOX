@@ -25,6 +25,10 @@ internal sealed class AuthorizationQueryDecorator<TQuery, TResult> : IQueryHandl
     /// </summary>
     /// <param name="decorated">The inner query handler.</param>
     /// <param name="authorizationManager">The authorization manager orchestrating rule evaluation.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="decorated" /> or <paramref name="authorizationManager" /> is
+    ///     <see langword="null" />.
+    /// </exception>
     public AuthorizationQueryDecorator(
         IQueryHandler<TQuery, TResult> decorated,
         IAuthorizationManager authorizationManager)
@@ -39,6 +43,12 @@ internal sealed class AuthorizationQueryDecorator<TQuery, TResult> : IQueryHandl
     /// <param name="query">The query instance.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The query result produced by the inner handler.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="query" /> is <see langword="null" />.
+    /// </exception>
+    /// <exception cref="System.Security.SecurityException">
+    ///     Thrown when one or more authorization rules fail.
+    /// </exception>
     public async Task<TResult> Read(TQuery query, CancellationToken cancellationToken = default)
     {
         Guard.NotNull(query);

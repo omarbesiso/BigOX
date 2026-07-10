@@ -126,7 +126,8 @@ public static class StringExtensions
         /// </summary>
         /// <param name="maxLength">The maximum length of the resulting <see cref="string" />.</param>
         /// <returns>A <see cref="string" /> with a length reduced to the specified maximum length.</returns>
-        /// <exception cref="ArgumentException">Thrown if the <paramref name="maxLength" /> is less than 0.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if the string value is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the <paramref name="maxLength" /> is less than 0.</exception>
         /// <example>
         ///     <code><![CDATA[
         /// string originalString = "Hello, World!";
@@ -157,6 +158,9 @@ public static class StringExtensions
         ///     comparison is performed. The default is <see cref="StringComparison.InvariantCulture" />.
         /// </param>
         /// <returns>A <see cref="string" /> that starts with the specified prefix.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if the string value or <paramref name="prefix" /> is <c>null</c>.
+        /// </exception>
         /// <example>
         ///     <code><![CDATA[
         /// string originalString = "World";
@@ -189,6 +193,9 @@ public static class StringExtensions
         ///     comparison is performed. The default is <see cref="StringComparison.InvariantCulture" />.
         /// </param>
         /// <returns>A <see cref="string" /> that ends with the specified suffix.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if the string value or <paramref name="suffix" /> is <c>null</c>.
+        /// </exception>
         /// <example>
         ///     <code><![CDATA[
         /// string originalString = "Hello";
@@ -215,7 +222,10 @@ public static class StringExtensions
         /// <summary>
         ///     Removes all whitespace characters from the specified string.
         /// </summary>
-        /// <returns>A new string with all whitespace characters removed from the value string.</returns>
+        /// <returns>
+        ///     A new string with all whitespace characters removed from the value string. If the value is <c>null</c> or
+        ///     empty, or contains no whitespace, the original value is returned unchanged.
+        /// </returns>
         /// <remarks>
         ///     This method iterates through each character in the value string and appends only non-whitespace characters to a new
         ///     string.
@@ -225,7 +235,7 @@ public static class StringExtensions
         /// <example>
         ///     <code><![CDATA[
         ///     string value = "  Hello  World  ";
-        ///     string result = RemoveWhitespace(value);
+        ///     string result = value.RemoveWhitespace();
         ///     // result is "HelloWorld"
         ///     ]]></code>
         /// </example>
@@ -305,6 +315,7 @@ public static class StringExtensions
         ///     string value until the resulting <see cref="string" /> reaches the specified
         ///     <paramref name="targetLength" />. If the string value is already longer than or equal to the
         ///     <paramref name="targetLength" />, the method returns the original string value without any changes.
+        ///     If the string value is <c>null</c>, it is treated as an empty string.
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string AppendCharToLength(int targetLength,

@@ -7,7 +7,7 @@
 public interface IResult<out TValue> : IResult
 {
     /// <summary>
-    ///     Gets the success value when the result is in a success state; null when in a failure state.
+    ///     Gets the success value when the result is in a success state; default (null for reference types) otherwise.
     /// </summary>
     TValue? Value { get; }
 }

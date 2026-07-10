@@ -22,7 +22,8 @@ public readonly record struct ErrorKind
     ///     Initializes a new <see cref="ErrorKind" /> with the provided string value.
     /// </summary>
     /// <param name="value">Non-empty discriminator text.</param>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="value" /> is null, empty, or whitespace.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="value" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="value" /> is empty or whitespace.</exception>
     public ErrorKind(string value)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
@@ -49,7 +50,8 @@ public readonly record struct ErrorKind
     /// </summary>
     /// <param name="value">Non-empty kind value.</param>
     /// <returns>A new <see cref="ErrorKind" />.</returns>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="value" /> is null, empty, or whitespace.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="value" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="value" /> is empty or whitespace.</exception>
     public static ErrorKind FromString(string value)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);

@@ -25,10 +25,13 @@ public static class GuidFactory
     public static Guid NewSequentialGuid() => Guid.CreateVersion7();
 
     /// <summary>
-    ///     Generates a list of new sequential <see cref="Guid" />.
+    ///     Generates a lazily-evaluated sequence of new sequential <see cref="Guid" /> values.
     /// </summary>
     /// <param name="count">The number of sequential <see cref="Guid" /> values to generate.</param>
-    /// <returns>A list of new sequential <see cref="Guid" /> values.</returns>
+    /// <returns>A lazily-evaluated sequence of new sequential <see cref="Guid" /> values.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     Thrown when <paramref name="count" /> is less than 1 (raised when the sequence is first enumerated).
+    /// </exception>
     /// <example>
     ///     The following code demonstrates how to use the <see cref="NewSequentialGuids(int)" /> method to generate a list
     ///     of new sequential <see cref="Guid" /> values.

@@ -24,6 +24,9 @@ public static class BooleanExtensions
         ///     The string representation of <c>false</c>. Defaults to <c>"False"</c> if not provided.
         /// </param>
         /// <returns>A string that represents the boolean value, using the specified (or default) true/false strings.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when <paramref name="trueValue" /> or <paramref name="falseValue" /> is <c>null</c>.
+        /// </exception>
         /// <remarks>
         ///     <example>
         ///         <code><![CDATA[

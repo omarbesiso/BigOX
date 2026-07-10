@@ -130,6 +130,9 @@ public static class EmailAddressExtensions
         ///     is not in a recognized format (should not occur for normalized instances).
         /// </remarks>
         /// <returns>A new <see cref="MailAddress" /> reflecting the current value.</returns>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when the underlying address is empty (for example, a default <see cref="EmailAddress" />).
+        /// </exception>
         public MailAddress ToMailAddress()
         {
             var display = emailAddress.DisplayName;
@@ -141,6 +144,9 @@ public static class EmailAddressExtensions
         /// </summary>
         /// <param name="displayName">Replacement display name; <c>null</c>/<c>whitespace</c> for none.</param>
         /// <returns>A new <see cref="MailAddress" /> instance.</returns>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when the underlying address is empty (for example, a default <see cref="EmailAddress" />).
+        /// </exception>
         /// <exception cref="FormatException">Underlying address or combined parts are invalid.</exception>
         public MailAddress ToMailAddress(string? displayName) =>
             CreateMailAddress(emailAddress.Address, displayName, null);
@@ -151,6 +157,9 @@ public static class EmailAddressExtensions
         /// <param name="displayName">Replacement display name; <c>null</c>/<c>whitespace</c> for none.</param>
         /// <param name="displayNameEncoding">Encoding for the display name; <c>null</c> uses framework default.</param>
         /// <returns>A new <see cref="MailAddress" /> instance.</returns>
+        /// <exception cref="ArgumentException">
+        ///     Thrown when the underlying address is empty (for example, a default <see cref="EmailAddress" />).
+        /// </exception>
         /// <exception cref="FormatException">Underlying address or combined parts are invalid.</exception>
         public MailAddress ToMailAddress(string? displayName,
             Encoding? displayNameEncoding) =>

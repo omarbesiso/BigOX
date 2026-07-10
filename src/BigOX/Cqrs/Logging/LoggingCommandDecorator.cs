@@ -36,6 +36,9 @@ public sealed class LoggingCommandDecorator<TCommand> : ICommandDecorator<TComma
     /// </summary>
     /// <param name="command">The command to be executed.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="command" /> is <see langword="null" />.
+    /// </exception>
     public async Task Handle(TCommand command, CancellationToken cancellationToken = default)
     {
         Guard.NotNull(command);

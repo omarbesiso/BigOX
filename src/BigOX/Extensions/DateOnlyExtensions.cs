@@ -31,7 +31,7 @@ public static class DateOnlyExtensions
         /// </remarks>
         /// <example>
         ///     <code><![CDATA[
-        /// var today = DateOnly.Today;
+        /// var today = DateOnly.FromDateTime(DateTime.Today);
         /// var yesterday = today.PreviousDay(); // Yesterday's date
         /// 
         /// // Edge case:
@@ -61,7 +61,7 @@ public static class DateOnlyExtensions
         /// </remarks>
         /// <example>
         ///     <code><![CDATA[
-        /// var today = DateOnly.Today;
+        /// var today = DateOnly.FromDateTime(DateTime.Today);
         /// var tomorrow = today.NextDay(); // Tomorrow's date
         /// 
         /// // Edge case:
@@ -424,13 +424,8 @@ public static class DateOnlyExtensions
         /// <returns>The number of days in the month of the source date.</returns>
         /// <remarks>
         ///     Uses <see cref="DateTime.DaysInMonth" /> to obtain the number of days in the month and year of the source date.
-        ///     If the year is less than 1 or greater than 9999, or if the month is less than 1 or greater than 12,
-        ///     an <see cref="ArgumentOutOfRangeException" /> is thrown by <see cref="DateTime.DaysInMonth" />.
+        ///     Since a <see cref="DateOnly" /> always holds a valid year and month, this method does not throw.
         /// </remarks>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     Thrown if the month component is less than 1 or greater than 12, or the year component is less than 1 or greater
-        ///     than 9999.
-        /// </exception>
         /// <example>
         ///     <code><![CDATA[
         ///     DateOnly date = new DateOnly(2023, 2, 15);
@@ -544,8 +539,6 @@ public static class DateOnlyExtensions
         /// <remarks>
         ///     Calculates the last date of the specified month from the source date. If a <see cref="DayOfWeek" /> is
         ///     provided, it calculates the offset to the last occurrence of that day within the month without iteration.
-        ///     Edge case: If the source date is very close to <see cref="DateOnly.MinValue" /> and subtracting days pushes it
-        ///     below the valid range, an <see cref="ArgumentOutOfRangeException" /> may occur.
         /// </remarks>
         /// <example>
         ///     <code><![CDATA[
@@ -588,7 +581,7 @@ public static class DateOnlyExtensions
         /// <returns>The last date of the week for the source <see cref="DateOnly" /> value.</returns>
         /// <example>
         ///     <code><![CDATA[
-        /// DateOnly currentDate = DateOnly.Today;
+        /// DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
         /// CultureInfo cultureInfo = new CultureInfo("en-US");
         /// DateOnly lastDateOfWeek = currentDate.GetLastDateOfWeek(cultureInfo);
         /// Console.WriteLine($"Last date of the week: {lastDateOfWeek}");

@@ -99,6 +99,9 @@ public static class DictionaryExtensions
         ///     Removes all elements that match the conditions defined by the specified predicate.
         /// </summary>
         /// <param name="predicate">The predicate that defines the conditions of the elements to remove.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when dictionary or <paramref name="predicate" /> is <c>null</c>.
+        /// </exception>
         public void RemoveWhere(Func<KeyValuePair<TKey, TValue>, bool> predicate)
         {
             ArgumentNullException.ThrowIfNull(dictionary);

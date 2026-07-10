@@ -10,7 +10,7 @@ namespace BigOX.Validation;
 public static partial class PropertyGuard
 {
     /// <summary>
-    ///     Ensures that a property string is either <see langword="null" /> or a valid HTTP/HTTPS URL.
+    ///     Ensures that a property string is either <see langword="null" /> or a valid absolute HTTP/HTTPS URL.
     /// </summary>
     /// <param name="value">The property value to validate.</param>
     /// <param name="propertyName">
@@ -21,10 +21,10 @@ public static partial class PropertyGuard
     ///     Optional custom message used when <paramref name="value" /> is non-null and invalid.
     /// </param>
     /// <returns>
-    ///     <paramref name="value" /> when it is <see langword="null" /> or a valid HTTP/HTTPS URL.
+    ///     <paramref name="value" /> when it is <see langword="null" /> or a valid absolute HTTP/HTTPS URL.
     /// </returns>
     /// <exception cref="ArgumentException">
-    ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and not a valid HTTP/HTTPS URL.
+    ///     Thrown when <paramref name="value" /> is non-<see langword="null" /> and not a valid absolute HTTP/HTTPS URL.
     /// </exception>
     /// <example>
     ///     <code language="csharp"><![CDATA[

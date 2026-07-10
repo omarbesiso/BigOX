@@ -11,7 +11,8 @@ public readonly record struct AuthorizationFailure
     ///     Initializes a new instance of the <see cref="AuthorizationFailure" /> struct.
     /// </summary>
     /// <param name="message">
-    ///     A non-empty, non-sensitive message describing the failure.
+    ///     A non-sensitive message describing the failure.
+    ///     If the value is <c>null</c>, empty, or whitespace, a generic message is used.
     /// </param>
     /// <param name="code">
     ///     An optional, stable code that identifies the failure (for example, a policy or rule code).

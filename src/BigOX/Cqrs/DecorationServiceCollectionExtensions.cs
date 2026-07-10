@@ -44,10 +44,12 @@ public static class DecorationServiceCollectionExtensions
             serviceCollection.Decorate<IQueryHandler<TQuery, TResult>, TDecorator>();
 
         /// <summary>
-        ///     Registers all query decorators in the specified module.
+        ///     Registers all query decorators in the specified module by scanning the module's assembly for concrete
+        ///     <see cref="IQueryDecorator{TQuery, TResult}" /> implementations and decorating the corresponding
+        ///     registered query handlers.
         /// </summary>
         /// <typeparam name="TModule">The type of the module to register the query decorators from.</typeparam>
-        /// <returns></returns>
+        /// <returns>The service collection with the query handler decorators applied.</returns>
         public IServiceCollection RegisterModuleQueryDecorators<TModule>()
             where TModule : IModule
         {

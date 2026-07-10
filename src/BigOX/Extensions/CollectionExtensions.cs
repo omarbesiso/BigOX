@@ -20,16 +20,16 @@ public static class CollectionExtensions
     /// </param>
     /// <param name="random">
     ///     An instance of <see cref="Random" /> to use for shuffling.
-    ///     If <c>null</c>, a shared (thread-safe in .NET 6+) or new <see cref="Random" /> instance is used, depending on
-    ///     target
-    ///     framework. Defaults to <c>null</c>.
+    ///     If <c>null</c>, the thread-safe shared instance <see cref="Random.Shared" /> is used. Defaults to <c>null</c>.
     /// </param>
     /// <returns>
     ///     A shuffled collection. This can be either a new collection if <paramref name="preserveOriginal" /> is true, or the
     ///     original collection otherwise.
     /// </returns>
     /// <exception cref="ArgumentNullException">Thrown if the input collection is <c>null</c>.</exception>
-    /// <exception cref="NotSupportedException">Thrown if the collection is read-only.</exception>
+    /// <exception cref="NotSupportedException">
+    ///     Thrown if the collection is read-only and <paramref name="preserveOriginal" /> is <c>false</c>.
+    /// </exception>
     /// <remarks>
     ///     This method uses the Fisher–Yates shuffle algorithm for an efficient and unbiased shuffle.
     ///     <para>
@@ -340,7 +340,9 @@ public static class CollectionExtensions
         /// <summary>
         ///     Adds a range of unique values to the collection.
         /// </summary>
-        /// <param name="values">The values to add to the collection.</param>
+        /// <param name="values">
+        ///     The values to add to the collection. If <c>null</c>, no changes are made and 0 is returned.
+        /// </param>
         /// <returns>
         ///     The count of values successfully added to the collection.
         ///     If the values are already present in the collection, they are not added, and hence not counted.
