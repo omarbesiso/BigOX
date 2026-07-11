@@ -98,9 +98,11 @@ public static partial class Guard
     /// </exception>
     /// <remarks>
     ///     <para>
-    ///         For <see cref="ICollection{T}" /> instances (arrays,
-    ///         <see cref="List{T}" />, <see cref="HashSet{T}" />, etc.) the check is <c>O(1)</c>
-    ///         and performs **no** enumeration.
+    ///         For collections that expose a count without enumeration — <see cref="ICollection{T}" />
+    ///         (arrays, <see cref="List{T}" />, <see cref="HashSet{T}" />, etc.) and
+    ///         <see cref="IReadOnlyCollection{T}" /> (including <see cref="IReadOnlyList{T}" />) — the
+    ///         emptiness check is <c>O(1)</c>, performs **no** enumeration, and the original reference
+    ///         is returned.
     ///     </para>
     ///     <para>
     ///         For pipeline / generator sequences a lazy wrapper is returned; the emptiness check is
@@ -127,18 +129,27 @@ public static partial class Guard
             ThrowHelper.ThrowArgumentNull(paramName, exceptionMessage);
         }
 
-        // Cheap Count() path
-        if (!collection.TryGetNonEnumeratedCount(out var count))
+        // Prefer an O(1) count when the source exposes one. TryGetNonEnumeratedCount covers
+        // ICollection<T>, the non-generic ICollection and arrays; IReadOnlyCollection<T>
+        // (e.g. IReadOnlyList<T>) is checked explicitly because it is not consulted otherwise.
+        // Validating eagerly here means callers that discard the returned reference still get an
+        // immediate emptiness check instead of a deferred one they might never trigger.
+        int? knownCount =
+            collection.TryGetNonEnumeratedCount(out var count) ? count
+            : collection is IReadOnlyCollection<T> readOnly ? readOnly.Count
+            : null;
+
+        if (knownCount is { } availableCount)
         {
-            return EnumerateOnce(collection, paramName, exceptionMessage);
+            if (availableCount == 0)
+            {
+                ThrowEmpty(paramName, exceptionMessage);
+            }
+
+            return collection;
         }
 
-        if (count == 0)
-        {
-            ThrowEmpty(paramName, exceptionMessage);
-        }
-
-        return collection;
+        return EnumerateOnce(collection, paramName, exceptionMessage);
 
         // Wrap the enumerator so the sequence is consumed only once
 

@@ -15,7 +15,7 @@ internal class IocCommandBus(IServiceProvider serviceProvider) : ICommandBus
     {
         Guard.NotNull(command);
         var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<TCommand>>();
-        await commandHandler.Handle(command, cancellationToken);
+        await commandHandler.Handle(command, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -25,6 +25,6 @@ internal class IocCommandBus(IServiceProvider serviceProvider) : ICommandBus
     {
         Guard.NotNull(command);
         var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<TCommand, TValue>>();
-        return await commandHandler.Handle(command, cancellationToken);
+        return await commandHandler.Handle(command, cancellationToken).ConfigureAwait(false);
     }
 }

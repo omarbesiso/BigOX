@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using BigOX.Factories;
+using BigOX.Validation;
 
 namespace BigOX.Extensions;
 
@@ -154,9 +155,14 @@ public static class DecimalExtensions
         /// <summary>
         ///     Converts a decimal value to a percentage string.
         /// </summary>
-        /// <param name="decimalPlaces">The number of decimal places to include in the percentage string. Default is 2.</param>
+        /// <param name="decimalPlaces">
+        ///     The number of decimal places to include in the percentage string. Must be zero or greater. Default is 2.
+        /// </param>
         /// <param name="cultureName">The name of the culture to use for the percentage string formatting. Default is "en-US".</param>
         /// <returns>A string representing the given decimal value as a percentage in the specified culture.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown when <paramref name="decimalPlaces" /> is negative.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     Thrown when the <paramref name="cultureName" /> parameter is <c>null</c>.
         /// </exception>
@@ -170,6 +176,7 @@ public static class DecimalExtensions
         /// </exception>
         public string ToPercentageString(int decimalPlaces = 2, string cultureName = "en-US")
         {
+            Guard.NonNegative(decimalPlaces);
             var culture = CultureInfoFactory.Create(cultureName);
             var format = "P" + decimalPlaces;
             return value.ToString(format, culture);
@@ -204,10 +211,29 @@ public static class DecimalExtensions
                 return "zero";
             }
 
-            var integerPart = (long)Math.Truncate(value);
-            var fractionalPart = (long)Math.Round(Math.Abs((value - integerPart) * 100m));
+            // Work with the magnitude so the sign is applied once, up front. Deriving the integer
+            // and fractional parts from the negative value directly would drop the sign whenever the
+            // integer part is zero (e.g. -0.56 -> "zero and fifty-six cents").
+            var isNegative = value < 0;
+            var magnitude = Math.Abs(value);
+
+            var integerPart = (long)Math.Truncate(magnitude);
+            var fractionalPart = (long)Math.Round((magnitude - integerPart) * 100m);
+
+            // A fraction that rounds up to a whole unit (e.g. 1.999 -> 100 cents) must carry into
+            // the integer part rather than render as "one hundred cents".
+            if (fractionalPart >= 100)
+            {
+                integerPart += fractionalPart / 100;
+                fractionalPart %= 100;
+            }
 
             var words = new StringBuilder();
+            if (isNegative)
+            {
+                words.Append("minus ");
+            }
+
             words.Append(NumberToWords(integerPart));
 
             if (fractionalPart <= 0)

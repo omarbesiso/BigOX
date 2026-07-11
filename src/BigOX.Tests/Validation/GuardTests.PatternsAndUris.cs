@@ -86,7 +86,7 @@ public class GuardTests_PatternsAndUris
     [TestMethod]
     public void MatchesRegex_Throws_WhenPatternNullOrEmpty()
     {
-        TestUtils.Expect<ArgumentNullException>(() => Guard.MatchesRegex("a", null!));
+        TestUtils.Expect<ArgumentNullException>(() => Guard.MatchesRegex("a", (string)null!));
         TestUtils.Expect<ArgumentException>(() => Guard.MatchesRegex("a", ""));
     }
 }

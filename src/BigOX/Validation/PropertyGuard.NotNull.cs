@@ -30,7 +30,7 @@ public static partial class PropertyGuard
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [return: NotNull]
     public static T NotNull<T>(
-        [NotNull] [DoesNotReturnIf(true)] T? value,
+        [NotNull] T? value,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null) =>
         Guard.NotNull(value, propertyName, exceptionMessage);
@@ -53,7 +53,7 @@ public static partial class PropertyGuard
     /// </exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<T> NotNull<T>(
-        [NotNull] [DoesNotReturnIf(true)] IEnumerable<T>? collection,
+        [NotNull] IEnumerable<T>? collection,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null) =>
         Guard.NotNull(collection, propertyName, exceptionMessage);

@@ -1,5 +1,6 @@
 using System.Collections;
 using BigOX.Extensions;
+using BigOX.Tests.Validation;
 
 namespace BigOX.Tests.Extensions;
 
@@ -60,6 +61,50 @@ public sealed class EnumerableExtensionsTests
     {
         var list = new List<int> { 1 };
         Assert.IsTrue(list.IsNotEmpty());
+    }
+
+    [TestMethod]
+    public void IsEmpty_Generic_NonEmptyList_ReturnsFalse()
+    {
+        var list = new List<int> { 1, 2, 3 };
+        Assert.IsFalse(list.IsEmpty());
+    }
+
+    [TestMethod]
+    public void IsEmpty_Generic_CountedCollection_UsesCountWithoutEnumerating()
+    {
+        // IReadOnlyCollection<T> exposes Count, so TryGetNonEnumeratedCount short-circuits.
+        IEnumerable<int> empty = new List<int>();
+        IEnumerable<int> nonEmpty = new List<int> { 1 };
+
+        Assert.IsTrue(empty.IsEmpty());
+        Assert.IsFalse(nonEmpty.IsEmpty());
+    }
+
+    [TestMethod]
+    public void IsEmpty_Generic_Null_ThrowsArgumentNullException()
+    {
+        IEnumerable<int>? col = null;
+        var ex = TestUtils.Expect<ArgumentNullException>(() => col!.IsEmpty());
+        StringAssert.Contains(ex.ParamName, "collection");
+    }
+
+    [TestMethod]
+    public void IsEmpty_Generic_LazyNonEmptySequence_ConsumesExactlyOneElement()
+    {
+        var sequence = new CountingEnumerable([1, 2, 3]);
+
+        Assert.IsFalse(sequence.IsEmpty());
+        Assert.AreEqual(1, sequence.MoveNextCalls);
+    }
+
+    [TestMethod]
+    public void IsEmpty_Generic_LazyEmptySequence_ConsumesExactlyOneElement()
+    {
+        var sequence = new CountingEnumerable([]);
+
+        Assert.IsTrue(sequence.IsEmpty());
+        Assert.AreEqual(1, sequence.MoveNextCalls);
     }
 
     [TestMethod]
@@ -167,6 +212,45 @@ public sealed class EnumerableExtensionsTests
             public void Reset()
             {
                 _moved = false;
+            }
+        }
+    }
+
+    /// <summary>
+    ///     A lazy sequence that only implements <see cref="IEnumerable{T}" /> (deliberately not
+    ///     <see cref="ICollection{T}" />/<see cref="IReadOnlyCollection{T}" />) so that
+    ///     <c>TryGetNonEnumeratedCount</c> fails and the enumerator fallback is exercised. Counts how many times
+    ///     <c>MoveNext</c> is invoked so tests can assert at most one element is consumed.
+    /// </summary>
+    private sealed class CountingEnumerable(int[] items) : IEnumerable<int>
+    {
+        private readonly int[] _items = items;
+
+        public int MoveNextCalls { get; private set; }
+
+        public IEnumerator<int> GetEnumerator() => new CountingEnumerator(this);
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        private sealed class CountingEnumerator(CountingEnumerable owner) : IEnumerator<int>
+        {
+            private int _index = -1;
+
+            public int Current => owner._items[_index];
+
+            object IEnumerator.Current => Current;
+
+            public bool MoveNext()
+            {
+                owner.MoveNextCalls++;
+                _index++;
+                return _index < owner._items.Length;
+            }
+
+            public void Reset() => _index = -1;
+
+            public void Dispose()
+            {
             }
         }
     }

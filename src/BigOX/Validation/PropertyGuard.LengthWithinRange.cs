@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable UnusedMember.Global
 
@@ -28,7 +29,7 @@ public static partial class PropertyGuard
     ///     <paramref name="value" /> when it is <see langword="null" /> or its length is within the specified range.
     /// </returns>
     /// <exception cref="ArgumentException">
-    ///     See <see cref="Guard.LengthWithinRange" />.
+    ///     See <see cref="Guard.LengthWithinRange(string,int,int,string,string)" />.
     /// </exception>
     /// <example>
     ///     <code language="csharp"><![CDATA[
@@ -42,6 +43,7 @@ public static partial class PropertyGuard
     /// ]]></code>
     /// </example>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return: NotNullIfNotNull(nameof(value))]
     public static string? LengthWithinRange(
         string? value,
         int minLength,

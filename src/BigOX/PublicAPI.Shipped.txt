@@ -1,0 +1,776 @@
+#nullable enable
+BigOX.Cqrs.CqrsServiceCollectionExtensions
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!)
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).AddCqrs(Microsoft.Extensions.DependencyInjection.ServiceLifetime infrastructureLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped, System.Type? commandHandlerDecoratorType = null, System.Type? queryHandlerDecoratorType = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).AddCqrs(Microsoft.Extensions.DependencyInjection.ServiceLifetime infrastructureLifetime, System.Collections.Generic.IEnumerable<System.Type!>! commandHandlerDecoratorTypes, System.Collections.Generic.IEnumerable<System.Type!>! queryHandlerDecoratorTypes) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterCommandHandler<TCommand, TCommandHandler>(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterDefaultCommandBus(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterDefaultQueryProcessor(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterModuleCommandHandlers<TModule>(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterModuleQueryHandlers<TModule>(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.CqrsServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterQueryHandler<TQuery, TResult, TQueryHandler>(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.DecorationServiceCollectionExtensions
+BigOX.Cqrs.DecorationServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!)
+BigOX.Cqrs.DecorationServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).DecorateCommandHandler<TCommand, TDecorator>() -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.DecorationServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).DecorateQueryHandler<TQuery, TResult, TDecorator>() -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.DecorationServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterModuleQueryDecorators<TModule>() -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.ICommand
+BigOX.Cqrs.ICommandBus
+BigOX.Cqrs.ICommandBus.Send<TCommand, TValue>(TCommand command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<BigOX.Results.IResult<TValue>!>!
+BigOX.Cqrs.ICommandBus.Send<TCommand>(TCommand command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+BigOX.Cqrs.ICommandDecorator<TCommand>
+BigOX.Cqrs.ICommandHandler<TCommand, TValue>
+BigOX.Cqrs.ICommandHandler<TCommand, TValue>.Handle(TCommand command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<BigOX.Results.IResult<TValue>!>!
+BigOX.Cqrs.ICommandHandler<TCommand>
+BigOX.Cqrs.ICommandHandler<TCommand>.Handle(TCommand command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+BigOX.Cqrs.IQuery
+BigOX.Cqrs.IQueryDecorator<TQuery, TResult>
+BigOX.Cqrs.IQueryHandler<TQuery, TResult>
+BigOX.Cqrs.IQueryHandler<TQuery, TResult>.Read(TQuery query, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<TResult>!
+BigOX.Cqrs.IQueryProcessor
+BigOX.Cqrs.IQueryProcessor.ProcessQuery<TQuery, TResult>(TQuery query, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<TResult>!
+BigOX.Cqrs.Logging.LoggingCommandDecorator<TCommand>
+BigOX.Cqrs.Logging.LoggingCommandDecorator<TCommand>.Handle(TCommand command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+BigOX.Cqrs.Logging.LoggingCommandDecorator<TCommand>.LoggingCommandDecorator(BigOX.Cqrs.ICommandHandler<TCommand>! decorated, Microsoft.Extensions.Logging.ILogger<BigOX.Cqrs.Logging.LoggingCommandDecorator<TCommand>!>! logger) -> void
+BigOX.Cqrs.Logging.LoggingExtensions
+BigOX.Cqrs.Logging.LoggingExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!)
+BigOX.Cqrs.Logging.LoggingExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).DecorateCommandHandlerWithLogging<TCommand>() -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.Logging.LoggingExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).DecorateQueryHandlerWithLogging<TQuery, TResult>() -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Cqrs.Logging.LoggingQueryDecorator<TQuery, TResult>
+BigOX.Cqrs.Logging.LoggingQueryDecorator<TQuery, TResult>.LoggingQueryDecorator(BigOX.Cqrs.IQueryHandler<TQuery, TResult>! decorated, Microsoft.Extensions.Logging.ILogger<BigOX.Cqrs.Logging.LoggingQueryDecorator<TQuery, TResult>!>! logger) -> void
+BigOX.Cqrs.Logging.LoggingQueryDecorator<TQuery, TResult>.Read(TQuery query, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<TResult>!
+BigOX.Cqrs.Transactions.DefaultTransactionCommandDecorator<TCommand>
+BigOX.Cqrs.Transactions.DefaultTransactionCommandDecorator<TCommand>.DefaultTransactionCommandDecorator(BigOX.Cqrs.ICommandHandler<TCommand>! decorated) -> void
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.Handle(TCommand command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.TransactionCommandDecoratorBase(BigOX.Cqrs.ICommandHandler<TCommand>! decorated) -> void
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.TransactionOptions.get -> System.Transactions.TransactionOptions
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.TransactionOptions.init -> void
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.TransactionScopeAsyncFlowOption.get -> System.Transactions.TransactionScopeAsyncFlowOption
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.TransactionScopeAsyncFlowOption.init -> void
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.TransactionScopeOption.get -> System.Transactions.TransactionScopeOption
+BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.TransactionScopeOption.init -> void
+BigOX.Cqrs.Transactions.TransactionExtensions
+BigOX.DependencyInjection.IModule
+BigOX.DependencyInjection.IModule.Configuration.set -> void
+BigOX.DependencyInjection.IModule.Initialize(Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection) -> void
+BigOX.DependencyInjection.ServiceCollectionExtensions
+BigOX.DependencyInjection.ServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!)
+BigOX.DependencyInjection.ServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).AddAllModules(Microsoft.Extensions.Configuration.IConfiguration? configuration = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.DependencyInjection.ServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).AddModule<TModule>(Microsoft.Extensions.Configuration.IConfiguration? configuration = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.DependencyInjection.ServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).AddTypesFromAssembly<TAssemblyType, TBase>(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Domain.DomainServiceCollectionExtensions
+BigOX.Domain.DomainServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!)
+BigOX.Domain.DomainServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterDefaultDomainEventBus(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Domain.DomainServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterDomainEventHandler<TDomainEvent, TDomainEventHandler>(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Domain.DomainServiceCollectionExtensions.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).RegisterModuleDomainEventHandlers<TModule>(Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+BigOX.Domain.Entity<TId>
+BigOX.Domain.Entity<TId>.Entity() -> void
+BigOX.Domain.Entity<TId>.Equals(BigOX.Domain.Entity<TId>? other) -> bool
+BigOX.Domain.Entity<TId>.Equals(BigOX.Domain.IEntity<TId>? other) -> bool
+BigOX.Domain.Entity<TId>.Id.get -> TId
+BigOX.Domain.Entity<TId>.Id.set -> void
+BigOX.Domain.IDomainEvent
+BigOX.Domain.IDomainEventBus
+BigOX.Domain.IDomainEventBus.Publish<TDomainEvent>(TDomainEvent event, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+BigOX.Domain.IDomainEventHandler<TDomainEvent>
+BigOX.Domain.IDomainEventHandler<TDomainEvent>.Handle(TDomainEvent event, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+BigOX.Domain.IEntity<TId>
+BigOX.Domain.IEntity<TId>.Id.get -> TId
+BigOX.Domain.IRepository
+BigOX.Domain.ISpecification<T>
+BigOX.Domain.ISpecification<T>.IsSatisfiedBy(T candidate) -> bool
+BigOX.Domain.ISpecification<T>.ToExpression() -> System.Linq.Expressions.Expression<System.Func<T, bool>!>!
+BigOX.Domain.IUnitOfWork
+BigOX.Domain.IUnitOfWork.Commit() -> void
+BigOX.Domain.IUnitOfWork.CommitAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+BigOX.Domain.Specification<T>
+BigOX.Domain.Specification<T>.Specification() -> void
+BigOX.Extensions.ArrayExtensions
+BigOX.Extensions.ArrayExtensions.extension<T>(T[]!)
+BigOX.Extensions.ArrayExtensions.extension<T>(T[]!).Clear(System.Range range) -> void
+BigOX.Extensions.ArrayExtensions.extension<T>(T[]!).ClearRange(int index, int length) -> void
+BigOX.Extensions.BooleanExtensions
+BigOX.Extensions.BooleanExtensions.extension(bool)
+BigOX.Extensions.BooleanExtensions.extension(bool).ToByte() -> byte
+BigOX.Extensions.BooleanExtensions.extension(bool).ToCustomString(string? trueValue = "True", string? falseValue = "False") -> string!
+BigOX.Extensions.BooleanExtensions.extension(bool).ToInt32() -> int
+BigOX.Extensions.ByteExtensions
+BigOX.Extensions.ByteExtensions.extension(System.ReadOnlyMemory<byte>)
+BigOX.Extensions.ByteExtensions.extension(System.ReadOnlyMemory<byte>).ToMemoryStream() -> System.IO.MemoryStream!
+BigOX.Extensions.ByteExtensions.extension(byte[]!)
+BigOX.Extensions.ByteExtensions.extension(byte[]!).ToMemoryStream(bool writable = false) -> System.IO.MemoryStream!
+BigOX.Extensions.ByteExtensions.extension(byte[]!).ToMemoryStream(int index, int count, bool writable = false) -> System.IO.MemoryStream!
+BigOX.Extensions.CollectionExtensions
+BigOX.Extensions.CollectionExtensions.extension<T>(System.Collections.Generic.ICollection<T>!)
+BigOX.Extensions.CollectionExtensions.extension<T>(System.Collections.Generic.ICollection<T>!).AddIf(T value, System.Func<T, bool>! predicate) -> bool
+BigOX.Extensions.CollectionExtensions.extension<T>(System.Collections.Generic.ICollection<T>!).AddUnique(T value) -> bool
+BigOX.Extensions.CollectionExtensions.extension<T>(System.Collections.Generic.ICollection<T>!).AddUniqueRange(System.Collections.Generic.IEnumerable<T>? values) -> int
+BigOX.Extensions.CollectionExtensions.extension<T>(System.Collections.Generic.ICollection<T>!).ContainsAny(params T[]? values) -> bool
+BigOX.Extensions.CollectionExtensions.extension<T>(System.Collections.Generic.ICollection<T>!).ContainsAny(scoped System.ReadOnlySpan<T> values) -> bool
+BigOX.Extensions.CollectionExtensions.extension<T>(System.Collections.Generic.ICollection<T>!).RemoveWhere(System.Predicate<T>! predicate) -> int
+BigOX.Extensions.ComparableExtensions
+BigOX.Extensions.ComparableExtensions.extension<T>(T)
+BigOX.Extensions.ComparableExtensions.extension<T>(T).Limit(T maximum) -> T
+BigOX.Extensions.ComparableExtensions.extension<T>(T).Limit(T minimum, T maximum) -> T
+BigOX.Extensions.DateOnlyExtensions
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly)
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).AddWeeks(double numberOfWeeks) -> System.DateOnly
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).Age(System.DateOnly? maturityDate = null, System.TimeZoneInfo? timeZoneInfo = null) -> int
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).Age(System.DateTime? maturityDateTime, System.TimeZoneInfo? timeZoneInfo = null) -> int
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).DaysInMonth() -> int
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).GetDatesInRange(System.DateOnly toDate) -> System.Collections.Generic.IEnumerable<System.DateOnly>!
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).GetFirstDateOfMonth(System.DayOfWeek? dayOfWeek = null) -> System.DateOnly
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).GetFirstDateOfWeek(System.Globalization.CultureInfo? cultureInfo = null) -> System.DateOnly
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).GetLastDateOfMonth(System.DayOfWeek? dayOfWeek = null) -> System.DateOnly
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).GetLastDateOfWeek(System.Globalization.CultureInfo? cultureInfo = null) -> System.DateOnly
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).GetNumberOfDays(System.DateOnly toDate) -> int
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).IsAfter(System.DateOnly other) -> bool
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).IsBefore(System.DateOnly other) -> bool
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).IsBetween(System.DateOnly rangeStart, System.DateOnly rangeEnd, bool isInclusive = true) -> bool
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).IsLeapDay() -> bool
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).IsLeapYear() -> bool
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).IsToday() -> bool
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).NextDay() -> System.DateOnly
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).PreviousDay() -> System.DateOnly
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).ToDateTime() -> System.DateTime
+BigOX.Extensions.DateOnlyExtensions.extension(System.DateOnly).ToDateTime(System.TimeOnly time, System.DateTimeKind kind) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime)
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).AddWeeks(double numberOfWeeks) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).Age(System.DateTime? maturityDate = null, System.TimeZoneInfo? timeZoneInfo = null) -> int
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).DaysInMonth() -> int
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).Elapsed() -> System.TimeSpan
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).GetDatesInRange(System.DateTime toDate) -> System.Collections.Generic.IEnumerable<System.DateTime>!
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).GetFirstDateOfMonth(System.DayOfWeek? dayOfWeek = null) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).GetFirstDateOfWeek(System.Globalization.CultureInfo? cultureInfo = null) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).GetLastDateOfMonth(System.DayOfWeek? dayOfWeek = null) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).GetLastDateOfWeek(System.Globalization.CultureInfo? cultureInfo = null) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).GetNumberOfDays(System.DateTime toDate) -> int
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).GetTimestamp() -> string!
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).IsAfter(System.DateTime other) -> bool
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).IsBefore(System.DateTime other) -> bool
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).IsBetween(System.DateTime rangeBeg, System.DateTime rangeEnd, bool isInclusive = true) -> bool
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).IsDateEqual(System.DateTime dateToCompare) -> bool
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).IsLeapDay() -> bool
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).IsTimeEqual(System.DateTime timeToCompare) -> bool
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).IsToday() -> bool
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).NextDay() -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).PreviousDay() -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).SetTime(System.TimeOnly timeOnly) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).SetTime(System.TimeSpan time) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).SetTime(int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0) -> System.DateTime
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).ToDateOnly() -> System.DateOnly
+BigOX.Extensions.DateTimeExtensions.extension(System.DateTime).ToTimeOnly() -> System.TimeOnly
+BigOX.Extensions.DayOfWeekExtensions
+BigOX.Extensions.DayOfWeekExtensions.extension(System.DayOfWeek)
+BigOX.Extensions.DayOfWeekExtensions.extension(System.DayOfWeek).AddDays(int numberOfDays = 1) -> System.DayOfWeek
+BigOX.Extensions.DayOfWeekExtensions.extension(System.DayOfWeek).GetNextDays(int count = 7) -> System.Collections.Generic.IEnumerable<System.DayOfWeek>!
+BigOX.Extensions.DecimalExtensions
+BigOX.Extensions.DecimalExtensions.extension(decimal)
+BigOX.Extensions.DecimalExtensions.extension(decimal).Abs() -> decimal
+BigOX.Extensions.DecimalExtensions.extension(decimal).IsWholeNumber() -> bool
+BigOX.Extensions.DecimalExtensions.extension(decimal).RoundTo(int decimalPlaces) -> decimal
+BigOX.Extensions.DecimalExtensions.extension(decimal).ToCurrencyString(string! cultureName = "en-US") -> string!
+BigOX.Extensions.DecimalExtensions.extension(decimal).ToPercentageString(int decimalPlaces = 2, string! cultureName = "en-US") -> string!
+BigOX.Extensions.DecimalExtensions.extension(decimal).ToWords() -> string!
+BigOX.Extensions.DictionaryExtensions
+BigOX.Extensions.DictionaryExtensions.extension<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>!)
+BigOX.Extensions.DictionaryExtensions.extension<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>!).Merge(System.Collections.Generic.IDictionary<TKey, TValue>! otherDictionary, bool overwriteExisting = true) -> void
+BigOX.Extensions.DictionaryExtensions.extension<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>!).RemoveWhere(System.Func<System.Collections.Generic.KeyValuePair<TKey, TValue>, bool>! predicate) -> void
+BigOX.Extensions.DictionaryExtensions.extension<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>!).ToSortedDictionary() -> System.Collections.Generic.SortedDictionary<TKey, TValue>!
+BigOX.Extensions.DictionaryExtensions.extension<TKey, TValue>(System.Collections.Generic.IDictionary<TKey, TValue>!).ToSortedDictionary(System.Collections.Generic.IComparer<TKey>! comparer) -> System.Collections.Generic.SortedDictionary<TKey, TValue>!
+BigOX.Extensions.DoubleExtensions
+BigOX.Extensions.DoubleExtensions.extension(double?)
+BigOX.Extensions.DoubleExtensions.extension(double?).ToDecimal() -> decimal?
+BigOX.Extensions.EnumExtensions
+BigOX.Extensions.EnumExtensions.extension(System.Enum!)
+BigOX.Extensions.EnumExtensions.extension(System.Enum!).GetEnumDescription() -> string!
+BigOX.Extensions.EnumExtensions.extension(System.Enum!).GetEnumDisplay() -> string!
+BigOX.Extensions.EnumerableExtensions
+BigOX.Extensions.EnumerableExtensions.extension(System.Collections.IEnumerable!)
+BigOX.Extensions.EnumerableExtensions.extension(System.Collections.IEnumerable!).IsEmpty() -> bool
+BigOX.Extensions.EnumerableExtensions.extension(System.Collections.IEnumerable!).IsNotEmpty() -> bool
+BigOX.Extensions.EnumerableExtensions.extension(System.Collections.IEnumerable?)
+BigOX.Extensions.EnumerableExtensions.extension(System.Collections.IEnumerable?).IsNotNullOrEmpty() -> bool
+BigOX.Extensions.EnumerableExtensions.extension(System.Collections.IEnumerable?).IsNullOrEmpty() -> bool
+BigOX.Extensions.EnumerableExtensions.extension<T>(System.Collections.Generic.IEnumerable<T>!)
+BigOX.Extensions.EnumerableExtensions.extension<T>(System.Collections.Generic.IEnumerable<T>!).Chunk(int chunkSize) -> System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<T>!>!
+BigOX.Extensions.EnumerableExtensions.extension<T>(System.Collections.Generic.IEnumerable<T>!).IsEmpty() -> bool
+BigOX.Extensions.EnumerableExtensions.extension<T>(System.Collections.Generic.IEnumerable<T>!).IsNotEmpty() -> bool
+BigOX.Extensions.EnumerableExtensions.extension<T>(System.Collections.Generic.IEnumerable<T>?)
+BigOX.Extensions.EnumerableExtensions.extension<T>(System.Collections.Generic.IEnumerable<T>?).IsNotNullOrEmpty() -> bool
+BigOX.Extensions.EnumerableExtensions.extension<T>(System.Collections.Generic.IEnumerable<T>?).IsNullOrEmpty() -> bool
+BigOX.Extensions.GuidExtensions
+BigOX.Extensions.GuidExtensions.extension(System.Guid)
+BigOX.Extensions.GuidExtensions.extension(System.Guid).IsEmpty.get -> bool
+BigOX.Extensions.GuidExtensions.extension(System.Guid).IsNotEmpty.get -> bool
+BigOX.Extensions.ReadOnlyDictionaryExtensions
+BigOX.Extensions.StreamExtensions
+BigOX.Extensions.StreamExtensions.extension(System.IO.Stream!)
+BigOX.Extensions.StreamExtensions.extension(System.IO.Stream!).ToByteArray() -> byte[]!
+BigOX.Extensions.StreamExtensions.extension(System.IO.Stream!).ToByteArrayAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<byte[]!>!
+BigOX.Extensions.StringBuilderExtensions
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!)
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).AppendCharToLength(int targetLength, char charToAppend) -> System.Text.StringBuilder!
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).AppendFormatLine(string! format, params object?[]? items) -> void
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).AppendMultiple(bool withNewLine = false, params string?[]? items) -> System.Text.StringBuilder!
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).AppendMultipleLines(int numberOfLines) -> void
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).EnsureEndsWith(string! suffix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> System.Text.StringBuilder!
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).EnsureStartsWith(string! prefix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> System.Text.StringBuilder!
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).IsEmpty(bool countWhiteSpace = false) -> bool
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).ReduceToLength(int maxLength) -> System.Text.StringBuilder!
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).RemoveAllOccurrences(char characterToBeRemoved) -> System.Text.StringBuilder!
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).Reverse() -> System.Text.StringBuilder!
+BigOX.Extensions.StringBuilderExtensions.extension(System.Text.StringBuilder!).Trim() -> System.Text.StringBuilder!
+BigOX.Extensions.StringExtensions
+BigOX.Extensions.StringExtensions.extension(string?)
+BigOX.Extensions.StringExtensions.extension(string?).AppendCharToLength(int targetLength, char charToAppend) -> string!
+BigOX.Extensions.StringExtensions.extension(string?).EnsureEndsWith(string! suffix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> string!
+BigOX.Extensions.StringExtensions.extension(string?).EnsureStartsWith(string! prefix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> string!
+BigOX.Extensions.StringExtensions.extension(string?).ExtractDigits() -> string!
+BigOX.Extensions.StringExtensions.extension(string?).IsDateTime() -> bool
+BigOX.Extensions.StringExtensions.extension(string?).IsGuid.get -> bool
+BigOX.Extensions.StringExtensions.extension(string?).IsValidEmail.get -> bool
+BigOX.Extensions.StringExtensions.extension(string?).IsValidWebsiteUrl.get -> bool
+BigOX.Extensions.StringExtensions.extension(string?).IsWhiteSpace.get -> bool
+BigOX.Extensions.StringExtensions.extension(string?).LimitLength(int maxLength) -> string?
+BigOX.Extensions.StringExtensions.extension(string?).ReduceToLength(int maxLength) -> string!
+BigOX.Extensions.StringExtensions.extension(string?).RemoveWhitespace() -> string?
+BigOX.Extensions.StringExtensions.extension(string?).ToStringBuilder() -> System.Text.StringBuilder!
+BigOX.Extensions.TimeSpanExtensions
+BigOX.Extensions.TimeSpanExtensions.extension(System.TimeSpan)
+BigOX.Extensions.TimeSpanExtensions.extension(System.TimeSpan).ToTimeOnly() -> System.TimeOnly
+BigOX.Extensions.TimeSpanExtensions.extension(System.TimeSpan?)
+BigOX.Extensions.TimeSpanExtensions.extension(System.TimeSpan?).ToTimeOnly() -> System.TimeOnly?
+BigOX.Extensions.TypeExtensions
+BigOX.Extensions.TypeExtensions.extension(System.Type!)
+BigOX.Extensions.TypeExtensions.extension(System.Type!).DefaultValue() -> object?
+BigOX.Extensions.TypeExtensions.extension(System.Type!).DefaultValueAsync() -> System.Threading.Tasks.ValueTask<object?>
+BigOX.Extensions.TypeExtensions.extension(System.Type!).GetTypeAsString() -> string!
+BigOX.Extensions.TypeExtensions.extension(System.Type!).HasAttribute(System.Type! attributeType) -> bool
+BigOX.Extensions.TypeExtensions.extension(System.Type!).HasAttribute<T>(System.Func<T!, bool>! predicate) -> bool
+BigOX.Extensions.TypeExtensions.extension(System.Type!).IsNullable() -> bool
+BigOX.Extensions.TypeExtensions.extension(System.Type!).IsNumeric(bool includeNullableTypes = true) -> bool
+BigOX.Extensions.TypeExtensions.extension(System.Type!).IsOpenGeneric() -> bool
+BigOX.Factories.GuidFactory
+BigOX.Factories.TransactionFactory
+BigOX.Results.Error
+BigOX.Results.Error.<Clone>$() -> BigOX.Results.Error!
+BigOX.Results.Error.Code.get -> string!
+BigOX.Results.Error.Code.init -> void
+BigOX.Results.Error.Equals(BigOX.Results.Error? other) -> bool
+BigOX.Results.Error.ErrorMessage.get -> string!
+BigOX.Results.Error.ErrorMessage.init -> void
+BigOX.Results.Error.Exception.get -> System.Exception?
+BigOX.Results.Error.Exception.init -> void
+BigOX.Results.Error.Kind.get -> BigOX.Results.ErrorKind
+BigOX.Results.Error.Kind.init -> void
+BigOX.Results.Error.Metadata.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object?>!
+BigOX.Results.Error.Metadata.init -> void
+BigOX.Results.ErrorKind
+BigOX.Results.ErrorKind.Equals(BigOX.Results.ErrorKind other) -> bool
+BigOX.Results.ErrorKind.ErrorKind() -> void
+BigOX.Results.ErrorKind.ErrorKind(string! value) -> void
+BigOX.Results.ErrorKind.Value.get -> string!
+BigOX.Results.IError
+BigOX.Results.IError.Code.get -> string!
+BigOX.Results.IError.ErrorMessage.get -> string!
+BigOX.Results.IError.Exception.get -> System.Exception?
+BigOX.Results.IError.Kind.get -> BigOX.Results.ErrorKind
+BigOX.Results.IError.Metadata.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object?>!
+BigOX.Results.IResult
+BigOX.Results.IResult.Errors.get -> System.Collections.Generic.IReadOnlyList<BigOX.Results.IError!>!
+BigOX.Results.IResult.IsFailure.get -> bool
+BigOX.Results.IResult.IsSuccess.get -> bool
+BigOX.Results.IResult.Message.get -> string?
+BigOX.Results.IResult.Metadata.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object?>!
+BigOX.Results.IResult.Status.get -> BigOX.Results.ResultStatus
+BigOX.Results.IResult<TValue, TError>
+BigOX.Results.IResult<TValue, TError>.Errors.get -> System.Collections.Generic.IReadOnlyList<TError>!
+BigOX.Results.IResult<TValue>
+BigOX.Results.IResult<TValue>.Value.get -> TValue?
+BigOX.Results.Result
+BigOX.Results.Result.Deconstruct(out bool isSuccess, out System.Collections.Generic.IReadOnlyList<BigOX.Results.Error!>? errors) -> void
+BigOX.Results.Result.Equals(BigOX.Results.Result other) -> bool
+BigOX.Results.Result.Match<TResult>(System.Func<TResult>! onSuccess, System.Func<System.Collections.Generic.IReadOnlyList<BigOX.Results.Error!>!, TResult>! onFailure) -> TResult
+BigOX.Results.Result.Message.get -> string?
+BigOX.Results.Result.Metadata.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object?>!
+BigOX.Results.Result.Result() -> void
+BigOX.Results.Result.Status.get -> BigOX.Results.ResultStatus
+BigOX.Results.Result.TryGetErrors(out System.Collections.Generic.IReadOnlyList<BigOX.Results.Error!>? errors) -> bool
+BigOX.Results.Result<T>
+BigOX.Results.Result<T>.Bind<TNext>(System.Func<T, BigOX.Results.Result<TNext>>! bind) -> BigOX.Results.Result<TNext>
+BigOX.Results.Result<T>.BindAsync<TNext>(System.Func<T, System.Threading.Tasks.Task<BigOX.Results.Result<TNext>>!>! bind) -> System.Threading.Tasks.Task<BigOX.Results.Result<TNext>>!
+BigOX.Results.Result<T>.Ensure(System.Func<T, bool>! predicate, BigOX.Results.Error! error) -> BigOX.Results.Result<T>
+BigOX.Results.Result<T>.IsFailure(out System.Collections.Generic.IReadOnlyList<BigOX.Results.Error!>? errors) -> bool
+BigOX.Results.Result<T>.IsSuccess(out T value) -> bool
+BigOX.Results.Result<T>.Map<TNext>(System.Func<T, TNext>! map) -> BigOX.Results.Result<TNext>
+BigOX.Results.Result<T>.MapAsync<TNext>(System.Func<T, System.Threading.Tasks.Task<TNext>!>! map) -> System.Threading.Tasks.Task<BigOX.Results.Result<TNext>>!
+BigOX.Results.Result<T>.Match<TResult>(System.Func<T, TResult>! onSuccess, System.Func<System.Collections.Generic.IReadOnlyList<BigOX.Results.Error!>!, TResult>! onFailure) -> TResult
+BigOX.Results.Result<T>.Message.get -> string?
+BigOX.Results.Result<T>.Metadata.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object?>!
+BigOX.Results.Result<T>.Result() -> void
+BigOX.Results.Result<T>.Status.get -> BigOX.Results.ResultStatus
+BigOX.Results.Result<T>.Tap(System.Action<T>! action) -> BigOX.Results.Result<T>
+BigOX.Results.Result<T>.TapError(System.Action<System.Collections.Generic.IReadOnlyList<BigOX.Results.Error!>!>! action) -> BigOX.Results.Result<T>
+BigOX.Results.Result<T>.Value.get -> T?
+BigOX.Results.Result<TValue, TError>
+BigOX.Results.Result<TValue, TError>.AsFailure<TNext>() -> BigOX.Results.Result<TNext, TError>
+BigOX.Results.Result<TValue, TError>.Bind<TNext>(System.Func<TValue, BigOX.Results.Result<TNext, TError>>! bind) -> BigOX.Results.Result<TNext, TError>
+BigOX.Results.Result<TValue, TError>.BindAsync<TNext>(System.Func<TValue, System.Threading.Tasks.Task<BigOX.Results.Result<TNext, TError>>!>! bind) -> System.Threading.Tasks.Task<BigOX.Results.Result<TNext, TError>>!
+BigOX.Results.Result<TValue, TError>.Deconstruct(out bool isSuccess, out TValue? value, out System.Collections.Generic.IReadOnlyList<TError>? errors) -> void
+BigOX.Results.Result<TValue, TError>.Ensure(System.Func<TValue, bool>! predicate, TError error) -> BigOX.Results.Result<TValue, TError>
+BigOX.Results.Result<TValue, TError>.Errors.get -> System.Collections.Generic.IReadOnlyList<TError>!
+BigOX.Results.Result<TValue, TError>.FirstError.get -> TError
+BigOX.Results.Result<TValue, TError>.IsFailure(out System.Collections.Generic.IReadOnlyList<TError>? errors) -> bool
+BigOX.Results.Result<TValue, TError>.IsSuccess(out TValue value) -> bool
+BigOX.Results.Result<TValue, TError>.Map<TNext>(System.Func<TValue, TNext>! map) -> BigOX.Results.Result<TNext, TError>
+BigOX.Results.Result<TValue, TError>.MapAsync<TNext>(System.Func<TValue, System.Threading.Tasks.Task<TNext>!>! map) -> System.Threading.Tasks.Task<BigOX.Results.Result<TNext, TError>>!
+BigOX.Results.Result<TValue, TError>.MapError<TNextError>(System.Func<TError, TNextError>! map) -> BigOX.Results.Result<TValue, TNextError>
+BigOX.Results.Result<TValue, TError>.Match<TResult>(System.Func<TValue, TResult>! onSuccess, System.Func<System.Collections.Generic.IReadOnlyList<TError>!, TResult>! onFailure) -> TResult
+BigOX.Results.Result<TValue, TError>.Message.get -> string?
+BigOX.Results.Result<TValue, TError>.Metadata.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object?>!
+BigOX.Results.Result<TValue, TError>.Result() -> void
+BigOX.Results.Result<TValue, TError>.Status.get -> BigOX.Results.ResultStatus
+BigOX.Results.Result<TValue, TError>.Tap(System.Action<TValue>! action) -> BigOX.Results.Result<TValue, TError>
+BigOX.Results.Result<TValue, TError>.TapError(System.Action<System.Collections.Generic.IReadOnlyList<TError>!>! action) -> BigOX.Results.Result<TValue, TError>
+BigOX.Results.Result<TValue, TError>.Value.get -> TValue?
+BigOX.Results.ResultExtensions
+BigOX.Results.ResultExtensions.extension(BigOX.Results.IResult!)
+BigOX.Results.ResultExtensions.extension(BigOX.Results.IResult!).ErrorsByCode(string! code) -> System.Collections.Generic.IReadOnlyCollection<BigOX.Results.IError!>!
+BigOX.Results.ResultExtensions.extension(BigOX.Results.IResult!).ErrorsByKind(BigOX.Results.ErrorKind kind) -> System.Collections.Generic.IReadOnlyCollection<BigOX.Results.IError!>!
+BigOX.Results.ResultExtensions.extension(BigOX.Results.IResult!).IsFailure.get -> bool
+BigOX.Results.ResultExtensions.extension(BigOX.Results.IResult!).IsSuccess.get -> bool
+BigOX.Results.ResultStatus
+BigOX.Results.ResultStatus.Failure = 1 -> BigOX.Results.ResultStatus
+BigOX.Results.ResultStatus.Success = 2 -> BigOX.Results.ResultStatus
+BigOX.Results.ResultStatus.Uninitialized = 0 -> BigOX.Results.ResultStatus
+BigOX.Security.AuthorizationEvaluationResult
+BigOX.Security.AuthorizationEvaluationResult.AuthorizationEvaluationResult() -> void
+BigOX.Security.AuthorizationEvaluationResult.Equals(BigOX.Security.AuthorizationEvaluationResult other) -> bool
+BigOX.Security.AuthorizationEvaluationResult.Failures.get -> System.Collections.Generic.IReadOnlyList<BigOX.Security.AuthorizationFailure>!
+BigOX.Security.AuthorizationEvaluationResult.HasRules.get -> bool
+BigOX.Security.AuthorizationEvaluationResult.IsSuccessful.get -> bool
+BigOX.Security.AuthorizationEvaluationResult.ToSecurityException() -> System.Security.SecurityException!
+BigOX.Security.AuthorizationFailure
+BigOX.Security.AuthorizationFailure.AuthorizationFailure() -> void
+BigOX.Security.AuthorizationFailure.AuthorizationFailure(string! message, string? code, System.Type! ruleType) -> void
+BigOX.Security.AuthorizationFailure.Code.get -> string?
+BigOX.Security.AuthorizationFailure.Equals(BigOX.Security.AuthorizationFailure other) -> bool
+BigOX.Security.AuthorizationFailure.Message.get -> string!
+BigOX.Security.AuthorizationFailure.RuleType.get -> System.Type!
+BigOX.Security.AuthorizationNoRulesBehavior
+BigOX.Security.AuthorizationNoRulesBehavior.Allow = 0 -> BigOX.Security.AuthorizationNoRulesBehavior
+BigOX.Security.AuthorizationNoRulesBehavior.Deny = 1 -> BigOX.Security.AuthorizationNoRulesBehavior
+BigOX.Security.AuthorizationNoRulesBehavior.Error = 2 -> BigOX.Security.AuthorizationNoRulesBehavior
+BigOX.Security.AuthorizationOptions
+BigOX.Security.AuthorizationOptions.AuthorizationOptions() -> void
+BigOX.Security.AuthorizationOptions.EvaluateRulesInParallel.get -> bool
+BigOX.Security.AuthorizationOptions.EvaluateRulesInParallel.set -> void
+BigOX.Security.AuthorizationOptions.NoRulesBehavior.get -> BigOX.Security.AuthorizationNoRulesBehavior
+BigOX.Security.AuthorizationOptions.NoRulesBehavior.set -> void
+BigOX.Security.AuthorizationResult
+BigOX.Security.AuthorizationResult.AuthorizationResult() -> void
+BigOX.Security.AuthorizationResult.Code.get -> string?
+BigOX.Security.AuthorizationResult.Equals(BigOX.Security.AuthorizationResult other) -> bool
+BigOX.Security.AuthorizationResult.Message.get -> string?
+BigOX.Security.AuthorizationResult.Successful.get -> bool
+BigOX.Security.IAuthorizationManager
+BigOX.Security.IAuthorizationManager.AuthorizeAsync<TAuthorizationArgs>(TAuthorizationArgs authorizationArgs, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+BigOX.Security.IAuthorizationManager.EvaluateAsync<TAuthorizationArgs>(TAuthorizationArgs authorizationArgs, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<BigOX.Security.AuthorizationEvaluationResult>
+BigOX.Security.IAuthorizationRule<TAuthorizationArgs>
+BigOX.Security.IAuthorizationRule<TAuthorizationArgs>.IsAuthorizedAsync(TAuthorizationArgs authorizationArgs, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<BigOX.Security.AuthorizationResult>
+BigOX.Security.SecurityServiceCollectionExtensions
+BigOX.Security.SecurityServiceProviderExtensions
+BigOX.Types.DateRange
+BigOX.Types.DateRange.DateRange() -> void
+BigOX.Types.DateRange.DateRange(System.DateOnly startDate, System.DateOnly? endDate = null) -> void
+BigOX.Types.DateRange.Deconstruct(out System.DateOnly startDate, out System.DateOnly? endDate) -> void
+BigOX.Types.DateRange.EffectiveEnd.get -> System.DateOnly
+BigOX.Types.DateRange.EndDate.get -> System.DateOnly?
+BigOX.Types.DateRange.Equals(BigOX.Types.DateRange other) -> bool
+BigOX.Types.DateRange.IsOpenEnded.get -> bool
+BigOX.Types.DateRange.StartDate.get -> System.DateOnly
+BigOX.Types.DateRange.ToString(string? format, System.IFormatProvider? formatProvider) -> string!
+BigOX.Types.DateRange.TryFormat(System.Span<char> destination, out int charsWritten, System.ReadOnlySpan<char> format, System.IFormatProvider? provider) -> bool
+BigOX.Types.DateRangeConverter
+BigOX.Types.DateRangeConverter.DateRangeConverter() -> void
+BigOX.Types.DateRangeExtensions
+BigOX.Types.DateRangeExtensions.extension(BigOX.Types.DateRange)
+BigOX.Types.DateRangeExtensions.extension(BigOX.Types.DateRange).EnumerateDays(int? maxCount = null) -> System.Collections.Generic.IEnumerable<System.DateOnly>!
+BigOX.Types.DateRangeExtensions.extension(BigOX.Types.DateRange).GetWeeksInRange(int? maxWeeks = null) -> System.Collections.Generic.IEnumerable<BigOX.Types.DateRange>!
+BigOX.Types.DateRangeExtensions.extension(in BigOX.Types.DateRange)
+BigOX.Types.DateRangeExtensions.extension(in BigOX.Types.DateRange).Contains(System.DateOnly date) -> bool
+BigOX.Types.DateRangeExtensions.extension(in BigOX.Types.DateRange).Duration() -> int
+BigOX.Types.DateRangeExtensions.extension(in BigOX.Types.DateRange).Intersection(in BigOX.Types.DateRange right) -> BigOX.Types.DateRange?
+BigOX.Types.DateRangeExtensions.extension(in BigOX.Types.DateRange).Overlaps(in BigOX.Types.DateRange other) -> bool
+BigOX.Types.DateRangeExtensions.extension(in BigOX.Types.DateRange).TryGetDuration(out int days) -> bool
+BigOX.Types.DisposableObject
+BigOX.Types.DisposableObject.DisposableObject() -> void
+BigOX.Types.DisposableObject.Dispose() -> void
+BigOX.Types.DisposableObject.Dispose(bool disposing) -> void
+BigOX.Types.DisposableObject.DisposeAsync() -> System.Threading.Tasks.ValueTask
+BigOX.Types.DisposableObject.IsDisposeStarted.get -> bool
+BigOX.Types.DisposableObject.IsDisposed.get -> bool
+BigOX.Types.DisposableObject.ThrowIfDisposed() -> void
+BigOX.Types.EmailAddress
+BigOX.Types.EmailAddress.Address.get -> string!
+BigOX.Types.EmailAddress.CompareTo(BigOX.Types.EmailAddress other) -> int
+BigOX.Types.EmailAddress.DisplayName.get -> string?
+BigOX.Types.EmailAddress.EmailAddress() -> void
+BigOX.Types.EmailAddress.Equals(BigOX.Types.EmailAddress other) -> bool
+BigOX.Types.EmailAddress.IsEmpty.get -> bool
+BigOX.Types.EmailAddress.ToString(string? format, System.IFormatProvider? formatProvider) -> string!
+BigOX.Types.EmailAddressExtensions
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress)
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).Domain() -> string!
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).HasDisplayName() -> bool
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).Host() -> string!
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).ToDisplayString() -> string!
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).ToMailAddress() -> System.Net.Mail.MailAddress!
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).ToMailAddress(string? displayName) -> System.Net.Mail.MailAddress!
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).ToMailAddress(string? displayName, System.Text.Encoding? displayNameEncoding) -> System.Net.Mail.MailAddress!
+BigOX.Types.EmailAddressExtensions.extension(BigOX.Types.EmailAddress).Username() -> string!
+BigOX.Validation.Guard
+BigOX.Validation.PropertyGuard
+abstract BigOX.Domain.Specification<T>.ToExpression() -> System.Linq.Expressions.Expression<System.Func<T, bool>!>!
+override BigOX.Domain.Entity<TId>.Equals(object? obj) -> bool
+override BigOX.Domain.Entity<TId>.GetHashCode() -> int
+override BigOX.Results.Error.Equals(object? obj) -> bool
+override BigOX.Results.Error.GetHashCode() -> int
+override BigOX.Results.Error.ToString() -> string!
+override BigOX.Results.ErrorKind.GetHashCode() -> int
+override BigOX.Results.ErrorKind.ToString() -> string!
+override BigOX.Results.Result.GetHashCode() -> int
+override BigOX.Security.AuthorizationEvaluationResult.GetHashCode() -> int
+override BigOX.Security.AuthorizationFailure.GetHashCode() -> int
+override BigOX.Security.AuthorizationResult.GetHashCode() -> int
+override BigOX.Types.DateRange.Equals(object? obj) -> bool
+override BigOX.Types.DateRange.GetHashCode() -> int
+override BigOX.Types.DateRange.ToString() -> string!
+override BigOX.Types.DateRangeConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> BigOX.Types.DateRange
+override BigOX.Types.DateRangeConverter.Write(System.Text.Json.Utf8JsonWriter! writer, BigOX.Types.DateRange value, System.Text.Json.JsonSerializerOptions! options) -> void
+override BigOX.Types.EmailAddress.GetHashCode() -> int
+override BigOX.Types.EmailAddress.ToString() -> string!
+readonly BigOX.Cqrs.Transactions.TransactionCommandDecoratorBase<TCommand>.Decorated -> BigOX.Cqrs.ICommandHandler<TCommand>!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.AddCqrs(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime infrastructureLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped, System.Type? commandHandlerDecoratorType = null, System.Type? queryHandlerDecoratorType = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.AddCqrs(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime infrastructureLifetime, System.Collections.Generic.IEnumerable<System.Type!>! commandHandlerDecoratorTypes, System.Collections.Generic.IEnumerable<System.Type!>! queryHandlerDecoratorTypes) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.DecorateAllCommandHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, System.Type! commandDecoratorType) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.DecorateAllQueryHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, System.Type! queryDecoratorType) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.RegisterCommandHandler<TCommand, TCommandHandler>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.RegisterDefaultCommandBus(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.RegisterDefaultQueryProcessor(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.RegisterModuleCommandHandlers<TModule>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.RegisterModuleQueryHandlers<TModule>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.CqrsServiceCollectionExtensions.RegisterQueryHandler<TQuery, TResult, TQueryHandler>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.DecorationServiceCollectionExtensions.DecorateCommandHandler<TCommand, TDecorator>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.DecorationServiceCollectionExtensions.DecorateQueryHandler<TQuery, TResult, TDecorator>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.DecorationServiceCollectionExtensions.RegisterModuleQueryDecorators<TModule>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.Logging.LoggingExtensions.DecorateCommandHandlerWithLogging<TCommand>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.Logging.LoggingExtensions.DecorateQueryHandlerWithLogging<TQuery, TResult>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Cqrs.Transactions.TransactionExtensions.DecorateCommandHandlerWithTransactions<TCommand>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.DependencyInjection.ServiceCollectionExtensions.AddAllModules(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.Configuration.IConfiguration? configuration = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.DependencyInjection.ServiceCollectionExtensions.AddModule<TModule>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.Configuration.IConfiguration? configuration = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.DependencyInjection.ServiceCollectionExtensions.AddTypesFromAssembly<TAssemblyType, TBase>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Domain.DomainServiceCollectionExtensions.RegisterDefaultDomainEventBus(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Domain.DomainServiceCollectionExtensions.RegisterDomainEventHandler<TDomainEvent, TDomainEventHandler>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Transient) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Domain.DomainServiceCollectionExtensions.RegisterModuleDomainEventHandlers<TModule>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime serviceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Domain.Entity<TId>.operator !=(BigOX.Domain.Entity<TId>? left, BigOX.Domain.Entity<TId>? right) -> bool
+static BigOX.Domain.Entity<TId>.operator ==(BigOX.Domain.Entity<TId>? left, BigOX.Domain.Entity<TId>? right) -> bool
+static BigOX.Extensions.ArrayExtensions.Clear<T>(this T[]! array, System.Range range) -> void
+static BigOX.Extensions.ArrayExtensions.ClearRange<T>(this T[]! array, int index, int length) -> void
+static BigOX.Extensions.BooleanExtensions.ToByte(this bool source) -> byte
+static BigOX.Extensions.BooleanExtensions.ToCustomString(this bool source, string? trueValue = "True", string? falseValue = "False") -> string!
+static BigOX.Extensions.BooleanExtensions.ToInt32(this bool source) -> int
+static BigOX.Extensions.ByteExtensions.ToMemoryStream(this System.ReadOnlyMemory<byte> readOnlyMemory) -> System.IO.MemoryStream!
+static BigOX.Extensions.ByteExtensions.ToMemoryStream(this byte[]! buffer, bool writable = false) -> System.IO.MemoryStream!
+static BigOX.Extensions.ByteExtensions.ToMemoryStream(this byte[]! buffer, int index, int count, bool writable = false) -> System.IO.MemoryStream!
+static BigOX.Extensions.CollectionExtensions.AddIf<T>(this System.Collections.Generic.ICollection<T>! collection, T value, System.Func<T, bool>! predicate) -> bool
+static BigOX.Extensions.CollectionExtensions.AddUnique<T>(this System.Collections.Generic.ICollection<T>! collection, T value) -> bool
+static BigOX.Extensions.CollectionExtensions.AddUniqueRange<T>(this System.Collections.Generic.ICollection<T>! collection, System.Collections.Generic.IEnumerable<T>? values) -> int
+static BigOX.Extensions.CollectionExtensions.ContainsAny<T>(this System.Collections.Generic.ICollection<T>! collection, params T[]? values) -> bool
+static BigOX.Extensions.CollectionExtensions.ContainsAny<T>(this System.Collections.Generic.ICollection<T>! collection, scoped System.ReadOnlySpan<T> values) -> bool
+static BigOX.Extensions.CollectionExtensions.RemoveWhere<T>(this System.Collections.Generic.ICollection<T>! collection, System.Predicate<T>! predicate) -> int
+static BigOX.Extensions.CollectionExtensions.Shuffle<T>(this System.Collections.Generic.IList<T>! collection, bool preserveOriginal = false, System.Random? random = null) -> System.Collections.Generic.ICollection<T>!
+static BigOX.Extensions.ComparableExtensions.IsBetween<T>(this T? value, T lowerBoundary, T upperBoundary, bool isBoundaryInclusive = true) -> bool
+static BigOX.Extensions.ComparableExtensions.Limit<T>(this T value, T maximum) -> T
+static BigOX.Extensions.ComparableExtensions.Limit<T>(this T value, T minimum, T maximum) -> T
+static BigOX.Extensions.DateOnlyExtensions.AddWeeks(this System.DateOnly date, double numberOfWeeks) -> System.DateOnly
+static BigOX.Extensions.DateOnlyExtensions.Age(this System.DateOnly date, System.DateOnly? maturityDate = null, System.TimeZoneInfo? timeZoneInfo = null) -> int
+static BigOX.Extensions.DateOnlyExtensions.Age(this System.DateOnly date, System.DateTime? maturityDateTime, System.TimeZoneInfo? timeZoneInfo = null) -> int
+static BigOX.Extensions.DateOnlyExtensions.DaysInMonth(this System.DateOnly date) -> int
+static BigOX.Extensions.DateOnlyExtensions.GetDatesInRange(this System.DateOnly date, System.DateOnly toDate) -> System.Collections.Generic.IEnumerable<System.DateOnly>!
+static BigOX.Extensions.DateOnlyExtensions.GetFirstDateOfMonth(this System.DateOnly date, System.DayOfWeek? dayOfWeek = null) -> System.DateOnly
+static BigOX.Extensions.DateOnlyExtensions.GetFirstDateOfWeek(this System.DateOnly date, System.Globalization.CultureInfo? cultureInfo = null) -> System.DateOnly
+static BigOX.Extensions.DateOnlyExtensions.GetLastDateOfMonth(this System.DateOnly date, System.DayOfWeek? dayOfWeek = null) -> System.DateOnly
+static BigOX.Extensions.DateOnlyExtensions.GetLastDateOfWeek(this System.DateOnly date, System.Globalization.CultureInfo? cultureInfo = null) -> System.DateOnly
+static BigOX.Extensions.DateOnlyExtensions.GetNumberOfDays(this System.DateOnly date, System.DateOnly toDate) -> int
+static BigOX.Extensions.DateOnlyExtensions.IsAfter(this System.DateOnly date, System.DateOnly other) -> bool
+static BigOX.Extensions.DateOnlyExtensions.IsBefore(this System.DateOnly date, System.DateOnly other) -> bool
+static BigOX.Extensions.DateOnlyExtensions.IsBetween(this System.DateOnly date, System.DateOnly rangeStart, System.DateOnly rangeEnd, bool isInclusive = true) -> bool
+static BigOX.Extensions.DateOnlyExtensions.IsLeapDay(this System.DateOnly date) -> bool
+static BigOX.Extensions.DateOnlyExtensions.IsLeapYear(this System.DateOnly date) -> bool
+static BigOX.Extensions.DateOnlyExtensions.IsToday(this System.DateOnly date) -> bool
+static BigOX.Extensions.DateOnlyExtensions.NextDay(this System.DateOnly date) -> System.DateOnly
+static BigOX.Extensions.DateOnlyExtensions.PreviousDay(this System.DateOnly date) -> System.DateOnly
+static BigOX.Extensions.DateOnlyExtensions.ToDateTime(this System.DateOnly date) -> System.DateTime
+static BigOX.Extensions.DateOnlyExtensions.ToDateTime(this System.DateOnly date, System.TimeOnly time, System.DateTimeKind kind) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.AddWeeks(this System.DateTime dateTime, double numberOfWeeks) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.Age(this System.DateTime dateTime, System.DateTime? maturityDate = null, System.TimeZoneInfo? timeZoneInfo = null) -> int
+static BigOX.Extensions.DateTimeExtensions.DaysInMonth(this System.DateTime dateTime) -> int
+static BigOX.Extensions.DateTimeExtensions.Elapsed(this System.DateTime dateTime) -> System.TimeSpan
+static BigOX.Extensions.DateTimeExtensions.GetDatesInRange(this System.DateTime dateTime, System.DateTime toDate) -> System.Collections.Generic.IEnumerable<System.DateTime>!
+static BigOX.Extensions.DateTimeExtensions.GetFirstDateOfMonth(this System.DateTime dateTime, System.DayOfWeek? dayOfWeek = null) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.GetFirstDateOfWeek(this System.DateTime dateTime, System.Globalization.CultureInfo? cultureInfo = null) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.GetLastDateOfMonth(this System.DateTime dateTime, System.DayOfWeek? dayOfWeek = null) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.GetLastDateOfWeek(this System.DateTime dateTime, System.Globalization.CultureInfo? cultureInfo = null) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.GetNumberOfDays(this System.DateTime dateTime, System.DateTime toDate) -> int
+static BigOX.Extensions.DateTimeExtensions.GetNumberOfDaysInYear(int year, System.Globalization.CultureInfo? cultureInfo = null) -> int
+static BigOX.Extensions.DateTimeExtensions.GetTimestamp(this System.DateTime dateTime) -> string!
+static BigOX.Extensions.DateTimeExtensions.IsAfter(this System.DateTime dateTime, System.DateTime other) -> bool
+static BigOX.Extensions.DateTimeExtensions.IsBefore(this System.DateTime dateTime, System.DateTime other) -> bool
+static BigOX.Extensions.DateTimeExtensions.IsBetween(this System.DateTime dateTime, System.DateTime rangeBeg, System.DateTime rangeEnd, bool isInclusive = true) -> bool
+static BigOX.Extensions.DateTimeExtensions.IsDateEqual(this System.DateTime dateTime, System.DateTime dateToCompare) -> bool
+static BigOX.Extensions.DateTimeExtensions.IsLeapDay(this System.DateTime dateTime) -> bool
+static BigOX.Extensions.DateTimeExtensions.IsTimeEqual(this System.DateTime dateTime, System.DateTime timeToCompare) -> bool
+static BigOX.Extensions.DateTimeExtensions.IsToday(this System.DateTime dateTime) -> bool
+static BigOX.Extensions.DateTimeExtensions.NextDay(this System.DateTime dateTime) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.PreviousDay(this System.DateTime dateTime) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.SetTime(this System.DateTime dateTime, System.TimeOnly timeOnly) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.SetTime(this System.DateTime dateTime, System.TimeSpan time) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.SetTime(this System.DateTime dateTime, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0) -> System.DateTime
+static BigOX.Extensions.DateTimeExtensions.ToDateOnly(this System.DateTime dateTime) -> System.DateOnly
+static BigOX.Extensions.DateTimeExtensions.ToTimeOnly(this System.DateTime dateTime) -> System.TimeOnly
+static BigOX.Extensions.DayOfWeekExtensions.AddDays(this System.DayOfWeek dayOfWeek, int numberOfDays = 1) -> System.DayOfWeek
+static BigOX.Extensions.DayOfWeekExtensions.GetNextDays(this System.DayOfWeek dayOfWeek, int count = 7) -> System.Collections.Generic.IEnumerable<System.DayOfWeek>!
+static BigOX.Extensions.DecimalExtensions.Abs(this decimal value) -> decimal
+static BigOX.Extensions.DecimalExtensions.IsWholeNumber(this decimal value) -> bool
+static BigOX.Extensions.DecimalExtensions.RoundTo(this decimal value, int decimalPlaces) -> decimal
+static BigOX.Extensions.DecimalExtensions.ToCurrencyString(this decimal value, string! cultureName = "en-US") -> string!
+static BigOX.Extensions.DecimalExtensions.ToDouble(this decimal? value) -> double?
+static BigOX.Extensions.DecimalExtensions.ToPercentageString(this decimal value, int decimalPlaces = 2, string! cultureName = "en-US") -> string!
+static BigOX.Extensions.DecimalExtensions.ToWords(this decimal value) -> string!
+static BigOX.Extensions.DictionaryExtensions.Merge<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue>! dictionary, System.Collections.Generic.IDictionary<TKey, TValue>! otherDictionary, bool overwriteExisting = true) -> void
+static BigOX.Extensions.DictionaryExtensions.RemoveWhere<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue>! dictionary, System.Func<System.Collections.Generic.KeyValuePair<TKey, TValue>, bool>! predicate) -> void
+static BigOX.Extensions.DictionaryExtensions.ToSortedDictionary<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue>! dictionary) -> System.Collections.Generic.SortedDictionary<TKey, TValue>!
+static BigOX.Extensions.DictionaryExtensions.ToSortedDictionary<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue>! dictionary, System.Collections.Generic.IComparer<TKey>! comparer) -> System.Collections.Generic.SortedDictionary<TKey, TValue>!
+static BigOX.Extensions.DoubleExtensions.ToDecimal(this double? value) -> decimal?
+static BigOX.Extensions.EnumExtensions.GetEnumDescription(this System.Enum! value) -> string!
+static BigOX.Extensions.EnumExtensions.GetEnumDisplay(this System.Enum! value) -> string!
+static BigOX.Extensions.EnumExtensions.ToDictionary<T>() -> System.Collections.Generic.Dictionary<string!, string!>!
+static BigOX.Extensions.EnumerableExtensions.Chunk<T>(this System.Collections.Generic.IEnumerable<T>! collection, int chunkSize) -> System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<T>!>!
+static BigOX.Extensions.EnumerableExtensions.IsEmpty(this System.Collections.IEnumerable! collection) -> bool
+static BigOX.Extensions.EnumerableExtensions.IsEmpty<T>(this System.Collections.Generic.IEnumerable<T>! collection) -> bool
+static BigOX.Extensions.EnumerableExtensions.IsNotEmpty(this System.Collections.IEnumerable! collection) -> bool
+static BigOX.Extensions.EnumerableExtensions.IsNotEmpty<T>(this System.Collections.Generic.IEnumerable<T>! collection) -> bool
+static BigOX.Extensions.EnumerableExtensions.IsNotNullOrEmpty(this System.Collections.IEnumerable? collection) -> bool
+static BigOX.Extensions.EnumerableExtensions.IsNotNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? collection) -> bool
+static BigOX.Extensions.EnumerableExtensions.IsNullOrEmpty(this System.Collections.IEnumerable? collection) -> bool
+static BigOX.Extensions.EnumerableExtensions.IsNullOrEmpty<T>(this System.Collections.Generic.IEnumerable<T>? collection) -> bool
+static BigOX.Extensions.GuidExtensions.get_IsEmpty(System.Guid value) -> bool
+static BigOX.Extensions.GuidExtensions.get_IsNotEmpty(System.Guid value) -> bool
+static BigOX.Extensions.ReadOnlyDictionaryExtensions.FreezeOrEmpty(this System.Collections.Generic.IReadOnlyDictionary<string!, object?>? source) -> System.Collections.Generic.IReadOnlyDictionary<string!, object?>!
+static BigOX.Extensions.StreamExtensions.ToByteArray(this System.IO.Stream! stream) -> byte[]!
+static BigOX.Extensions.StreamExtensions.ToByteArrayAsync(this System.IO.Stream! stream, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<byte[]!>!
+static BigOX.Extensions.StringBuilderExtensions.AppendCharToLength(this System.Text.StringBuilder! stringBuilder, int targetLength, char charToAppend) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringBuilderExtensions.AppendFormatLine(this System.Text.StringBuilder! stringBuilder, string! format, params object?[]? items) -> void
+static BigOX.Extensions.StringBuilderExtensions.AppendMultiple(this System.Text.StringBuilder! stringBuilder, bool withNewLine = false, params string?[]? items) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringBuilderExtensions.AppendMultipleLines(this System.Text.StringBuilder! stringBuilder, int numberOfLines) -> void
+static BigOX.Extensions.StringBuilderExtensions.EnsureEndsWith(this System.Text.StringBuilder! stringBuilder, string! suffix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringBuilderExtensions.EnsureStartsWith(this System.Text.StringBuilder! stringBuilder, string! prefix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringBuilderExtensions.IsEmpty(this System.Text.StringBuilder! stringBuilder, bool countWhiteSpace = false) -> bool
+static BigOX.Extensions.StringBuilderExtensions.ReduceToLength(this System.Text.StringBuilder! stringBuilder, int maxLength) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringBuilderExtensions.RemoveAllOccurrences(this System.Text.StringBuilder! stringBuilder, char characterToBeRemoved) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringBuilderExtensions.Reverse(this System.Text.StringBuilder! stringBuilder) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringBuilderExtensions.Trim(this System.Text.StringBuilder! stringBuilder) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringExtensions.AppendCharToLength(this string? value, int targetLength, char charToAppend) -> string!
+static BigOX.Extensions.StringExtensions.EnsureEndsWith(this string? value, string! suffix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> string!
+static BigOX.Extensions.StringExtensions.EnsureStartsWith(this string? value, string! prefix, System.StringComparison stringComparison = System.StringComparison.InvariantCulture) -> string!
+static BigOX.Extensions.StringExtensions.ExtractDigits(this string? value) -> string!
+static BigOX.Extensions.StringExtensions.IsDateTime(this string? value) -> bool
+static BigOX.Extensions.StringExtensions.LimitLength(this string? value, int maxLength) -> string?
+static BigOX.Extensions.StringExtensions.ReduceToLength(this string? value, int maxLength) -> string!
+static BigOX.Extensions.StringExtensions.RemoveWhitespace(this string? value) -> string?
+static BigOX.Extensions.StringExtensions.ToStringBuilder(this string? value) -> System.Text.StringBuilder!
+static BigOX.Extensions.StringExtensions.get_IsGuid(string? value) -> bool
+static BigOX.Extensions.StringExtensions.get_IsValidEmail(string? value) -> bool
+static BigOX.Extensions.StringExtensions.get_IsValidWebsiteUrl(string? value) -> bool
+static BigOX.Extensions.StringExtensions.get_IsWhiteSpace(string? value) -> bool
+static BigOX.Extensions.TimeSpanExtensions.ToTimeOnly(this System.TimeSpan timeSpan) -> System.TimeOnly
+static BigOX.Extensions.TimeSpanExtensions.ToTimeOnly(this System.TimeSpan? timeSpan) -> System.TimeOnly?
+static BigOX.Extensions.TypeExtensions.DefaultValue(this System.Type! type) -> object?
+static BigOX.Extensions.TypeExtensions.DefaultValue<T>() -> T?
+static BigOX.Extensions.TypeExtensions.DefaultValueAsync(this System.Type! type) -> System.Threading.Tasks.ValueTask<object?>
+static BigOX.Extensions.TypeExtensions.GetTypeAsString(this System.Type! type) -> string!
+static BigOX.Extensions.TypeExtensions.HasAttribute(this System.Type! type, System.Type! attributeType) -> bool
+static BigOX.Extensions.TypeExtensions.HasAttribute<T>(this System.Type! type, System.Func<T!, bool>! predicate) -> bool
+static BigOX.Extensions.TypeExtensions.IsNullable(this System.Type! type) -> bool
+static BigOX.Extensions.TypeExtensions.IsNumeric(this System.Type! type, bool includeNullableTypes = true) -> bool
+static BigOX.Extensions.TypeExtensions.IsOfNullableType<T>() -> bool
+static BigOX.Extensions.TypeExtensions.IsOfNullableType<T>(this T source) -> bool
+static BigOX.Extensions.TypeExtensions.IsOpenGeneric(this System.Type! type) -> bool
+static BigOX.Factories.GuidFactory.NewSequentialGuid() -> System.Guid
+static BigOX.Factories.GuidFactory.NewSequentialGuid(System.DateTimeOffset timestamp) -> System.Guid
+static BigOX.Factories.GuidFactory.NewSequentialGuids(System.Span<System.Guid> destination) -> void
+static BigOX.Factories.GuidFactory.NewSequentialGuids(int count) -> System.Collections.Generic.IEnumerable<System.Guid>!
+static BigOX.Factories.TransactionFactory.CreateTransaction(System.Transactions.IsolationLevel isolationLevel = System.Transactions.IsolationLevel.ReadCommitted, System.Transactions.TransactionScopeOption transactionScopeOption = System.Transactions.TransactionScopeOption.Required, System.Transactions.TransactionScopeAsyncFlowOption transactionScopeAsyncFlowOption = System.Transactions.TransactionScopeAsyncFlowOption.Enabled, System.TimeSpan? timeOut = null) -> System.Transactions.TransactionScope!
+static BigOX.Results.Error.Conflict(string! message, string? code = null, System.Exception? exception = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Error!
+static BigOX.Results.Error.Create(string! message, string? code = null, BigOX.Results.ErrorKind? kind = null, System.Exception? exception = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Error!
+static BigOX.Results.Error.Forbidden(string! message, string? code = null, System.Exception? exception = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Error!
+static BigOX.Results.Error.NotFound(string! message, string? code = null, System.Exception? exception = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Error!
+static BigOX.Results.Error.Unauthorized(string! message, string? code = null, System.Exception? exception = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Error!
+static BigOX.Results.Error.Unexpected(string! message, string? code = null, System.Exception? exception = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Error!
+static BigOX.Results.Error.Validation(string! message, string? code = null, System.Exception? exception = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Error!
+static BigOX.Results.Error.operator !=(BigOX.Results.Error? left, BigOX.Results.Error? right) -> bool
+static BigOX.Results.Error.operator ==(BigOX.Results.Error? left, BigOX.Results.Error? right) -> bool
+static BigOX.Results.ErrorKind.FromString(string! value) -> BigOX.Results.ErrorKind
+static BigOX.Results.ErrorKind.operator !=(BigOX.Results.ErrorKind left, BigOX.Results.ErrorKind right) -> bool
+static BigOX.Results.ErrorKind.operator ==(BigOX.Results.ErrorKind left, BigOX.Results.ErrorKind right) -> bool
+static BigOX.Results.Result.Failure(BigOX.Results.Error! error, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result
+static BigOX.Results.Result.Failure(System.Collections.Generic.IEnumerable<BigOX.Results.Error!>! errors, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result
+static BigOX.Results.Result.Success(string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result
+static BigOX.Results.Result.implicit operator BigOX.Results.Result(BigOX.Results.Error! error) -> BigOX.Results.Result
+static BigOX.Results.Result.operator !=(BigOX.Results.Result left, BigOX.Results.Result right) -> bool
+static BigOX.Results.Result.operator ==(BigOX.Results.Result left, BigOX.Results.Result right) -> bool
+static BigOX.Results.Result<T>.Failure(BigOX.Results.Error! error, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result<T>
+static BigOX.Results.Result<T>.Failure(System.Collections.Generic.IEnumerable<BigOX.Results.Error!>! errors, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result<T>
+static BigOX.Results.Result<T>.Success(T value, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result<T>
+static BigOX.Results.Result<T>.implicit operator BigOX.Results.Result<T>(BigOX.Results.Error! error) -> BigOX.Results.Result<T>
+static BigOX.Results.Result<TValue, TError>.Failure(System.Collections.Generic.IEnumerable<TError>! errors, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result<TValue, TError>
+static BigOX.Results.Result<TValue, TError>.Failure(TError error, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result<TValue, TError>
+static BigOX.Results.Result<TValue, TError>.Failure(string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null, params TError[]! errors) -> BigOX.Results.Result<TValue, TError>
+static BigOX.Results.Result<TValue, TError>.Success(TValue value, string? message = null, System.Collections.Generic.IReadOnlyDictionary<string!, object?>? metadata = null) -> BigOX.Results.Result<TValue, TError>
+static BigOX.Results.Result<TValue, TError>.implicit operator BigOX.Results.Result<TValue, TError>(TError error) -> BigOX.Results.Result<TValue, TError>
+static BigOX.Results.ResultExtensions.ErrorsByCode(this BigOX.Results.IResult! result, string! code) -> System.Collections.Generic.IReadOnlyCollection<BigOX.Results.IError!>!
+static BigOX.Results.ResultExtensions.ErrorsByKind(this BigOX.Results.IResult! result, BigOX.Results.ErrorKind kind) -> System.Collections.Generic.IReadOnlyCollection<BigOX.Results.IError!>!
+static BigOX.Results.ResultExtensions.get_IsFailure(BigOX.Results.IResult! result) -> bool
+static BigOX.Results.ResultExtensions.get_IsSuccess(BigOX.Results.IResult! result) -> bool
+static BigOX.Security.AuthorizationEvaluationResult.Failed(System.Collections.Generic.IReadOnlyList<BigOX.Security.AuthorizationFailure>! failures, bool hasRules = true) -> BigOX.Security.AuthorizationEvaluationResult
+static BigOX.Security.AuthorizationEvaluationResult.Success(bool hasRules = true) -> BigOX.Security.AuthorizationEvaluationResult
+static BigOX.Security.AuthorizationEvaluationResult.operator !=(BigOX.Security.AuthorizationEvaluationResult left, BigOX.Security.AuthorizationEvaluationResult right) -> bool
+static BigOX.Security.AuthorizationEvaluationResult.operator ==(BigOX.Security.AuthorizationEvaluationResult left, BigOX.Security.AuthorizationEvaluationResult right) -> bool
+static BigOX.Security.AuthorizationFailure.operator !=(BigOX.Security.AuthorizationFailure left, BigOX.Security.AuthorizationFailure right) -> bool
+static BigOX.Security.AuthorizationFailure.operator ==(BigOX.Security.AuthorizationFailure left, BigOX.Security.AuthorizationFailure right) -> bool
+static BigOX.Security.AuthorizationResult.Failure(string? message) -> BigOX.Security.AuthorizationResult
+static BigOX.Security.AuthorizationResult.Failure(string? message, string? code) -> BigOX.Security.AuthorizationResult
+static BigOX.Security.AuthorizationResult.Success(string? message = null) -> BigOX.Security.AuthorizationResult
+static BigOX.Security.AuthorizationResult.operator !=(BigOX.Security.AuthorizationResult left, BigOX.Security.AuthorizationResult right) -> bool
+static BigOX.Security.AuthorizationResult.operator ==(BigOX.Security.AuthorizationResult left, BigOX.Security.AuthorizationResult right) -> bool
+static BigOX.Security.SecurityServiceCollectionExtensions.AddAuthorizationSecurity(this Microsoft.Extensions.DependencyInjection.IServiceCollection! serviceCollection, Microsoft.Extensions.DependencyInjection.ServiceLifetime lifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Scoped, System.Action<BigOX.Security.AuthorizationOptions!>? configureOptions = null) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static BigOX.Security.SecurityServiceProviderExtensions.GetAuthorizationRules<TAuthorizationArgs>(this System.IServiceProvider! serviceProvider) -> System.Collections.Generic.IEnumerable<BigOX.Security.IAuthorizationRule<TAuthorizationArgs>!>!
+static BigOX.Types.DateRange.Create(System.DateOnly startDate, System.DateOnly? endDate = null) -> BigOX.Types.DateRange
+static BigOX.Types.DateRange.Parse(System.ReadOnlySpan<char> s, System.IFormatProvider? provider) -> BigOX.Types.DateRange
+static BigOX.Types.DateRange.Parse(string! input) -> BigOX.Types.DateRange
+static BigOX.Types.DateRange.Parse(string! s, System.IFormatProvider? provider) -> BigOX.Types.DateRange
+static BigOX.Types.DateRange.TryParse(System.ReadOnlySpan<char> input, out BigOX.Types.DateRange range) -> bool
+static BigOX.Types.DateRange.TryParse(System.ReadOnlySpan<char> s, System.IFormatProvider? provider, out BigOX.Types.DateRange result) -> bool
+static BigOX.Types.DateRange.TryParse(string? input, out BigOX.Types.DateRange range) -> bool
+static BigOX.Types.DateRange.TryParse(string? s, System.IFormatProvider? provider, out BigOX.Types.DateRange result) -> bool
+static BigOX.Types.DateRange.operator !=(BigOX.Types.DateRange left, BigOX.Types.DateRange right) -> bool
+static BigOX.Types.DateRange.operator ==(BigOX.Types.DateRange left, BigOX.Types.DateRange right) -> bool
+static BigOX.Types.DateRangeExtensions.Contains(this in BigOX.Types.DateRange dateRange, System.DateOnly date) -> bool
+static BigOX.Types.DateRangeExtensions.Duration(this in BigOX.Types.DateRange dateRange) -> int
+static BigOX.Types.DateRangeExtensions.EnumerateDays(this BigOX.Types.DateRange dateRange, int? maxCount = null) -> System.Collections.Generic.IEnumerable<System.DateOnly>!
+static BigOX.Types.DateRangeExtensions.GetWeeksInRange(this BigOX.Types.DateRange dateRange, int? maxWeeks = null) -> System.Collections.Generic.IEnumerable<BigOX.Types.DateRange>!
+static BigOX.Types.DateRangeExtensions.Intersection(this in BigOX.Types.DateRange dateRange, in BigOX.Types.DateRange right) -> BigOX.Types.DateRange?
+static BigOX.Types.DateRangeExtensions.Overlaps(this in BigOX.Types.DateRange dateRange, in BigOX.Types.DateRange other) -> bool
+static BigOX.Types.DateRangeExtensions.TryGetDuration(this in BigOX.Types.DateRange dateRange, out int days) -> bool
+static BigOX.Types.EmailAddress.From(string? email, string? displayName = null) -> BigOX.Types.EmailAddress
+static BigOX.Types.EmailAddress.Parse(System.ReadOnlySpan<char> s, System.IFormatProvider? provider) -> BigOX.Types.EmailAddress
+static BigOX.Types.EmailAddress.Parse(string! s, System.IFormatProvider? provider) -> BigOX.Types.EmailAddress
+static BigOX.Types.EmailAddress.TryParse(System.ReadOnlySpan<char> s, System.IFormatProvider? provider, out BigOX.Types.EmailAddress result) -> bool
+static BigOX.Types.EmailAddress.TryParse(string? s, System.IFormatProvider? provider, out BigOX.Types.EmailAddress result) -> bool
+static BigOX.Types.EmailAddress.operator !=(BigOX.Types.EmailAddress left, BigOX.Types.EmailAddress right) -> bool
+static BigOX.Types.EmailAddress.operator <(BigOX.Types.EmailAddress left, BigOX.Types.EmailAddress right) -> bool
+static BigOX.Types.EmailAddress.operator <=(BigOX.Types.EmailAddress left, BigOX.Types.EmailAddress right) -> bool
+static BigOX.Types.EmailAddress.operator ==(BigOX.Types.EmailAddress left, BigOX.Types.EmailAddress right) -> bool
+static BigOX.Types.EmailAddress.operator >(BigOX.Types.EmailAddress left, BigOX.Types.EmailAddress right) -> bool
+static BigOX.Types.EmailAddress.operator >=(BigOX.Types.EmailAddress left, BigOX.Types.EmailAddress right) -> bool
+static BigOX.Types.EmailAddressExtensions.Domain(this BigOX.Types.EmailAddress emailAddress) -> string!
+static BigOX.Types.EmailAddressExtensions.HasDisplayName(this BigOX.Types.EmailAddress emailAddress) -> bool
+static BigOX.Types.EmailAddressExtensions.Host(this BigOX.Types.EmailAddress emailAddress) -> string!
+static BigOX.Types.EmailAddressExtensions.ToDisplayString(this BigOX.Types.EmailAddress emailAddress) -> string!
+static BigOX.Types.EmailAddressExtensions.ToMailAddress(this BigOX.Types.EmailAddress emailAddress) -> System.Net.Mail.MailAddress!
+static BigOX.Types.EmailAddressExtensions.ToMailAddress(this BigOX.Types.EmailAddress emailAddress, string? displayName) -> System.Net.Mail.MailAddress!
+static BigOX.Types.EmailAddressExtensions.ToMailAddress(this BigOX.Types.EmailAddress emailAddress, string? displayName, System.Text.Encoding? displayNameEncoding) -> System.Net.Mail.MailAddress!
+static BigOX.Types.EmailAddressExtensions.Username(this BigOX.Types.EmailAddress emailAddress) -> string!
+static BigOX.Validation.Guard.EmailAddress(string? value, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.ExactLength(System.ReadOnlySpan<char> value, int exactLength, string! paramName = "", string? exceptionMessage = null) -> System.ReadOnlySpan<char>
+static BigOX.Validation.Guard.ExactLength(string? value, int exactLength, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.InFuture(System.DateTime value, System.TimeZoneInfo? timeZone = null, string! paramName = "", string? exceptionMessage = null) -> System.DateTime
+static BigOX.Validation.Guard.InPast(System.DateTime value, System.TimeZoneInfo? timeZone = null, string! paramName = "", string? exceptionMessage = null) -> System.DateTime
+static BigOX.Validation.Guard.LengthWithinRange(System.ReadOnlySpan<char> value, int minLength, int maxLength, string! paramName = "", string? exceptionMessage = null) -> System.ReadOnlySpan<char>
+static BigOX.Validation.Guard.LengthWithinRange(string? value, int minLength, int maxLength, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.MatchesRegex(string? value, System.Text.RegularExpressions.Regex! regex, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.MatchesRegex(string? value, string! pattern, System.TimeSpan matchTimeout, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.MatchesRegex(string? value, string! pattern, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.MaxLength(System.ReadOnlySpan<char> value, int maxLength, string! paramName = "", string? exceptionMessage = null) -> System.ReadOnlySpan<char>
+static BigOX.Validation.Guard.MaxLength(string? value, int maxLength, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.Maximum<T>(T value, T maxValue, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.MinLength(System.ReadOnlySpan<char> value, int minLength, string! paramName = "", string? exceptionMessage = null) -> System.ReadOnlySpan<char>
+static BigOX.Validation.Guard.MinLength(string? value, int minLength, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.Minimum<T>(T value, T minValue, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.NonNegative<T>(T value, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.NonZero<T>(T value, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.NotDefault<T>(T value, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.NotEmpty(System.Guid value, string! paramName = "", string? exceptionMessage = null) -> System.Guid
+static BigOX.Validation.Guard.NotNull<T>(System.Collections.Generic.IEnumerable<T>? collection, string! paramName = "", string? exceptionMessage = null) -> System.Collections.Generic.IEnumerable<T>!
+static BigOX.Validation.Guard.NotNull<T>(T? value, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.NotNullOrEmpty(System.Guid? value, string! paramName = "", string? exceptionMessage = null) -> System.Guid
+static BigOX.Validation.Guard.NotNullOrEmpty(string? value, string! paramName = "", string? exceptionMessage = null) -> string!
+static BigOX.Validation.Guard.NotNullOrEmpty<T>(System.Collections.Generic.IEnumerable<T>? collection, string! paramName = "", string? exceptionMessage = null) -> System.Collections.Generic.IEnumerable<T>!
+static BigOX.Validation.Guard.NotNullOrWhiteSpace(string? value, string! paramName = "", string? exceptionMessage = null) -> string!
+static BigOX.Validation.Guard.Positive<T>(T value, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.Requires<T>(T value, System.Predicate<T>? predicate, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.Guard.Url(string? value, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.Url(string? value, string![]! allowedSchemes, string! paramName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.Guard.WithinRange<T>(T value, T minValue, T maxValue, string! paramName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.EmailAddress(string? value, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.ExactLength(string? value, int exactLength, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.InFuture(System.DateTime value, System.TimeZoneInfo? timeZone = null, string! propertyName = "", string? exceptionMessage = null) -> System.DateTime
+static BigOX.Validation.PropertyGuard.InPast(System.DateTime value, System.TimeZoneInfo? timeZone = null, string! propertyName = "", string? exceptionMessage = null) -> System.DateTime
+static BigOX.Validation.PropertyGuard.LengthWithinRange(string? value, int minLength, int maxLength, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.MatchesRegex(string? value, System.Text.RegularExpressions.Regex! regex, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.MatchesRegex(string? value, string! pattern, System.TimeSpan matchTimeout, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.MatchesRegex(string? value, string! pattern, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.MaxLength(string? value, int maxLength, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.Maximum<T>(T value, T maxValue, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.MinLength(string? value, int minLength, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.Minimum<T>(T value, T minValue, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.NonNegative<T>(T value, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.NonZero<T>(T value, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.NotDefault<T>(T value, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.NotEmpty(System.Guid value, string! propertyName = "", string? exceptionMessage = null) -> System.Guid
+static BigOX.Validation.PropertyGuard.NotNull<T>(System.Collections.Generic.IEnumerable<T>? collection, string! propertyName = "", string? exceptionMessage = null) -> System.Collections.Generic.IEnumerable<T>!
+static BigOX.Validation.PropertyGuard.NotNull<T>(T? value, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.NotNullOrEmpty(System.Guid? value, string! propertyName = "", string? exceptionMessage = null) -> System.Guid
+static BigOX.Validation.PropertyGuard.NotNullOrEmpty(string? value, string! propertyName = "", string? exceptionMessage = null) -> string!
+static BigOX.Validation.PropertyGuard.NotNullOrEmpty<T>(System.Collections.Generic.IEnumerable<T>? collection, string! propertyName = "", string? exceptionMessage = null) -> System.Collections.Generic.IEnumerable<T>!
+static BigOX.Validation.PropertyGuard.NotNullOrWhiteSpace(string? value, string! propertyName = "", string? exceptionMessage = null) -> string!
+static BigOX.Validation.PropertyGuard.Positive<T>(T value, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.Requires<T>(T value, System.Predicate<T>? predicate, string! propertyName = "", string? exceptionMessage = null) -> T
+static BigOX.Validation.PropertyGuard.Url(string? value, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.Url(string? value, string![]! allowedSchemes, string! propertyName = "", string? exceptionMessage = null) -> string?
+static BigOX.Validation.PropertyGuard.WithinRange<T>(T value, T minValue, T maxValue, string! propertyName = "", string? exceptionMessage = null) -> T
+static readonly BigOX.Results.ErrorKind.Conflict -> BigOX.Results.ErrorKind
+static readonly BigOX.Results.ErrorKind.Default -> BigOX.Results.ErrorKind
+static readonly BigOX.Results.ErrorKind.Forbidden -> BigOX.Results.ErrorKind
+static readonly BigOX.Results.ErrorKind.NotFound -> BigOX.Results.ErrorKind
+static readonly BigOX.Results.ErrorKind.Unauthorized -> BigOX.Results.ErrorKind
+static readonly BigOX.Results.ErrorKind.Unexpected -> BigOX.Results.ErrorKind
+static readonly BigOX.Results.ErrorKind.Validation -> BigOX.Results.ErrorKind
+virtual BigOX.Domain.Specification<T>.IsSatisfiedBy(T candidate) -> bool
+virtual BigOX.Types.DisposableObject.DisposeAsyncCore() -> System.Threading.Tasks.ValueTask
+virtual BigOX.Types.DisposableObject.DisposeManagedResources() -> void
+virtual BigOX.Types.DisposableObject.DisposeUnmanagedResources() -> void
+~override BigOX.Results.ErrorKind.Equals(object obj) -> bool
+~override BigOX.Results.Result.Equals(object obj) -> bool
+~override BigOX.Results.Result.ToString() -> string
+~override BigOX.Security.AuthorizationEvaluationResult.Equals(object obj) -> bool
+~override BigOX.Security.AuthorizationEvaluationResult.ToString() -> string
+~override BigOX.Security.AuthorizationFailure.Equals(object obj) -> bool
+~override BigOX.Security.AuthorizationFailure.ToString() -> string
+~override BigOX.Security.AuthorizationResult.Equals(object obj) -> bool
+~override BigOX.Security.AuthorizationResult.ToString() -> string
+~override BigOX.Types.EmailAddress.Equals(object obj) -> bool

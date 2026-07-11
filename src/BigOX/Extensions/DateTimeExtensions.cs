@@ -355,7 +355,16 @@ public static class DateTimeExtensions
         /// <returns>A new <see cref="DateTime" /> with the same date and the specified time.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="time" /> is negative or ≥ 24 hours.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime SetTime(TimeSpan time) => dateTime.Date + time;
+        public DateTime SetTime(TimeSpan time)
+        {
+            if (time < TimeSpan.Zero || time >= TimeSpan.FromDays(1))
+            {
+                throw new ArgumentOutOfRangeException(nameof(time), time,
+                    "Time must be within the range [00:00:00, 24:00:00).");
+            }
+
+            return dateTime.Date + time;
+        }
 
         /// <summary>
         ///     Creates a new <see cref="DateTime" /> with the same date and the provided components as its time-of-day.
@@ -367,8 +376,31 @@ public static class DateTimeExtensions
         /// <returns>A new <see cref="DateTime" /> with the specified time-of-day.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when any component is outside its valid range.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DateTime SetTime(int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0) =>
-            dateTime.Date.Add(new TimeSpan(0, hours, minutes, seconds, milliseconds));
+        public DateTime SetTime(int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0)
+        {
+            if ((uint)hours > 23u)
+            {
+                throw new ArgumentOutOfRangeException(nameof(hours), hours, "Hours must be between 0 and 23.");
+            }
+
+            if ((uint)minutes > 59u)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minutes), minutes, "Minutes must be between 0 and 59.");
+            }
+
+            if ((uint)seconds > 59u)
+            {
+                throw new ArgumentOutOfRangeException(nameof(seconds), seconds, "Seconds must be between 0 and 59.");
+            }
+
+            if ((uint)milliseconds > 999u)
+            {
+                throw new ArgumentOutOfRangeException(nameof(milliseconds), milliseconds,
+                    "Milliseconds must be between 0 and 999.");
+            }
+
+            return dateTime.Date.Add(new TimeSpan(0, hours, minutes, seconds, milliseconds));
+        }
 
         /// <summary>
         ///     Creates a new <see cref="DateTime" /> with the same date and the provided <see cref="TimeOnly" /> as its
@@ -419,10 +451,22 @@ public static class DateTimeExtensions
                 yield break;
             }
 
-            var step = dateTime < toDate ? 1 : -1;
-            for (var dt = dateTime; dt != toDate; dt = dt.AddDays(step))
+            // Step by whole days toward the endpoint. Use directional comparison rather than
+            // equality so the loop terminates even when the endpoints do not differ by a whole
+            // number of days; the endpoint itself is yielded once after the loop.
+            if (dateTime < toDate)
             {
-                yield return dt;
+                for (var dt = dateTime; dt < toDate; dt = dt.AddDays(1))
+                {
+                    yield return dt;
+                }
+            }
+            else
+            {
+                for (var dt = dateTime; dt > toDate; dt = dt.AddDays(-1))
+                {
+                    yield return dt;
+                }
             }
 
             yield return toDate;

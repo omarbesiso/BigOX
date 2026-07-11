@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable UnusedMember.Global
 
@@ -46,6 +47,7 @@ public static partial class PropertyGuard
     /// ]]></code>
     /// </example>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return: NotNullIfNotNull(nameof(value))]
     public static string? ExactLength(
         string? value,
         int exactLength,

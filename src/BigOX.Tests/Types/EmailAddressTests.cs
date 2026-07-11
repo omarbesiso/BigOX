@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
 using BigOX.Types;
 
 namespace BigOX.Tests.Types;
@@ -6,6 +8,18 @@ namespace BigOX.Tests.Types;
 [TestClass]
 public sealed class EmailAddressTests
 {
+    [TestMethod]
+    public void DebuggerDisplay_FormatString_HasBalancedBraces()
+    {
+        // Regression guard for the malformed "{DebuggerDisplay,nq" (missing closing brace).
+        var attr = typeof(EmailAddress).GetCustomAttribute<DebuggerDisplayAttribute>();
+        Assert.IsNotNull(attr);
+        var format = attr.Value;
+        Assert.IsNotNull(format);
+        Assert.AreEqual(format.Count(c => c == '{'), format.Count(c => c == '}'));
+        Assert.EndsWith("}", format);
+    }
+
     [TestMethod]
     public void DefaultValue_IsEmptySentinel()
     {
@@ -179,5 +193,69 @@ public sealed class EmailAddressTests
         var culture = new CultureInfo("en-US");
         var e = EmailAddress.Parse("jOHN sMITH <John.Smith@Example.com>", culture);
         Assert.AreEqual("John Smith", e.DisplayName);
+    }
+
+    [TestMethod]
+    public void SpanParse_RawAddress_Succeeds()
+    {
+        var e = EmailAddress.Parse("MiXeD@Example.Com".AsSpan(), null);
+        Assert.AreEqual("mixed@example.com", e.Address);
+    }
+
+    [TestMethod]
+    public void SpanParse_Combined_NormalizesLikeStringOverload()
+    {
+        var e = EmailAddress.Parse("JANE DOE <Jane.Doe@Example.com>".AsSpan(), CultureInfo.InvariantCulture);
+        Assert.AreEqual("jane.doe@example.com", e.Address);
+        Assert.AreEqual("Jane Doe", e.DisplayName);
+    }
+
+    [TestMethod]
+    public void SpanParse_Invalid_ThrowsFormatException()
+    {
+        Assert.ThrowsExactly<FormatException>(() => EmailAddress.Parse("   ".AsSpan(), null));
+        Assert.ThrowsExactly<FormatException>(() => EmailAddress.Parse("invalid@@example.com".AsSpan(), null));
+    }
+
+    [TestMethod]
+    public void SpanTryParse_Combined_Succeeds()
+    {
+        Assert.IsTrue(EmailAddress.TryParse("John Smith <John.SMITH@Example.com>".AsSpan(),
+            CultureInfo.InvariantCulture, out var e));
+        Assert.AreEqual("john.smith@example.com", e.Address);
+        Assert.AreEqual("John Smith", e.DisplayName);
+    }
+
+    [TestMethod]
+    public void SpanTryParse_Invalid_ReturnsFalse()
+    {
+        Assert.IsFalse(EmailAddress.TryParse("   ".AsSpan(), null, out _));
+        Assert.IsFalse(EmailAddress.TryParse("invalid@@example.com".AsSpan(), null, out _));
+    }
+
+    [TestMethod]
+    public void ComparisonOperators_ConsistentWithCompareTo_ByAddress()
+    {
+        var a = EmailAddress.From("a@example.com");
+        var b = EmailAddress.From("b@example.com");
+
+        Assert.IsTrue(a < b);
+        Assert.IsTrue(a <= b);
+        Assert.IsFalse(a > b);
+        Assert.IsFalse(a >= b);
+        Assert.IsTrue(b > a);
+        Assert.IsTrue(b >= a);
+    }
+
+    [TestMethod]
+    public void ComparisonOperators_EqualAddresses_OnlyInclusiveHold()
+    {
+        var a = EmailAddress.From("same@example.com", "Alpha");
+        var b = EmailAddress.From("SAME@EXAMPLE.COM", "Alpha");
+
+        Assert.IsFalse(a < b);
+        Assert.IsTrue(a <= b);
+        Assert.IsFalse(a > b);
+        Assert.IsTrue(a >= b);
     }
 }

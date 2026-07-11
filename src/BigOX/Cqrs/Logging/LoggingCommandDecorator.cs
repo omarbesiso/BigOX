@@ -49,7 +49,7 @@ public sealed class LoggingCommandDecorator<TCommand> : ICommandDecorator<TComma
         var startTime = Stopwatch.GetTimestamp();
         try
         {
-            await _decorated.Handle(command, cancellationToken);
+            await _decorated.Handle(command, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

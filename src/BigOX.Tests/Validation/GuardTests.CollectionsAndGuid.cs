@@ -1,3 +1,4 @@
+using System.Collections;
 using BigOX.Validation;
 
 // ReSharper disable PossibleMultipleEnumeration
@@ -84,5 +85,33 @@ public class GuardTests_CollectionsAndGuid
     {
         Assert.AreNotEqual(Guid.Empty, Guard.NotDefault(Guid.NewGuid()));
         Assert.AreEqual(1, Guard.NotDefault(1));
+    }
+
+    [TestMethod]
+    public void NotNullOrEmpty_ReadOnlyList_Throws_Eagerly_OnEmpty()
+    {
+        // ReadOnlyListView implements only IReadOnlyList<T>, so TryGetNonEnumeratedCount
+        // returns false. The guard must still validate eagerly (via IReadOnlyCollection<T>)
+        // rather than deferring the check to an enumeration the caller may never perform.
+        IEnumerable<int> list = new ReadOnlyListView<int>([]);
+        var ex = TestUtils.Expect<ArgumentException>(() => Guard.NotNullOrEmpty(list));
+        StringAssert.Contains(ex.ParamName, nameof(list));
+    }
+
+    [TestMethod]
+    public void NotNullOrEmpty_ReadOnlyList_Returns_OnNonEmpty()
+    {
+        IEnumerable<int> list = new ReadOnlyListView<int>([7]);
+        var result = Guard.NotNullOrEmpty(list);
+        Assert.AreSame(list, result);
+    }
+
+    // A read-only collection that deliberately does NOT implement ICollection<T>.
+    private sealed class ReadOnlyListView<T>(IReadOnlyList<T> items) : IReadOnlyList<T>
+    {
+        public T this[int index] => items[index];
+        public int Count => items.Count;
+        public IEnumerator<T> GetEnumerator() => items.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

@@ -44,7 +44,7 @@ internal sealed class AuthorizationManager : IAuthorizationManager
         TAuthorizationArgs authorizationArgs,
         CancellationToken cancellationToken = default)
     {
-        Guard.NotNull(authorizationArgs, "Authorization arguments cannot be null.");
+        Guard.NotNull(authorizationArgs, exceptionMessage: "Authorization arguments cannot be null.");
 
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -98,18 +98,43 @@ internal sealed class AuthorizationManager : IAuthorizationManager
 
         var failures = new List<AuthorizationFailure>(rules.Length);
 
-        foreach (var rule in rules)
+        if (_options.EvaluateRulesInParallel && rules.Length > 1)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var result = await rule
-                .IsAuthorizedAsync(authorizationArgs, cancellationToken)
-                .ConfigureAwait(false);
-
-            if (!result.Successful)
+            // Launch every rule concurrently. Task.WhenAll preserves array order, so failures are still
+            // collected in rule registration order below, matching the sequential path exactly.
+            var tasks = new Task<AuthorizationResult>[rules.Length];
+            for (var i = 0; i < rules.Length; i++)
             {
-                var failure = AuthorizationFailure.From(result, rule.GetType());
-                failures.Add(failure);
+                tasks[i] = rules[i].IsAuthorizedAsync(authorizationArgs, cancellationToken).AsTask();
+            }
+
+            var results = await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            for (var i = 0; i < results.Length; i++)
+            {
+                if (!results[i].Successful)
+                {
+                    failures.Add(AuthorizationFailure.From(results[i], rules[i].GetType()));
+                }
+            }
+        }
+        else
+        {
+            foreach (var rule in rules)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var result = await rule
+                    .IsAuthorizedAsync(authorizationArgs, cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (!result.Successful)
+                {
+                    var failure = AuthorizationFailure.From(result, rule.GetType());
+                    failures.Add(failure);
+                }
             }
         }
 

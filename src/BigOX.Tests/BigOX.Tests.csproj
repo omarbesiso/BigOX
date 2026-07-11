@@ -24,4 +24,12 @@
     <PackageReference Update="MSTest.TestFramework" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Enables XPlat Code Coverage collection during test runs (see CONTRIBUTING.md). -->
+    <PackageReference Include="coverlet.collector" Version="10.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
 </Project>

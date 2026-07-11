@@ -14,7 +14,7 @@ namespace BigOX.Cqrs.Authorization;
 ///     <see cref="IAuthorizationRule{TAuthorizationArgs}" />
 ///     implementations for the specific query type to participate in evaluation.
 /// </remarks>
-internal sealed class AuthorizationQueryDecorator<TQuery, TResult> : IQueryHandler<TQuery, TResult>
+internal sealed class AuthorizationQueryDecorator<TQuery, TResult> : IQueryDecorator<TQuery, TResult>
     where TQuery : IQuery
 {
     private readonly IAuthorizationManager _authorizationManager;

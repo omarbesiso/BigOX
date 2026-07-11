@@ -35,10 +35,11 @@ public sealed class DecimalExtensionsTests
     {
         var amount = 1234.56m;
         var s = amount.ToCurrencyString("fr-FR");
-        // Locale-specific spacing and NBSP can vary; verify key parts instead of exact string
-        Assert.Contains('€', s);
+        // Locale-specific spacing and NBSP can vary; verify key parts instead of exact string.
+        // 'â‚¬' is the euro sign, written as an escape so source encoding cannot corrupt it.
+        Assert.Contains('â‚¬', s);
         Assert.Contains(',', s);
-        Assert.EndsWith("€", s);
+        Assert.EndsWith("â‚¬", s);
     }
 
     [TestMethod]
@@ -112,5 +113,27 @@ public sealed class DecimalExtensionsTests
     {
         Assert.AreEqual("twenty-one", 21m.ToWords());
         Assert.AreEqual("ninety-nine", 99m.ToWords());
+    }
+
+    [TestMethod]
+    public void ToWords_SmallNegativeFraction_PreservesSign()
+    {
+        // Integer part is zero, so the sign must be applied explicitly.
+        Assert.AreEqual("minus zero and fifty-six cents", (-0.56m).ToWords());
+        Assert.AreEqual("minus zero and one cents", (-0.01m).ToWords());
+    }
+
+    [TestMethod]
+    public void ToWords_FractionRoundsUpToWhole_CarriesIntoInteger()
+    {
+        Assert.AreEqual("two", 1.999m.ToWords());
+        Assert.AreEqual("one", 0.999m.ToWords());
+        Assert.AreEqual("minus two", (-1.999m).ToWords());
+    }
+
+    [TestMethod]
+    public void ToPercentageString_NegativeDecimalPlaces_Throws()
+    {
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => 0.1234m.ToPercentageString(-1));
     }
 }

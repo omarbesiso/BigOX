@@ -40,10 +40,45 @@ public sealed class SpecificationTests
         Assert.IsFalse(predicate("abc"));
     }
 
+    [TestMethod]
+    public void IsSatisfiedBy_SameInstance_ProducesConsistentResults()
+    {
+        var spec = new GreaterThanZeroSpec();
+
+        Assert.IsTrue(spec.IsSatisfiedBy(1));
+        Assert.IsTrue(spec.IsSatisfiedBy(2));
+        Assert.IsFalse(spec.IsSatisfiedBy(0));
+        Assert.IsFalse(spec.IsSatisfiedBy(-3));
+    }
+
+    [TestMethod]
+    public void IsSatisfiedBy_CompilesExpressionOnce_AcrossManyCalls()
+    {
+        var spec = new CountingSpec();
+
+        for (var i = 0; i < 10; i++)
+        {
+            Assert.IsTrue(spec.IsSatisfiedBy(5));
+        }
+
+        Assert.AreEqual(1, spec.ToExpressionCallCount);
+    }
+
     private sealed class GreaterThanZeroSpec : Specification<int>
     {
         public override Expression<Func<int, bool>> ToExpression()
         {
+            return x => x > 0;
+        }
+    }
+
+    private sealed class CountingSpec : Specification<int>
+    {
+        public int ToExpressionCallCount { get; private set; }
+
+        public override Expression<Func<int, bool>> ToExpression()
+        {
+            ToExpressionCallCount++;
             return x => x > 0;
         }
     }

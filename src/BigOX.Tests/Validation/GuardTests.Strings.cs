@@ -233,4 +233,28 @@ public class GuardTests_Strings
         TestUtils.Expect<ArgumentException>(() => Guard.LengthWithinRange("a", 1, 0));
         TestUtils.Expect<ArgumentException>(() => Guard.LengthWithinRange("a", 3, 1));
     }
+
+    [TestMethod]
+    public void NotNullIfNotNull_Annotations_FlowNonNull_ForNonNullInputs()
+    {
+        // Compile-level lock-in for [return: NotNullIfNotNull(nameof(value))]: assigning the results to
+        // non-nullable locals below only flows cleanly while the annotations are present on these guards.
+        string url = Guard.Url("https://example.com");
+        string email = Guard.EmailAddress("user@example.com");
+        string regex = Guard.MatchesRegex("abc", "^[a-z]+$");
+        string max = Guard.MaxLength("abc", 5);
+        string min = Guard.MinLength("abc", 1);
+        string exact = Guard.ExactLength("abc", 3);
+        string range = Guard.LengthWithinRange("abc", 1, 5);
+        string propUrl = PropertyGuard.Url("https://example.com");
+
+        Assert.AreEqual("https://example.com", url);
+        Assert.AreEqual("user@example.com", email);
+        Assert.AreEqual("abc", regex);
+        Assert.AreEqual("abc", max);
+        Assert.AreEqual("abc", min);
+        Assert.AreEqual("abc", exact);
+        Assert.AreEqual("abc", range);
+        Assert.AreEqual("https://example.com", propUrl);
+    }
 }

@@ -62,7 +62,8 @@ public readonly record struct AuthorizationFailure
     ///     The concrete rule type that produced the result.
     /// </param>
     /// <param name="code">
-    ///     An optional code that identifies the failure.
+    ///     An optional code that identifies the failure. When <c>null</c>, the code is taken from
+    ///     <see cref="AuthorizationResult.Code" />.
     /// </param>
     /// <returns>
     ///     An <see cref="AuthorizationFailure" /> instance representing the failed result.
@@ -76,7 +77,7 @@ public readonly record struct AuthorizationFailure
             ? "Authorization rule failed."
             : result.Message;
 
-        return new AuthorizationFailure(message, code, ruleType);
+        return new AuthorizationFailure(message, code ?? result.Code, ruleType);
     }
 
     /// <summary>

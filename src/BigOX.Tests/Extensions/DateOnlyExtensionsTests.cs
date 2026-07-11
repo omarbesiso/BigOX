@@ -6,6 +6,17 @@ namespace BigOX.Tests.Extensions;
 [TestClass]
 public sealed class DateOnlyExtensionsTests
 {
+    [TestMethod]
+    public void GetFirstDateOfWeek_IsPublic_AndRespectsCulture()
+    {
+        var date = new DateOnly(2023, 1, 18); // Wednesday
+        var enUs = new CultureInfo("en-US"); // Sunday start
+        var deDe = new CultureInfo("de-DE"); // Monday start
+
+        Assert.AreEqual(new DateOnly(2023, 1, 15), date.GetFirstDateOfWeek(enUs));
+        Assert.AreEqual(new DateOnly(2023, 1, 16), date.GetFirstDateOfWeek(deDe));
+    }
+
     // PreviousDay / NextDay
     [TestMethod]
     public void PreviousDay_NormalCase_ReturnsDayBefore()

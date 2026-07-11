@@ -245,6 +245,40 @@ public sealed class DateTimeExtensionsTests
         }, desc);
     }
 
+    [TestMethod]
+    public void GetDatesInRange_EndpointsWithDifferentTimeOfDay_Terminates_AndIncludesEndpoint()
+    {
+        // Endpoints differ by a non-whole number of days; the old equality-based loop never
+        // matched the endpoint and ran to DateTime overflow.
+        var start = new DateTime(2023, 1, 1, 10, 0, 0);
+        var end = new DateTime(2023, 1, 3, 15, 0, 0);
+
+        var dates = start.GetDatesInRange(end).ToList();
+
+        Assert.AreEqual(start, dates[0]);
+        Assert.AreEqual(end, dates[^1]);
+        Assert.IsTrue(dates.Count is >= 3 and <= 4);
+        Assert.IsTrue(dates.SequenceEqual(dates.OrderBy(d => d)));
+    }
+
+    [TestMethod]
+    public void SetTime_WithTimeSpan_OutOfRange_Throws()
+    {
+        var date = new DateTime(2024, 1, 2);
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => date.SetTime(TimeSpan.FromHours(24)));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => date.SetTime(TimeSpan.FromHours(-1)));
+    }
+
+    [TestMethod]
+    public void SetTime_WithComponents_OutOfRange_Throws()
+    {
+        var date = new DateTime(2024, 1, 2);
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => date.SetTime(25));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => date.SetTime(minutes: 60));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => date.SetTime(seconds: -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => date.SetTime(milliseconds: 1000));
+    }
+
     // NextDay / PreviousDay
     [TestMethod]
     public void NextDay_PreviousDay_ShiftByOne()

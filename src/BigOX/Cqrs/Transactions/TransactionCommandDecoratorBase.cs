@@ -54,7 +54,7 @@ public abstract class TransactionCommandDecoratorBase<TCommand>(ICommandHandler<
 
         using var scope =
             new TransactionScope(TransactionScopeOption, TransactionOptions, TransactionScopeAsyncFlowOption);
-        await Decorated.Handle(command, cancellationToken);
+        await Decorated.Handle(command, cancellationToken).ConfigureAwait(false);
         scope.Complete();
     }
 }

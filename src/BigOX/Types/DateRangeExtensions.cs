@@ -140,7 +140,7 @@ public static class DateRangeExtensions
         /// <exception cref="ArgumentNullException">
         ///     Thrown (upon enumeration) when the range is open-ended and <paramref name="maxWeeks" /> is <c>null</c>.
         /// </exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown (upon enumeration) when the range is open-ended and <paramref name="maxWeeks" /> is not positive,
         ///     or when the range is closed and <paramref name="maxWeeks" /> is negative.
         /// </exception>
@@ -150,7 +150,8 @@ public static class DateRangeExtensions
 
             if (isOpenEnded)
             {
-                Guard.NotNull(maxWeeks, "Open-ended range requires maxWeeks to avoid unbounded enumeration.");
+                Guard.NotNull(maxWeeks,
+                    exceptionMessage: "Open-ended range requires maxWeeks to avoid unbounded enumeration.");
                 Guard.Positive(maxWeeks.Value, nameof(maxWeeks),
                     "For open-ended ranges, maxWeeks must be greater than zero.");
             }

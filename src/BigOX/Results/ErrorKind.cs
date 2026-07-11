@@ -19,6 +19,31 @@ public readonly record struct ErrorKind
     public static readonly ErrorKind Unexpected = new("Unexpected");
 
     /// <summary>
+    ///     An error kind representing a validation failure caused by invalid or malformed input.
+    /// </summary>
+    public static readonly ErrorKind Validation = new("Validation");
+
+    /// <summary>
+    ///     An error kind representing a requested resource that could not be found.
+    /// </summary>
+    public static readonly ErrorKind NotFound = new("NotFound");
+
+    /// <summary>
+    ///     An error kind representing a conflict with the current state of a resource.
+    /// </summary>
+    public static readonly ErrorKind Conflict = new("Conflict");
+
+    /// <summary>
+    ///     An error kind representing a failure to authenticate (missing or invalid credentials).
+    /// </summary>
+    public static readonly ErrorKind Unauthorized = new("Unauthorized");
+
+    /// <summary>
+    ///     An error kind representing an authenticated caller that lacks permission for the operation.
+    /// </summary>
+    public static readonly ErrorKind Forbidden = new("Forbidden");
+
+    /// <summary>
     ///     Initializes a new <see cref="ErrorKind" /> with the provided string value.
     /// </summary>
     /// <param name="value">Non-empty discriminator text.</param>

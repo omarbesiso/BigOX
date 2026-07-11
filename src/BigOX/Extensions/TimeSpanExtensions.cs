@@ -39,7 +39,8 @@ public static class TimeSpanExtensions
                 normalizedTicks += TimeSpan.TicksPerDay;
             }
 
-            return TimeOnly.FromTimeSpan(TimeSpan.FromTicks(normalizedTicks));
+            // normalizedTicks is already within [0, TicksPerDay), so construct TimeOnly directly.
+            return new TimeOnly(normalizedTicks);
         }
     }
 

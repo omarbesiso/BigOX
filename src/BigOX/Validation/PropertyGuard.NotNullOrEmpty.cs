@@ -72,7 +72,7 @@ public static partial class PropertyGuard
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<T> NotNullOrEmpty<T>(
-        [NotNull] [DoesNotReturnIf(true)] IEnumerable<T>? collection,
+        [NotNull] IEnumerable<T>? collection,
         [CallerMemberName] string propertyName = "",
         string? exceptionMessage = null) =>
         Guard.NotNullOrEmpty(collection, propertyName, exceptionMessage);

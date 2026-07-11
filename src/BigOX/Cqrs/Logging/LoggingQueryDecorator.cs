@@ -50,7 +50,7 @@ public sealed class LoggingQueryDecorator<TQuery, TResult> : IQueryDecorator<TQu
         var startTime = Stopwatch.GetTimestamp();
         try
         {
-            var result = await _decorated.Read(query, cancellationToken);
+            var result = await _decorated.Read(query, cancellationToken).ConfigureAwait(false);
             return result;
         }
         catch (Exception ex)

@@ -44,7 +44,7 @@ public static partial class Guard
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [return: NotNull]
     public static T NotNull<T>(
-        [NotNull] [DoesNotReturnIf(true)] T? value,
+        [NotNull] T? value,
         [CallerArgumentExpression(nameof(value))]
         string paramName = "",
         string? exceptionMessage = null)
@@ -75,7 +75,7 @@ public static partial class Guard
     /// </exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<T> NotNull<T>(
-        [NotNull] [DoesNotReturnIf(true)] IEnumerable<T>? collection,
+        [NotNull] IEnumerable<T>? collection,
         [CallerArgumentExpression(nameof(collection))]
         string paramName = "",
         string? exceptionMessage = null)

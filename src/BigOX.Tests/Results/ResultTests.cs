@@ -55,6 +55,22 @@ public class ResultTests
     }
 
     [TestMethod]
+    public void Map_MultiErrorFailure_PropagatesEqualErrorList_ViaNoCloneFactory()
+    {
+        var errors = new[] { Error.Create("e1", "C1"), Error.Create("e2", "C2") };
+        var r = Result<int, Error>.Failure(errors, "msg");
+
+        var mapped = r.Map(x => x.ToString());
+
+        Assert.AreEqual(ResultStatus.Failure, mapped.Status);
+        Assert.IsTrue(mapped.IsFailure(out var mappedErrors));
+        Assert.HasCount(2, mappedErrors!);
+        Assert.AreEqual("C1", mappedErrors![0].Code);
+        Assert.AreEqual("C2", mappedErrors[1].Code);
+        Assert.AreEqual("msg", mapped.Message);
+    }
+
+    [TestMethod]
     public void Bind_Should_Chain_On_Success()
     {
         var r = Result<int>.Success(5);
@@ -157,5 +173,27 @@ public class ResultTests
         Assert.AreEqual(0, value);
         Assert.IsNotNull(errors);
         Assert.HasCount(1, errors);
+    }
+
+    [TestMethod]
+    public void Bind_NullDelegate_Throws_ArgumentNullException()
+    {
+        var r = Result<int>.Success(1);
+        Assert.ThrowsExactly<ArgumentNullException>(() => r.Bind<string>(null!));
+
+        var g = Result<int, Error>.Success(1);
+        Assert.ThrowsExactly<ArgumentNullException>(() => g.Bind<string>(null!));
+    }
+
+    [TestMethod]
+    public void Map_And_Bind_On_Uninitialized_Throw_InvalidOperationException()
+    {
+        var wrapper = default(Result<int>);
+        Assert.ThrowsExactly<InvalidOperationException>(() => wrapper.Map(x => x * 2));
+        Assert.ThrowsExactly<InvalidOperationException>(() => wrapper.Bind(x => Result<int>.Success(x)));
+
+        var generic = default(Result<int, Error>);
+        Assert.ThrowsExactly<InvalidOperationException>(() => generic.Map(x => x * 2));
+        Assert.ThrowsExactly<InvalidOperationException>(() => generic.Bind(x => Result<int, Error>.Success(x)));
     }
 }

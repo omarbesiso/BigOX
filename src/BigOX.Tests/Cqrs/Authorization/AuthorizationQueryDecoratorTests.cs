@@ -66,6 +66,16 @@ public sealed class AuthorizationQueryDecoratorTests
     }
 
     [TestMethod]
+    public void Decorator_Implements_IQueryDecorator()
+    {
+        var sut = new AuthorizationQueryDecorator<TestQuery, int>(
+            new CapturingHandler(), new StubAuthorizationManager(true));
+
+        // Symmetric with AuthorizationCommandDecorator, which implements ICommandDecorator<TCommand>.
+        Assert.IsInstanceOfType<IQueryDecorator<TestQuery, int>>(sut);
+    }
+
+    [TestMethod]
     public async Task Read_PassesCancellationToken_ToAuthorizationManagerAndInner()
     {
         var handler = new CapturingHandler();

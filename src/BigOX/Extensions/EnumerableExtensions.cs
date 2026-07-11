@@ -109,7 +109,10 @@ public static class EnumerableExtensions
         /// <exception cref="ArgumentNullException">Thrown when the collection is null.</exception>
         /// <remarks>
         ///     This extension method can be used on any type that implements the
-        ///     <see cref="System.Collections.Generic.IEnumerable{T}" /> interface, including arrays and lists.
+        ///     <see cref="System.Collections.Generic.IEnumerable{T}" /> interface, including arrays and lists. The collection is
+        ///     not fully enumerated: when the element count is available without iterating (for example arrays and
+        ///     <see cref="System.Collections.Generic.ICollection{T}" /> instances) it is used directly; otherwise at most one
+        ///     element is consumed from the sequence to determine whether it is empty.
         /// </remarks>
         /// <example>
         ///     The following code demonstrates how to use the <see cref="IsEmpty{T}(IEnumerable{T})" /> method to check if a list
@@ -125,9 +128,17 @@ public static class EnumerableExtensions
         public bool IsEmpty()
         {
             // ReSharper disable once PossibleMultipleEnumeration
-            var enumerable = collection.ToList();
-            Guard.NotNull(enumerable);
-            return !enumerable.Any();
+            Guard.NotNull(collection);
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            if (collection.TryGetNonEnumeratedCount(out var count))
+            {
+                return count == 0;
+            }
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            using var enumerator = collection.GetEnumerator();
+            return !enumerator.MoveNext();
         }
 
         /// <summary>
@@ -179,10 +190,23 @@ public static class EnumerableExtensions
         /// ]]></code>
         /// </example>
         /// <remarks>
-        ///     This method can be used to divide a large collection into smaller chunks of the specified size. The last chunk may
-        ///     contain fewer elements if the input collection's size is not evenly divisible by the specified chunk size. Note
-        ///     that the
-        ///     input collection remains unchanged and the returned chunks are new <see cref="IEnumerable{T}" /> instances.
+        ///     <para>
+        ///         This method divides a large collection into smaller chunks of the specified size. The last chunk may
+        ///         contain fewer elements if the input collection's size is not evenly divisible by the specified chunk
+        ///         size. The input collection remains unchanged.
+        ///     </para>
+        ///     <para>
+        ///         <strong>Streaming contract:</strong> the returned chunks are lazy and all share the single underlying
+        ///         enumerator of the source. Each chunk must be enumerated to completion, in order, before advancing to the
+        ///         next chunk. Do <strong>not</strong> buffer the outer sequence (for example with <c>chunks.ToList()</c>),
+        ///         and do not enumerate chunks out of order or concurrently: because they share one enumerator, doing so
+        ///         silently corrupts or drops elements rather than throwing.
+        ///     </para>
+        ///     <para>
+        ///         <c>System.Linq.Enumerable</c> exposes a method also named <c>Chunk</c>, so a caller importing both
+        ///         <c>BigOX.Extensions</c> and <c>System.Linq</c> will see a CS0121 ambiguous-call error. Qualify the call
+        ///         (for example <c>EnumerableExtensions.Chunk(source, size)</c>) to select this streaming overload.
+        ///     </para>
         /// </remarks>
         [Pure]
         public IEnumerable<IEnumerable<T>> Chunk(int chunkSize)

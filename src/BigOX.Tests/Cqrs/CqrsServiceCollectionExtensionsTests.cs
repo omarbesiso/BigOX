@@ -35,6 +35,24 @@ public class CqrsServiceCollectionExtensionsTests
     }
 
     [TestMethod]
+    public void DecorateAllCommandHandlers_InvalidType_Exception_Has_Correct_ParamName()
+    {
+        var services = new ServiceCollection();
+        var ex = Assert.ThrowsExactly<ArgumentException>(() =>
+            CqrsServiceCollectionExtensions.DecorateAllCommandHandlers(services, typeof(InvalidCommandDecorator<>)));
+        Assert.AreEqual("commandDecoratorType", ex.ParamName);
+    }
+
+    [TestMethod]
+    public void DecorateAllQueryHandlers_InvalidType_Exception_Has_Correct_ParamName()
+    {
+        var services = new ServiceCollection();
+        var ex = Assert.ThrowsExactly<ArgumentException>(() =>
+            CqrsServiceCollectionExtensions.DecorateAllQueryHandlers(services, typeof(InvalidQueryDecorator<,>)));
+        Assert.AreEqual("queryDecoratorType", ex.ParamName);
+    }
+
+    [TestMethod]
     public async Task DecorateAllCommandHandlers_Wraps_Handler()
     {
         var services = new ServiceCollection();

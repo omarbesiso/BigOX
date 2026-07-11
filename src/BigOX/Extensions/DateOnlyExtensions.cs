@@ -516,7 +516,7 @@ public static class DateOnlyExtensions
         ///     ]]></code>
         /// </example>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private DateOnly GetFirstDateOfWeek(CultureInfo? cultureInfo = null)
+        public DateOnly GetFirstDateOfWeek(CultureInfo? cultureInfo = null)
         {
             var effectiveCulture = cultureInfo ?? CultureInfo.CurrentCulture;
             var firstDayOfWeek = effectiveCulture.DateTimeFormat.FirstDayOfWeek;

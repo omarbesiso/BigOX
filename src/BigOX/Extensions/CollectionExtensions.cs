@@ -185,7 +185,15 @@ public static class CollectionExtensions
             // If it's an ISet<T>, remove items directly
             if (collection is ISet<T> set)
             {
-                var itemsToRemove = set.Where(x => predicate(x)).ToList();
+                var itemsToRemove = new List<T>();
+                foreach (var item in set)
+                {
+                    if (predicate(item))
+                    {
+                        itemsToRemove.Add(item);
+                    }
+                }
+
                 foreach (var item in itemsToRemove)
                 {
                     set.Remove(item);
@@ -195,7 +203,15 @@ public static class CollectionExtensions
             }
 
             // Fallback for other ICollection<T> implementations
-            var toRemove = collection.Where(item => predicate(item)).ToList();
+            var toRemove = new List<T>();
+            foreach (var item in collection)
+            {
+                if (predicate(item))
+                {
+                    toRemove.Add(item);
+                }
+            }
+
             foreach (var item in toRemove)
             {
                 collection.Remove(item);

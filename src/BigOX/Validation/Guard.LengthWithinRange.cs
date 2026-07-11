@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using BigOX.Internals;
 
 namespace BigOX.Validation;
@@ -56,6 +57,7 @@ public static partial class Guard
     /// ]]></code>
     /// </example>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return: NotNullIfNotNull(nameof(value))]
     public static string? LengthWithinRange(
         string? value,
         int minLength,
@@ -87,6 +89,79 @@ public static partial class Guard
         if (value is null)
         {
             return value;
+        }
+
+        // Actual length check.
+        if (value.Length < minLength || value.Length > maxLength)
+        {
+            var message = string.IsNullOrWhiteSpace(exceptionMessage)
+                ? $"The length of '{paramName}' must be between {minLength} and {maxLength} characters."
+                : exceptionMessage;
+
+            ThrowHelper.ThrowArgument(paramName, message);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    ///     Ensures that a character span's length lies within the inclusive range
+    ///     <paramref name="minLength" /> … <paramref name="maxLength" />.
+    /// </summary>
+    /// <param name="value">The character span to validate.</param>
+    /// <param name="minLength">
+    ///     Inclusive minimum number of UTF-16 code units. Must be ≥ 0 and ≤ <paramref name="maxLength" />.
+    /// </param>
+    /// <param name="maxLength">
+    ///     Inclusive maximum number of UTF-16 code units. Must be &gt; 0.
+    /// </param>
+    /// <param name="paramName">
+    ///     Name of the argument being validated, auto-captured via
+    ///     <see cref="CallerArgumentExpressionAttribute" /> when omitted.
+    /// </param>
+    /// <param name="exceptionMessage">
+    ///     Optional custom message when <paramref name="value" /> violates the length range.
+    ///     If omitted, a default message is generated.
+    /// </param>
+    /// <returns>
+    ///     <paramref name="value" /> when its length is between <paramref name="minLength" /> and
+    ///     <paramref name="maxLength" />, inclusive.
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    ///     Thrown when <paramref name="maxLength" /> ≤ 0, <paramref name="minLength" /> &lt; 0,
+    ///     <paramref name="minLength" /> &gt; <paramref name="maxLength" />, or the length of
+    ///     <paramref name="value" /> is outside the specified range.
+    /// </exception>
+    /// <remarks>
+    ///     Unlike the <see cref="string" /> overload, a <see cref="ReadOnlySpan{T}" /> cannot be <see langword="null" />,
+    ///     so only the length constraints are validated; there is no null pass-through.
+    /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ReadOnlySpan<char> LengthWithinRange(
+        ReadOnlySpan<char> value,
+        int minLength,
+        int maxLength,
+        [CallerArgumentExpression(nameof(value))]
+        string paramName = "",
+        string? exceptionMessage = null)
+    {
+        // Validate range configuration.
+        if (maxLength <= 0)
+        {
+            ThrowHelper.ThrowArgument(nameof(maxLength),
+                "The maximum length specified cannot be less than or equal to 0.");
+        }
+
+        if (minLength < 0)
+        {
+            ThrowHelper.ThrowArgument(nameof(minLength),
+                "The minimum length specified cannot be less than 0.");
+        }
+
+        if (minLength > maxLength)
+        {
+            ThrowHelper.ThrowArgument(nameof(minLength),
+                "The minimum length specified cannot be greater than the maximum length specified.");
         }
 
         // Actual length check.

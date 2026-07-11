@@ -47,11 +47,12 @@ public static class EnumExtensions
     // Build map: Enum Name -> Description (or name if no description)
     private static IReadOnlyDictionary<string, string> BuildNameToDescriptionMap(Type enumType)
     {
-        var values = Enum.GetValues(enumType);
-        var dict = new Dictionary<string, string>(values.Length);
-        foreach (var raw in values)
+        // Enum.GetNames returns the member names directly (unsigned-value-sorted order), avoiding the boxing of
+        // Enum.GetValues + per-value ToString(). Ordering is identical, so duplicate-description detection is unchanged.
+        var names = Enum.GetNames(enumType);
+        var dict = new Dictionary<string, string>(names.Length);
+        foreach (var name in names)
         {
-            var name = raw.ToString()!; // Enum.ToString never null
             var description = GetDescriptionAttribute(enumType, name) ?? name;
             dict[name] = description;
         }
@@ -80,11 +81,10 @@ public static class EnumExtensions
     // Build map: Enum Name -> Display Name (empty string if not provided)
     private static IReadOnlyDictionary<string, string> BuildNameToDisplayMap(Type enumType)
     {
-        var values = Enum.GetValues(enumType);
-        var dict = new Dictionary<string, string>(values.Length);
-        foreach (var raw in values)
+        var names = Enum.GetNames(enumType);
+        var dict = new Dictionary<string, string>(names.Length);
+        foreach (var name in names)
         {
-            var name = raw.ToString()!;
             var display = GetDisplayAttributeName(enumType, name) ?? string.Empty;
             dict[name] = display;
         }

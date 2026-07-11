@@ -75,7 +75,7 @@ public static class ServiceCollectionExtensions
         public IServiceCollection AddModule<TModule>(IConfiguration? configuration = null)
             where TModule : IModule, new()
         {
-            Guard.NotNull(serviceCollection, "services");
+            Guard.NotNull(serviceCollection);
 
             var module = new TModule();
             if (configuration != null)
@@ -99,7 +99,7 @@ public static class ServiceCollectionExtensions
         /// <exception cref="ArgumentNullException">Thrown when the current service collection is <c>null</c>.</exception>
         public IServiceCollection AddAllModules(IConfiguration? configuration = null)
         {
-            Guard.NotNull(serviceCollection, "services");
+            Guard.NotNull(serviceCollection);
 
             var interfaceType = typeof(IModule);
             var path = AppDomain.CurrentDomain.BaseDirectory;
@@ -150,7 +150,7 @@ public static class ServiceCollectionExtensions
         public IServiceCollection AddTypesFromAssembly<TAssemblyType, TBase>(
             ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
-            Guard.NotNull(serviceCollection, "services");
+            Guard.NotNull(serviceCollection);
 
             switch (serviceLifetime)
             {

@@ -10,6 +10,8 @@ namespace BigOX.Domain;
 /// </typeparam>
 public abstract class Specification<T> : ISpecification<T>
 {
+    private Func<T, bool>? _compiledPredicate;
+
     /// <inheritdoc />
     public abstract Expression<Func<T, bool>> ToExpression();
 
@@ -17,6 +19,13 @@ public abstract class Specification<T> : ISpecification<T>
     /// <exception cref="ArgumentNullException">
     ///     Thrown when <paramref name="candidate" /> is <see langword="null" />.
     /// </exception>
+    /// <remarks>
+    ///     The delegate produced by <see cref="ToExpression" /> is compiled once on first use and cached for the lifetime
+    ///     of this instance, so repeated calls avoid recompiling the expression tree. This relies on
+    ///     <see cref="ToExpression" /> being pure and returning a stable expression (its documented contract); a subclass
+    ///     that must vary its expression dynamically should override <see cref="IsSatisfiedBy" /> instead. A benign race
+    ///     in which two threads each compile the predicate once is possible and harmless, so no locking is used.
+    /// </remarks>
     public virtual bool IsSatisfiedBy(T candidate)
     {
         if (candidate is null)
@@ -24,8 +33,7 @@ public abstract class Specification<T> : ISpecification<T>
             throw new ArgumentNullException(nameof(candidate));
         }
 
-        // Note: cache compiled delegates outside this method if you call it in hot paths.
-        var predicate = ToExpression().Compile();
-        return predicate(candidate);
+        _compiledPredicate ??= ToExpression().Compile();
+        return _compiledPredicate(candidate);
     }
 }

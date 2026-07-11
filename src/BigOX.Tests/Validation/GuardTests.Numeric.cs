@@ -50,4 +50,14 @@ public class GuardTests_Numeric
         Assert.AreEqual(5, Guard.NonNegative(5));
         Assert.AreEqual(5m, Guard.NonNegative(5m));
     }
+
+    [TestMethod]
+    public void Positive_And_NonNegative_Throw_ArgumentOutOfRangeException()
+    {
+        // Aligned with the sibling range guards (Minimum/Maximum/WithinRange).
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Guard.Positive(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Guard.Positive(-1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Guard.NonNegative(-1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => Guard.NonNegative(-1m));
+    }
 }

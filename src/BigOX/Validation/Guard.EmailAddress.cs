@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using BigOX.Internals;
 
@@ -38,6 +39,7 @@ public static partial class Guard
     /// ]]></code>
     /// </example>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return: NotNullIfNotNull(nameof(value))]
     public static string? EmailAddress(
         string? value,
         [CallerArgumentExpression(nameof(value))]

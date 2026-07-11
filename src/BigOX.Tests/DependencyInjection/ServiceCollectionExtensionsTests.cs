@@ -112,7 +112,8 @@ public class ServiceCollectionExtensionsTests
         ServiceCollection? services = null;
         var config = BuildConfig();
         var ex = TestUtils.Expect<ArgumentNullException>(() => services!.AddModule<TestModuleWithConfig>(config));
-        Assert.Contains(nameof(services), ex.ParamName!);
+        // The guard captures the actual receiver parameter name via CallerArgumentExpression.
+        Assert.AreEqual("serviceCollection", ex.ParamName);
     }
 
     // Marker interfaces and services for testing AddTypesFromAssembly

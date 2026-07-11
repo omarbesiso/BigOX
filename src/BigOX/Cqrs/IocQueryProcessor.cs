@@ -14,6 +14,6 @@ internal class IocQueryProcessor(IServiceProvider serviceProvider) : IQueryProce
     {
         Guard.NotNull(query);
         var queryHandler = serviceProvider.GetRequiredService<IQueryHandler<TQuery, TResult>>();
-        return await queryHandler.Read(query, cancellationToken);
+        return await queryHandler.Read(query, cancellationToken).ConfigureAwait(false);
     }
 }

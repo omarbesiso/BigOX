@@ -44,10 +44,11 @@ namespace BigOX.Types;
 ///         and <see cref="TryParse(string?, IFormatProvider?, out EmailAddress)" /> for parsing arbitrary input strings.
 ///     </para>
 /// </remarks>
-[DebuggerDisplay("{DebuggerDisplay,nq")]
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public readonly record struct EmailAddress :
     IComparable<EmailAddress>,
     IParsable<EmailAddress>,
+    ISpanParsable<EmailAddress>,
     IEquatable<EmailAddress>,
     IFormattable
 {
@@ -116,6 +117,50 @@ public readonly record struct EmailAddress :
     ///     Only the <see cref="Address" /> is considered for equality. The <see cref="DisplayName" /> is ignored.
     /// </remarks>
     public bool Equals(EmailAddress other) => AddressComparer.Equals(Address, other.Address);
+
+    /// <summary>
+    ///     Determines whether one <see cref="EmailAddress" /> sorts before another.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>
+    ///     <c>true</c> when <paramref name="left" /> precedes <paramref name="right" /> per
+    ///     <see cref="CompareTo" />; otherwise <c>false</c>.
+    /// </returns>
+    public static bool operator <(EmailAddress left, EmailAddress right) => left.CompareTo(right) < 0;
+
+    /// <summary>
+    ///     Determines whether one <see cref="EmailAddress" /> sorts before or equal to another.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>
+    ///     <c>true</c> when <paramref name="left" /> precedes or equals <paramref name="right" /> per
+    ///     <see cref="CompareTo" />; otherwise <c>false</c>.
+    /// </returns>
+    public static bool operator <=(EmailAddress left, EmailAddress right) => left.CompareTo(right) <= 0;
+
+    /// <summary>
+    ///     Determines whether one <see cref="EmailAddress" /> sorts after another.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>
+    ///     <c>true</c> when <paramref name="left" /> follows <paramref name="right" /> per
+    ///     <see cref="CompareTo" />; otherwise <c>false</c>.
+    /// </returns>
+    public static bool operator >(EmailAddress left, EmailAddress right) => left.CompareTo(right) > 0;
+
+    /// <summary>
+    ///     Determines whether one <see cref="EmailAddress" /> sorts after or equal to another.
+    /// </summary>
+    /// <param name="left">The left operand.</param>
+    /// <param name="right">The right operand.</param>
+    /// <returns>
+    ///     <c>true</c> when <paramref name="left" /> follows or equals <paramref name="right" /> per
+    ///     <see cref="CompareTo" />; otherwise <c>false</c>.
+    /// </returns>
+    public static bool operator >=(EmailAddress left, EmailAddress right) => left.CompareTo(right) >= 0;
 
     /// <summary>
     ///     Formats the email address using a specified format string and format provider.
@@ -189,6 +234,39 @@ public readonly record struct EmailAddress :
         result = CreateFromParsed(parsed, provider);
         return true;
     }
+
+    /// <summary>
+    ///     Parses a character span into an <see cref="EmailAddress" /> instance.
+    /// </summary>
+    /// <param name="s">A span containing an email address, optionally with a display name.</param>
+    /// <param name="provider">An optional <see cref="IFormatProvider" /> influencing display name normalization.</param>
+    /// <returns>A new <see cref="EmailAddress" /> instance.</returns>
+    /// <exception cref="FormatException">
+    ///     Thrown if <paramref name="s" /> is empty, whitespace, or not a recognized email address format.
+    /// </exception>
+    /// <remarks>
+    ///     <see cref="MailAddress" /> exposes no span-based parsing API, so this overload materializes the span via
+    ///     <see cref="ReadOnlySpan{T}.ToString" /> and delegates to <see cref="Parse(string, IFormatProvider?)" />. It
+    ///     exists to satisfy <see cref="ISpanParsable{TSelf}" /> and offer a uniform parsing surface.
+    /// </remarks>
+    public static EmailAddress Parse(ReadOnlySpan<char> s, IFormatProvider? provider) => Parse(s.ToString(), provider);
+
+    /// <summary>
+    ///     Attempts to parse a character span into an <see cref="EmailAddress" /> instance.
+    /// </summary>
+    /// <param name="s">A span containing an email address, optionally with a display name.</param>
+    /// <param name="provider">An optional <see cref="IFormatProvider" /> influencing display name normalization.</param>
+    /// <param name="result">
+    ///     When this method returns, contains the parsed email address if successful; otherwise the default value.
+    /// </param>
+    /// <returns><c>true</c> if parsing succeeded; otherwise <c>false</c>.</returns>
+    /// <remarks>
+    ///     <see cref="MailAddress" /> exposes no span-based parsing API, so this overload materializes the span via
+    ///     <see cref="ReadOnlySpan{T}.ToString" /> and delegates to
+    ///     <see cref="TryParse(string?, IFormatProvider?, out EmailAddress)" />.
+    /// </remarks>
+    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out EmailAddress result) =>
+        TryParse(s.ToString(), provider, out result);
 
     /// <summary>
     ///     Creates an <see cref="EmailAddress" /> from separate email and display name components.

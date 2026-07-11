@@ -40,7 +40,7 @@ public static class CqrsServiceCollectionExtensions
         if (!ImplementsOpenGenericInterface(commandDecoratorType, typeof(ICommandDecorator<>)))
         {
             throw new ArgumentException("Decorator must implement ICommandDecorator<TCommand>.",
-                commandDecoratorType.FullName);
+                nameof(commandDecoratorType));
         }
 
         serviceCollection.Decorate(typeof(ICommandHandler<>), commandDecoratorType);
@@ -75,7 +75,7 @@ public static class CqrsServiceCollectionExtensions
         if (!ImplementsOpenGenericInterface(queryDecoratorType, typeof(IQueryDecorator<,>)))
         {
             throw new ArgumentException("Decorator must implement IQueryDecorator<TQuery, TResult>.",
-                queryDecoratorType.FullName);
+                nameof(queryDecoratorType));
         }
 
         serviceCollection.Decorate(typeof(IQueryHandler<,>), queryDecoratorType);

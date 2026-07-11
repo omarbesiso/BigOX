@@ -22,7 +22,7 @@ public static partial class Guard
     ///     Optional custom message used when <paramref name="value" /> is not positive.
     /// </param>
     /// <returns>The original <paramref name="value" /> when it is &gt; 0.</returns>
-    /// <exception cref="ArgumentException">
+    /// <exception cref="ArgumentOutOfRangeException">
     ///     Thrown when <paramref name="value" /> ≤ 0.
     /// </exception>
     /// <example>
@@ -47,7 +47,7 @@ public static partial class Guard
             ? $"The value of '{paramName}' must be positive."
             : exceptionMessage;
 
-        ThrowHelper.ThrowArgument(paramName, message);
+        ThrowHelper.ThrowArgumentOutOfRange(paramName, value, message);
 
         return value;
     }
@@ -62,7 +62,7 @@ public static partial class Guard
     ///     Optional custom message used when <paramref name="value" /> is negative.
     /// </param>
     /// <returns>The original <paramref name="value" /> when it is ≥ 0.</returns>
-    /// <exception cref="ArgumentException">
+    /// <exception cref="ArgumentOutOfRangeException">
     ///     Thrown when <paramref name="value" /> &lt; 0.
     /// </exception>
     /// <example>
@@ -87,7 +87,7 @@ public static partial class Guard
             ? $"The value of '{paramName}' must not be negative."
             : exceptionMessage;
 
-        ThrowHelper.ThrowArgument(paramName, message);
+        ThrowHelper.ThrowArgumentOutOfRange(paramName, value, message);
 
         return value;
     }
